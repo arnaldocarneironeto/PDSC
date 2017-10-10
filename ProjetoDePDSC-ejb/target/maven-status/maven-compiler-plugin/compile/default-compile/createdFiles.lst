@@ -1,1 +1,15 @@
+br\edu\ifpe\acsntrs\model\Aluno_.class
+br\edu\ifpe\acsntrs\model\Representante_.class
+br\edu\ifpe\acsntrs\model\Usuario.class
 br\edu\ifpe\acsntrs\NewSessionBean.class
+br\edu\ifpe\acsntrs\model\Administrador.class
+br\edu\ifpe\acsntrs\model\Aluno.class
+br\edu\ifpe\acsntrs\model\Nota.class
+br\edu\ifpe\acsntrs\model\Usuario_.class
+br\edu\ifpe\acsntrs\model\Criterio_.class
+br\edu\ifpe\acsntrs\model\Administrador_.class
+br\edu\ifpe\acsntrs\model\Escola_.class
+br\edu\ifpe\acsntrs\model\Escola.class
+br\edu\ifpe\acsntrs\model\Criterio.class
+br\edu\ifpe\acsntrs\model\Representante.class
+br\edu\ifpe\acsntrs\model\Nota_.class
