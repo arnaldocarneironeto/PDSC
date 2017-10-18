@@ -1,0 +1,27 @@
+/* 
+    Created on : 17/10/2017, 11:03:34
+    Author     : Tássio
+*/
+
+/*COMPONENTES DO TEMPLATE*/ 
+#barrasuperior{
+    background-color: lightblue;
+    height: 110px;   
+}
+
+#barraesquerda{
+    background-color: azure;
+    width: 233px;
+    height: 515px;
+    position: absolute;
+    margin-top: 7px;
+}
+
+#conteudo{
+    background-color: azure;
+    width: 1110px;
+    height: 515px;
+    position: absolute;
+    margin-top: 7px;
+    margin-left: 240px;    
+}
