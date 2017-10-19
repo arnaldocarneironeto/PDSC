@@ -1,20 +1,23 @@
 package br.edu.ifpe.acsntrs.model;
 
-import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
+import java.util.Map;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -26,80 +29,73 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries(
         {
-            @NamedQuery(name = "Aluno.findAll", query = "SELECT a FROM Aluno a"),
-            @NamedQuery(name = "Aluno.findByIdaluno", query = "SELECT a FROM Aluno a WHERE a.id = :id")
+            @NamedQuery(name = "Aluno.findAll", query = "SELECT p FROM Aluno p"),
+            @NamedQuery(name = "Aluno.findById", query = "SELECT p FROM Aluno p WHERE p.id = :id"),
+            @NamedQuery(name = "Aluno.findByLogin", query = "SELECT p FROM Aluno p WHERE p.login = :login"),
+            @NamedQuery(name = "Aluno.findByEmail", query = "SELECT p FROM Aluno p WHERE p.email = :email"),
+            @NamedQuery(name = "Aluno.findByNome", query = "SELECT p FROM Aluno p WHERE p.nome = :nome")
         })
-public class Aluno implements Serializable
+public class Aluno extends Usuario
 {
-    private static final long serialVersionUID = -5202499588250838845L;
+    private static final long serialVersionUID = 8317245169749509422L;
+    
+    @ElementCollection
+    @CollectionTable(name = "nota")
+    @JoinTable(name = "nota", joinColumns = @JoinColumn(name = "id_usuario"))
+    @MapKeyColumn(name = "disciplina")
+    @Column(name = "nota")
+    private Map<String, Float> notas = new HashMap<>();
+    
+    @ManyToMany
+    @OrderColumn(name = "ordem_de_preferencia")
+    @JoinColumn(name = "escola_id")
+    private List<Escola> preferencia;
 
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "idaluno", nullable = false)
-    private Integer id;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "aluno")
-    private List<Nota> notas;
+    @ManyToOne
+    @JoinColumn(name = "escola_que_selecionou_id")
+    private Escola escola_que_selecionou_este_aluno = null;
 
     public Aluno()
     {
     }
 
-    public Aluno(Integer idaluno)
+    public Aluno(Integer id, String login, String senha, String email, String nome)
     {
-        this.id = idaluno;
+        super(id, login, senha, email, nome);
     }
 
-    public Integer getId()
-    {
-        return id;
-    }
-
-    public void setId(Integer id)
-    {
-        this.id = id;
-    }
-
-    @XmlTransient
-    public List<Nota> getNotas()
+    public Map<String, Float> getNotas()
     {
         return notas;
     }
 
-    public void setNotas(List<Nota> notas)
+    public void setNotas(Map<String, Float> notas)
     {
         this.notas = notas;
     }
 
-    @Override
-    public int hashCode()
+    public List<Escola> getPreferencia()
     {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+        return preferencia;
     }
 
-    @Override
-    public boolean equals(Object object)
+    public void setPreferencia(List<Escola> preferencia)
     {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Aluno))
-        {
-            return false;
-        }
-        Aluno other = (Aluno) object;
-        if ((this.id == null && other.id != null) ||
-            (this.id != null && !this.id.equals(other.id)))
-        {
-            return false;
-        }
-        return true;
+        this.preferencia = preferencia;
     }
 
-    @Override
-    public String toString()
+    public Escola getEscola_que_selecionou_este_aluno()
     {
-        return "br.edu.ifpe.acsntrs.model.Aluno[ idaluno=" + id + " ]";
+        return escola_que_selecionou_este_aluno;
+    }
+
+    public void setEscola_que_selecionou_este_aluno(Escola escola_que_selecionou_este_aluno)
+    {
+        this.escola_que_selecionou_este_aluno = escola_que_selecionou_este_aluno;
+    }
+
+    public int getRanking(Escola escola)
+    {
+        return this.preferencia.indexOf(escola);
     }
 }

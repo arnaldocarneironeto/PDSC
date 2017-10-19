@@ -5,6 +5,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -12,9 +14,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -23,75 +22,59 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "Tipo_de_Usuario")
-@Table(name = "usuario", catalog = "pdscappdatabase", schema = "",
-       uniqueConstraints =
-       {
-           @UniqueConstraint(columnNames = { "email" }),
-           @UniqueConstraint(columnNames = { "login" })
-       })
+@DiscriminatorColumn(name = "tipo_de_usuario")
+@Table(name = "usuario", catalog = "pdscappdatabase", schema = "", uniqueConstraints = {@UniqueConstraint(columnNames = {"Email"}), @UniqueConstraint(columnNames = {"Login"})})
 @XmlRootElement
 @NamedQueries(
         {
             @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
-            @NamedQuery(name = "Usuario.findByIdusuario", query = "SELECT u FROM Usuario u WHERE u.id = :id"),
+            @NamedQuery(name = "Usuario.findById", query = "SELECT u FROM Usuario u WHERE u.id = :id"),
             @NamedQuery(name = "Usuario.findByLogin", query = "SELECT u FROM Usuario u WHERE u.login = :login"),
-            @NamedQuery(name = "Usuario.findBySenha", query = "SELECT u FROM Usuario u WHERE u.senha = :senha"),
-            @NamedQuery(name = "Usuario.findByNome", query = "SELECT u FROM Usuario u WHERE u.nome = :nome"),
-            @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email = :email")
+            @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email = :email"),
+            @NamedQuery(name = "Usuario.findByNome", query = "SELECT u FROM Usuario u WHERE u.nome = :nome")
         })
-public class Usuario implements Serializable
+public abstract class Usuario implements Serializable
 {
-    private static final long serialVersionUID = -8702662621733153600L;
+    private static final long serialVersionUID = -3184597509183778732L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "idusuario", nullable = false)
+    @Column(name = "id_usuario", nullable = false)
     private Integer id;
 
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
     @Column(name = "login", nullable = false, length = 45)
     private String login;
 
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 128)
     @Column(name = "senha", nullable = false, length = 128)
     private String senha;
 
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
+    @Column(name = "email", nullable = false, length = 60)
+    private String email;
+
+    @Basic(optional = false)
     @Column(name = "nome", nullable = false, length = 100)
     private String nome;
-
-    @Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message = "Invalid email")
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "email", nullable = false, length = 45)
-    private String email;
 
     public Usuario()
     {
     }
 
-    public Usuario(Integer idusuario)
+    public Usuario(Integer id)
     {
-        this.id = idusuario;
+        this.id = id;
     }
 
-    public Usuario(Integer idusuario, String login, String senha, String nome,
-                   String email)
+    public Usuario(Integer id, String login, String senha, String email, String nome)
     {
-        this.id = idusuario;
+        this.id = id;
         this.login = login;
         this.senha = senha;
-        this.nome = nome;
         this.email = email;
+        this.nome = nome;
     }
 
     public Integer getId()
@@ -124,16 +107,6 @@ public class Usuario implements Serializable
         this.senha = senha;
     }
 
-    public String getNome()
-    {
-        return nome;
-    }
-
-    public void setNome(String nome)
-    {
-        this.nome = nome;
-    }
-
     public String getEmail()
     {
         return email;
@@ -142,6 +115,16 @@ public class Usuario implements Serializable
     public void setEmail(String email)
     {
         this.email = email;
+    }
+
+    public String getNome()
+    {
+        return nome;
+    }
+
+    public void setNome(String nome)
+    {
+        this.nome = nome;
     }
 
     @Override
@@ -155,14 +138,12 @@ public class Usuario implements Serializable
     @Override
     public boolean equals(Object object)
     {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Usuario))
         {
             return false;
         }
         Usuario other = (Usuario) object;
-        if ((this.id == null && other.id != null) ||
-            (this.id != null && !this.id.equals(other.id)))
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
         {
             return false;
         }
@@ -172,6 +153,6 @@ public class Usuario implements Serializable
     @Override
     public String toString()
     {
-        return "br.edu.ifpe.acsntrs.model.Usuario[ idusuario=" + id + " ]";
+        return "(" + id + ", " + nome + ")";
     }
 }

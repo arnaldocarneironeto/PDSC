@@ -1,20 +1,12 @@
 package br.edu.ifpe.acsntrs.model;
 
-import java.io.Serializable;
-import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -26,82 +18,33 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries(
         {
-            @NamedQuery(name = "Representante.findAll", query = "SELECT r FROM Representante r"),
-            @NamedQuery(name = "Representante.findByIdrepresentante", query = "SELECT r FROM Representante r WHERE r.id = :id")
+            @NamedQuery(name = "Representante.findAll", query = "SELECT p FROM Representante p"),
+            @NamedQuery(name = "Representante.findById", query = "SELECT p FROM Representante p WHERE p.id = :id"),
+            @NamedQuery(name = "Representante.findByEscola", query = "SELECT p FROM Representante p WHERE p.escola = :escola")
         })
-public class Representante implements Serializable
+public class Representante extends Usuario
 {
-    private static final long serialVersionUID = 8870004793043691852L;
-
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "idrepresentante", nullable = false)
-    private Integer id;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "representante")
-    private List<Escola> escolas;
+    private static final long serialVersionUID = 16244868252988455L;
+    
+    @ManyToOne
+    private Escola escola;
 
     public Representante()
     {
     }
 
-    public Representante(Integer idrepresentante)
+    public Representante(Integer id, String login, String senha, String email, String nome)
     {
-        this.id = idrepresentante;
+        super(id, login, senha, email, nome);
     }
 
-    public Integer getId()
+    public Escola getEscola()
     {
-        return id;
+        return escola;
     }
 
-    public void setId(Integer id)
+    public void setEscola(Escola escola)
     {
-        this.id = id;
-    }
-
-    @XmlTransient
-    public List<Escola> getEscolas()
-    {
-        return escolas;
-    }
-
-    public void setEscolas(List<Escola> escolas)
-    {
-        this.escolas = escolas;
-    }
-
-    @Override
-    public int hashCode()
-    {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object)
-    {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Representante))
-        {
-            return false;
-        }
-        Representante other = (Representante) object;
-        if ((this.id == null && other.id != null) ||
-            (this.id !=
-             null &&
-             !this.id.equals(other.id)))
-        {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "br.edu.ifpe.acsntrs.model.Representante[ idrepresentante=" + id + " ]";
+        this.escola = escola;
     }
 }
