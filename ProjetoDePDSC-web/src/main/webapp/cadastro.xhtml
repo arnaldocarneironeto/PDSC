@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title></title>
+        <link type="text/css" rel="stylesheet" href="#{request.contextPath}/CSS/style.css" />
+    </h:head>
+    
+    <h:body>
+        <ui:composition template="/Layout/Template.xhtml">
+            
+            <ui:define name="bar_esq">
+                <!-- Conteúdo da barra esquerda aqui-->
+            </ui:define>
+            
+            <ui:define name="cont">
+                <h:form>
+                    <p:panelGrid class="panelGrid" columns="3">
+                        <h:outputText value="Nome:" />
+                        <h:inputText id="inp_nome" style="width: 500px" required="true" requiredMessage="Digite seu nome"/>
+                        <h:message for="inp_nome" />
+                        
+                        <h:outputText value="Email:" />
+                        <h:inputText id="inp_email" style="width: 400px" required="true" requiredMessage="Digite seu email"/>
+                        <h:message for="inp_email" />
+                        
+                        <h:outputText value="Login:" />
+                        <h:inputText id="inp_login" required="true" requiredMessage="Digite seu nome de usuário"/>
+                        <h:message for="inp_login" />
+                        
+                        <h:outputText value="Senha:" />
+                        <h:inputText id="inp_senha" required="true" requiredMessage="Digite sua senha"/>
+                        <h:message for="inp_senha" />
+                        
+                        <p:commandButton value="OK"/> 
+                        <p:button value="Cancelar" href="index.xhtml"/>
+                    </p:panelGrid>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

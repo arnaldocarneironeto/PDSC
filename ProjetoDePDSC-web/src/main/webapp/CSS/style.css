@@ -6,7 +6,7 @@
 /*COMPONENTES DO TEMPLATE*/ 
 #barrasuperior{
     background-color: lightblue;
-    height: 110px;   
+    height: 110px;      
 }
 
 #barraesquerda{
@@ -25,3 +25,15 @@
     margin-top: 7px;
     margin-left: 240px;    
 }
+
+/*REMOVENDO AS BORDAS DO PANELGRID*/
+.panelGrid tr, .panelGrid td{
+    border: none !important;
+    background-color: azure;
+}
+
+/*INDEX*/
+.menu{
+    background-color: whitesmoke;
+}
+
