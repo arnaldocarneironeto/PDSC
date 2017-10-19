@@ -94,9 +94,6 @@ public class Escola implements Serializable
     @Transient
     private List<Aluno> preferencias_desta_escola;
 
-    @Transient
-    private Aluno aluno = null;
-
     public Integer getId()
     {
         return id;
@@ -187,16 +184,6 @@ public class Escola implements Serializable
         this.vagas = vagas;
     }
 
-    public Aluno getAluno()
-    {
-        return aluno;
-    }
-
-    public void setAluno(Aluno aluno)
-    {
-        this.aluno = aluno;
-    }
-
     public List<Aluno> getPreferencias_desta_escola()
     {
         return preferencias_desta_escola;
@@ -225,8 +212,8 @@ public class Escola implements Serializable
             if(nota != null)
             {
                 acumulador += notas.get(criterio.getKey()) * criterio.getValue();
-                pesos += criterio.getValue();
             }
+            pesos += criterio.getValue();
         }
         return pesos > 0? acumulador / pesos: 0.0;
     }
@@ -263,7 +250,7 @@ public class Escola implements Serializable
             {
                 double o1v = o1.getValue();
                 double o2v = o2.getValue();
-                return o1v > o2v? 1: o1v < o2v? -1: 0;
+                return o1v > o2v? -1: o1v < o2v? 1: 0;
             }
         };
     }
@@ -296,6 +283,6 @@ public class Escola implements Serializable
     @Override
     public String toString()
     {
-        return "com.arnaldocarneiro.model.Escola[ id=" + id + " ]";
+        return nome;
     }
 }

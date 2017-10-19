@@ -153,6 +153,6 @@ public abstract class Usuario implements Serializable
     @Override
     public String toString()
     {
-        return "(" + id + ", " + nome + ")";
+        return nome;
     }
 }

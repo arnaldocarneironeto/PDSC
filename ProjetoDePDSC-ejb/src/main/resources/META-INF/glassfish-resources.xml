@@ -6,9 +6,9 @@
         <property name="portNumber" value="3306"/>
         <property name="databaseName" value="pdscappdatabase"/>
         <property name="User" value="pdscuser"/>
-        <property name="Password" value="pdscuser"/>
-        <property name="URL" value="jdbc:mysql://localhost:3306/pdscappdatabase?zeroDateTimeBehavior=convertToNull"/>
+        <property name="Password" value="pdsc"/>
+        <property name="URL" value="jdbc:mysql://localhost:3306/pdscappdatabase"/>
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
     </jdbc-connection-pool>
-    <jdbc-resource enabled="true" jndi-name="java:app/PDSCDataSource" object-type="user" pool-name="mysql_pdscappdatabase_pdscuserPool"/>
+    <jdbc-resource enabled="true" jndi-name="java:/PDSCDataSource" object-type="user" pool-name="mysql_pdscappdatabase_pdscuserPool"/>
 </resources>

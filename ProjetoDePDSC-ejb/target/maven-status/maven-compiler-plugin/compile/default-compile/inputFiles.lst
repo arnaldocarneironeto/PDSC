@@ -1,8 +1,19 @@
-C:\Users\Arnaldo\Documents\NetBeansProjects\ProjetoDePDSC\ProjetoDePDSC-ejb\src\main\java\br\edu\ifpe\acsntrs\model\Administrador.java
-C:\Users\Arnaldo\Documents\NetBeansProjects\ProjetoDePDSC\ProjetoDePDSC-ejb\src\main\java\br\edu\ifpe\acsntrs\model\Aluno.java
-C:\Users\Arnaldo\Documents\NetBeansProjects\ProjetoDePDSC\ProjetoDePDSC-ejb\src\main\java\br\edu\ifpe\acsntrs\model\Criterio.java
-C:\Users\Arnaldo\Documents\NetBeansProjects\ProjetoDePDSC\ProjetoDePDSC-ejb\src\main\java\br\edu\ifpe\acsntrs\model\Usuario.java
-C:\Users\Arnaldo\Documents\NetBeansProjects\ProjetoDePDSC\ProjetoDePDSC-ejb\src\main\java\br\edu\ifpe\acsntrs\model\Representante.java
-C:\Users\Arnaldo\Documents\NetBeansProjects\ProjetoDePDSC\ProjetoDePDSC-ejb\src\main\java\br\edu\ifpe\acsntrs\model\Escola.java
-C:\Users\Arnaldo\Documents\NetBeansProjects\ProjetoDePDSC\ProjetoDePDSC-ejb\src\main\java\br\edu\ifpe\acsntrs\model\Nota.java
-C:\Users\Arnaldo\Documents\NetBeansProjects\ProjetoDePDSC\ProjetoDePDSC-ejb\src\main\java\br\edu\ifpe\acsntrs\NewSessionBean.java
+H:\Projetos IFPE\ProjetoDePDSC\ProjetoDePDSC-ejb\src\main\java\br\edu\ifpe\acsntrs\model\Nota.java
+H:\Projetos IFPE\ProjetoDePDSC\ProjetoDePDSC-ejb\src\main\java\br\edu\ifpe\acsntrs\jpa\exceptions\PreexistingEntityException.java
+H:\Projetos IFPE\ProjetoDePDSC\ProjetoDePDSC-ejb\src\main\java\br\edu\ifpe\acsntrs\jpa\EscolaJpaController.java
+H:\Projetos IFPE\ProjetoDePDSC\ProjetoDePDSC-ejb\src\main\java\br\edu\ifpe\acsntrs\jpa\RepresentanteJpaController.java
+H:\Projetos IFPE\ProjetoDePDSC\ProjetoDePDSC-ejb\src\main\java\br\edu\ifpe\acsntrs\model\Escola.java
+H:\Projetos IFPE\ProjetoDePDSC\ProjetoDePDSC-ejb\src\main\java\br\edu\ifpe\acsntrs\model\Aluno.java
+H:\Projetos IFPE\ProjetoDePDSC\ProjetoDePDSC-ejb\src\main\java\br\edu\ifpe\acsntrs\model\Criterio.java
+H:\Projetos IFPE\ProjetoDePDSC\ProjetoDePDSC-ejb\src\main\java\br\edu\ifpe\acsntrs\jpa\exceptions\NonexistentEntityException.java
+H:\Projetos IFPE\ProjetoDePDSC\ProjetoDePDSC-ejb\src\main\java\br\edu\ifpe\acsntrs\NewSessionBean.java
+H:\Projetos IFPE\ProjetoDePDSC\ProjetoDePDSC-ejb\src\main\java\br\edu\ifpe\acsntrs\model\Administrador.java
+H:\Projetos IFPE\ProjetoDePDSC\ProjetoDePDSC-ejb\src\main\java\br\edu\ifpe\acsntrs\model\Representante.java
+H:\Projetos IFPE\ProjetoDePDSC\ProjetoDePDSC-ejb\src\main\java\br\edu\ifpe\acsntrs\jpa\exceptions\RollbackFailureException.java
+H:\Projetos IFPE\ProjetoDePDSC\ProjetoDePDSC-ejb\src\main\java\br\edu\ifpe\acsntrs\model\Usuario.java
+H:\Projetos IFPE\ProjetoDePDSC\ProjetoDePDSC-ejb\src\main\java\br\edu\ifpe\acsntrs\jpa\AlunoJpaController.java
+H:\Projetos IFPE\ProjetoDePDSC\ProjetoDePDSC-ejb\src\main\java\br\edu\ifpe\acsntrs\jpa\UsuarioJpaController.java
+H:\Projetos IFPE\ProjetoDePDSC\ProjetoDePDSC-ejb\src\main\java\br\edu\ifpe\acsntrs\jpa\exceptions\IllegalOrphanException.java
+H:\Projetos IFPE\ProjetoDePDSC\ProjetoDePDSC-ejb\src\main\java\br\edu\ifpe\acsntrs\jpa\AdministradorJpaController.java
+H:\Projetos IFPE\ProjetoDePDSC\ProjetoDePDSC-ejb\src\main\java\br\edu\ifpe\acsntrs\jpa\CriterioJpaController.java
+H:\Projetos IFPE\ProjetoDePDSC\ProjetoDePDSC-ejb\src\main\java\br\edu\ifpe\acsntrs\jpa\NotaJpaController.java
