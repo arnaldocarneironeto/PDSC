@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title></title>
+        <link type="text/css" rel="stylesheet" href="#{request.contextPath}/CSS/style.css" />
+    </h:head>
+
+    <h:body>
+        <ui:composition template="/Layout/Template.xhtml">
+
+            <ui:define name="bar_esq">
+                <h:form>
+                    <p:menu class="menu">
+                        <p:submenu class="menu" label="Home">
+                            <p:menuitem class="menu" value="Voltar" url="homeRepresentante.xhtml" ></p:menuitem>
+                        </p:submenu>
+                        <p:submenu class="menu" label="Sessão">
+                            <p:menuitem class="menu" value="Logout" url="index.xhtml" ></p:menuitem>
+                        </p:submenu>
+                    </p:menu>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="cont">
+                <h:form id="form">
+                    <p:panel header="Escola">
+                        <h:panelGrid columns="3">
+                            <h:outputText value="Nome:" />
+                            <h:inputText id="inp_nome" value="" style="width: 500px" required="true" requiredMessage="Digite o nome da Escola"/>
+                            <h:message for="inp_nome" />
+
+                            <h:outputText value="Descrição:" />
+                            <h:inputText id="inp_desc" value="" style="width: 400px" required="true" requiredMessage="Descreva a escola"/>
+                            <h:message for="inp_desc" />
+
+                            <h:outputText value="Conceito:" />
+                            <h:inputText id="inp_conc" value="" required="true" requiredMessage="Digite o conceito da escola"/>
+                            <h:message for="inp_conc" />
+
+                            <p:commandButton id="btnSalvar" value="SALVAR" actionListener="x" update="form" />
+                        </h:panelGrid>
+
+
+                        <p:dataTable id="tabela" value="" var="esc" emptyMessage="Nenhum registro incluido." paginator="true" rows="10">
+                            <!--Definindo o cabeçalho da Tabela-->
+                            <f:facet name="header">  
+                                Escolas 
+                            </f:facet>
+
+                            <p:column headerText="Nome" style="text-align: center">                                
+                                <h:outputText value="" />
+                            </p:column>
+                            <p:column headerText="Descrição" style="text-align: center">           
+                                <h:outputText value="" />
+                            </p:column>
+                            <p:column headerText="Conceito" style="text-align: center">
+                                <h:outputText value="" />
+                            </p:column>
+                            <p:column headerText="ALTERAR - EXCLUIR" style="text-align: center">
+                                <p:commandButton action="x" value="Editar" title="Editar" ajax="false"  >
+                                    <f:setPropertyActionListener value="x" target="x" />
+                                </p:commandButton>
+
+                                <p:commandButton value="Excluir" title="Excluir" onclick="confirmation.show()" style="margin-left: 5px" >
+                                    <f:setPropertyActionListener value="" target="" />
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>   
+                
+                <h:form id="dlg">
+                    <p:confirmDialog message="Deseja realmente excluir este registro?" hideEffect="explode" header="Aviso" severity="alert" widgetVar="confirmation">
+                        <p:commandButton id="btnSim" value="Sim" oncomplete="confirmation.hide();" actionListener="x" process="@form" update="form:tabela" />
+                        <p:commandButton id="btnNao" value="Não" onclick="confirmation.hide();" type="button"/>
+                    </p:confirmDialog>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+
+

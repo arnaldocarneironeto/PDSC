@@ -230,7 +230,7 @@ public class Escola implements Serializable
         {
             medias.put(aluno, this.getMediaDoAluno(aluno));
         }
-        List<Map.Entry<Aluno, Double>> lista = new LinkedList(medias.entrySet());
+        List<Map.Entry<Aluno, Double>> lista = new LinkedList<>(medias.entrySet());
         lista.sort(getComparator());
         for(Map.Entry<Aluno, Double> par: lista)
         {

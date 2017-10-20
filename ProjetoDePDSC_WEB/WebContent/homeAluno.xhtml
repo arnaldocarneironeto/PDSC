@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title></title>
+        <link type="text/css" rel="stylesheet" href="#{request.contextPath}/CSS/style.css" />
+    </h:head>
+    
+    <h:body>
+        <ui:composition template="/Layout/Template.xhtml">
+            
+            <ui:define name="bar_esq">
+                <h:form>
+                    <p:menu class="menu">
+                        <p:submenu class="menu" label="Inscrição">
+                            <p:menuitem class="menu" value="Inscrever-se" url="" ></p:menuitem>
+                            <p:menuitem class="menu" value="Visualizar" url="" ></p:menuitem>
+                            <p:menuitem class="menu" value="Cancelar" url="" ></p:menuitem>
+                        </p:submenu>
+                        <p:submenu class="menu" label="Cadastro">
+                            <p:menuitem class="menu" value="Alterar" url="alterarDados.xhtml" ></p:menuitem>
+                            <p:menuitem class="menu" value="Excluir" ></p:menuitem>
+                        </p:submenu>
+                        <p:submenu class="menu" label="Sessão">
+                            <p:menuitem class="menu" value="Logout" url="index.xhtml" ></p:menuitem>
+                        </p:submenu>
+                    </p:menu>
+                </h:form>
+            </ui:define>
+            
+            <ui:define name="cont">
+                <!-- Conteúdo principal da página aqui-->
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+
+
