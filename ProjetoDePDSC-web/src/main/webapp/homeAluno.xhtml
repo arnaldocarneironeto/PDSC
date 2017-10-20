@@ -15,18 +15,27 @@
             <ui:define name="bar_esq">
                 <h:form>
                     <p:menu class="menu">
-                        <p:submenu class="menu" label="Acessar">
-                            <p:menuitem class="menu" value="Login" url="" ></p:menuitem>
-                            <p:menuitem class="menu" value="Cadastro" url="cadastroAluno.xhtml" ></p:menuitem>
+                        <p:submenu class="menu" label="Inscrição">
+                            <p:menuitem class="menu" value="Inscrever-se" url="" ></p:menuitem>
+                            <p:menuitem class="menu" value="Visualizar" url="" ></p:menuitem>
+                            <p:menuitem class="menu" value="Cancelar" url="" ></p:menuitem>
+                        </p:submenu>
+                        <p:submenu class="menu" label="Cadastro">
+                            <p:menuitem class="menu" value="Alterar" url="alterarDados.xhtml" ></p:menuitem>
+                            <p:menuitem class="menu" value="Excluir" ></p:menuitem>
+                        </p:submenu>
+                        <p:submenu class="menu" label="Sessão">
+                            <p:menuitem class="menu" value="Logout" url="index.xhtml" ></p:menuitem>
                         </p:submenu>
                     </p:menu>
                 </h:form>
             </ui:define>
             
             <ui:define name="cont">
-                
+                <!-- Conteúdo principal da página aqui-->
             </ui:define>
         </ui:composition>
     </h:body>
 </html>
+
 

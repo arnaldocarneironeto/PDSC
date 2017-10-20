@@ -20,22 +20,22 @@
                 <h:form>
                     <p:panelGrid class="panelGrid" columns="3">
                         <h:outputText value="Nome:" />
-                        <h:inputText id="inp_nome" style="width: 500px" required="true" requiredMessage="Digite seu nome"/>
+                        <h:inputText id="inp_nome" value="" style="width: 500px" required="true" requiredMessage="Digite seu nome"/>
                         <h:message for="inp_nome" />
                         
                         <h:outputText value="Email:" />
-                        <h:inputText id="inp_email" style="width: 400px" required="true" requiredMessage="Digite seu email"/>
+                        <h:inputText id="inp_email" value="" style="width: 400px" required="true" requiredMessage="Digite seu email"/>
                         <h:message for="inp_email" />
                         
                         <h:outputText value="Login:" />
-                        <h:inputText id="inp_login" required="true" requiredMessage="Digite seu nome de usuário"/>
+                        <h:inputText id="inp_login" value="" required="true" requiredMessage="Digite seu nome de usuário"/>
                         <h:message for="inp_login" />
                         
                         <h:outputText value="Senha:" />
-                        <h:inputText id="inp_senha" required="true" requiredMessage="Digite sua senha"/>
+                        <h:inputText id="inp_senha" value="" required="true" requiredMessage="Digite sua senha"/>
                         <h:message for="inp_senha" />
                         
-                        <p:commandButton value="OK"/> 
+                        <p:commandButton value="OK" action="#{x.salvar}"/> 
                         <p:button value="Cancelar" href="index.xhtml"/>
                     </p:panelGrid>
                 </h:form>
@@ -43,3 +43,4 @@
         </ui:composition>
     </h:body>
 </html>
+

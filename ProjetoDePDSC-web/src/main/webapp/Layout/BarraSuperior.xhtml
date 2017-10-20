@@ -6,13 +6,17 @@
       xmlns:p="http://primefaces.org/ui">
 
     <h:body>
-        <ui:composition>            
-                <p:imageSwitch effect="fade" id="fadeEffect">
-                    <ui:repeat value="" var="image" id="fadeEffectImages">
-                        <p:graphicImage name="../Images/#{image}" id="image" />
-                    </ui:repeat>
-                </p:imageSwitch>           
+        <ui:composition>  
+            <!--NÃO ESTÁ FUNCIONANDO-->
+            <p:imageSwitch effect="fade" id="fadeEffect">
+                <ui:repeat value="#{switch_mb.images}" var="image" id="fadeEffectImages">
+                    <p:graphicImage name="../Images/#{image}" id="image" />
+                </ui:repeat>
+            </p:imageSwitch> 
+
         </ui:composition>
     </h:body>
 </html>
+
+
 
