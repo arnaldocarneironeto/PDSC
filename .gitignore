@@ -24,3 +24,6 @@ hs_err_pid*
 # temporary document files
 *.docx\#
 *.odt\#
+/ProjetoDePDSC-ejb/target/
+/ProjetoDePDSC-web/target/
+/ProjetoDePDSC-ear/target/

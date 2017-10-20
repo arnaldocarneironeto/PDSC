@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="ProjetoDePDSC_EAR">
+        <wb-resource deploy-path="/" source-path="/EarContent" tag="defaultRootSource"/>
+        <dependent-module archiveName="ProjetoDePDSC_EJB.jar" deploy-path="/" handle="module:/resource/ProjetoDePDSC_EJB/ProjetoDePDSC_EJB">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="ProjetoDePDSC_WEB.war" deploy-path="/" handle="module:/resource/ProjetoDePDSC_WEB/ProjetoDePDSC_WEB">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+    </wb-module>
+</project-modules>
