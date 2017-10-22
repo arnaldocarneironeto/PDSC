@@ -19,5 +19,7 @@ public interface EscolaManagerModelLocal
 
 	public List<Escola> read(String nome);
 
+	public List<Escola> read();
+
 	public void delete(Escola escola);
 }

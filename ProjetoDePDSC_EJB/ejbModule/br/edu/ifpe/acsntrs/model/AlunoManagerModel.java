@@ -85,6 +85,12 @@ public class AlunoManagerModel implements AlunoManagerModelLocal
 	}
 
 	@Override
+	public List<Aluno> read()
+	{
+		return em.createNamedQuery("Aluno.findAll", Aluno.class).getResultList();
+	}
+
+	@Override
 	public void delete(Aluno aluno)
 	{
 		if(aluno != null && aluno.getId() != null)

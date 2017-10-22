@@ -187,16 +187,16 @@ public class Escola implements Serializable
     }
 
     /**
-     * Calcula a m√©dia do aluno segundo os crit√©rios da escola.
-     * Caso o aluno n√£o tenha cursado uma das disciplinas que s√£o usadas como
-     * crit√©rio pela escola, sua nota nela ser√° 0 (zero).
-     * Disciplinas cursadas pelo aluno, mas que n√£o sao crit√©rios da escola, s√£o
+     * Calcula a mÈdia do aluno segundo os critÈrios da escola.
+     * Caso o aluno n„o tenha cursado uma das disciplinas que s„o usadas como
+     * critÈrio pela escola, sua nota nela ser· 0 (zero).
+     * Disciplinas cursadas pelo aluno, mas que n„o sao critÈrios da escola, s„o
      * ignoradas.
-     * Caso a escola n√£o tenha fornecido nenhum crit√©rio, a nota de todos os
-     * alunos ser√° 0 (zero);
+     * Caso a escola n„o tenha fornecido nenhum critÈrio, a nota de todos os
+     * alunos ser· 0 (zero);
      * 
-     * @param aluno O Aluno cuja a m√©dia se deseja conhecer.
-     * @return A m√©dia ponderada do aluno segundo os crit√©rios da escola.
+     * @param aluno O Aluno cuja a mÈdia se deseja conhecer.
+     * @return A mÈdia ponderada do aluno segundo os critÈrios da escola.
      */
     private Double getMediaDoAluno(Aluno aluno)
     {
@@ -216,8 +216,8 @@ public class Escola implements Serializable
     }
     
     /**
-     * P√µe em ordem todos os alunos, segundo as prefer√™ncias dessa escola.
-     * O resultado da ordena√ß√£o √© armazenado no atributo
+     * Pıe em ordem todos os alunos, segundo as preferÍncias dessa escola.
+     * O resultado da ordenaÁ„o È armazenado no atributo
      * preferencias_desta_escola.
      * 
      * @param alunos lista contendo todos os alunos inscritos.
@@ -263,7 +263,6 @@ public class Escola implements Serializable
     @Override
     public boolean equals(Object object)
     {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Escola))
         {
             return false;

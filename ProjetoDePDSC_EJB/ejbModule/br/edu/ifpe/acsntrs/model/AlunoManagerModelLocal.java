@@ -20,6 +20,8 @@ public interface AlunoManagerModelLocal
 	public Aluno read(String login, String senha);
 
 	public List<Aluno> read(String nome);
+	
+	public List<Aluno> read();
 
 	public void delete(Aluno aluno);
 }

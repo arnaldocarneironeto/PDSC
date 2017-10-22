@@ -1,4 +1,4 @@
-package br.edu.ifpe.acsntrs.entity;
+package br.edu.ifpe.acsntrs.standaloneapp;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -7,9 +7,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import br.edu.ifpe.acsntrs.entity.Aluno;
+import br.edu.ifpe.acsntrs.entity.Escola;
+
 /**
- * Classe que realiza o processo de distribuição dos alunos entre as escolas
- * segundo o algorítimo de Gale-Shapley.
+ * Classe que realiza o processo de distribui��o dos alunos entre as escolas
+ * segundo o algor�timo de Gale-Shapley.
  * 
  * @author Arnaldo Carneiro <acsn@a.recife.ifpe.edu.br>
  */
@@ -83,6 +86,7 @@ public final class Distribuidor
 
     private void propor(Aluno aluno, final Escola escola, Map<Escola, List<Aluno>> listagens)
     {
+    	System.out.println(aluno + " se inscreve para " + escola);
         List<Aluno> listagem = listagens.get(escola);
         listagem.add(aluno);
         listagem.sort(getComparator(escola));
@@ -91,6 +95,7 @@ public final class Distribuidor
         {
             listagem.subList(listagem.size() - excedente, listagem.size()).clear();
         }
+        System.out.println(escola + " = " + listagem + "\n");
     }
 
     private Comparator<Aluno> getComparator(final Escola escola)
@@ -117,38 +122,52 @@ public final class Distribuidor
         return true;
     }
 
-    // Métodos para teste
+    // M�todos para teste
     public static void main(String[] args)
     {
-        Aluno ana = criarAluno(0, "ana", "", "a@b.c", "Ana", "Português", 10, "Matemática", 8.5f, "Educação Física", 9);
-        Aluno beth = criarAluno(1, "beth", "", "b@b.c", "Beth", "Português", 9, "Matemática", 9.5f, "Educação Física", 9.5f);
+        Aluno ana = criarAluno(0, "ana", "", "a@b.c", "Ana", "English", 10, "Math", 5.5f, "P.E.", 9);
+        Aluno beth = criarAluno(1, "beth", "", "b@b.c", "Beth", "English", 9, "Math", 6.5f, "P.E.", 9.5f);
+        Aluno carl = criarAluno(2, "carl", "", "c@b.c", "Carl", "English", 8, "Math", 7.5f, "P.E.", 5);
+        Aluno dan = criarAluno(3, "dan", "", "d@b.c", "Dan", "English", 7, "Math", 8.5f, "P.E.", 3);
+        Aluno ellie = criarAluno(4, "ellie", "", "e@b.c", "Ellie", "English", 6, "Math", 9.5f, "Siege Weapons Engineering", 3);
         
-        Escola ducandario = criarEscola(0, "Ducandario", 2, "Português", 4, "Matemática", 6, "Geografia", 1);
-        Escola elemental = criarEscola(1, "Elemental", 1, "Geografia", 9, "Matemática", 1, "Ginástica Rítmica", 1);
+        Escola faber = criarEscola(0, "Faber College", 2, "English", 4, "Math", 6, "Geography", 1);
+        Escola greendale = criarEscola(1, "Greendale Community College", 1, "Geography", 2, "Math", 1, "Siege Weapons Engineering", 3);
+        Escola harmon = criarEscola(2, "Harmon College", 1, "Math", 1, "History", 1, "English", 1);
 
-        List<Escola> anapref = new ArrayList<>();
-        anapref.add(elemental);
-        anapref.add(ducandario);
-        ana.setPreferencia(anapref);
-
-        List<Escola> bethpref = new ArrayList<>();
-        bethpref.add(elemental);
-        bethpref.add(ducandario);
-        beth.setPreferencia(bethpref);
+        setarPreferenciasDoAluno(ana, faber, greendale, harmon);
+        setarPreferenciasDoAluno(beth, faber, greendale, harmon);
+        setarPreferenciasDoAluno(carl, greendale, faber, harmon);
+        setarPreferenciasDoAluno(dan, harmon, faber, greendale);
+        setarPreferenciasDoAluno(ellie, faber, harmon, greendale);
 
         List<Escola> escolas = new ArrayList<>();
-        escolas.add(elemental);
-        escolas.add(ducandario);
+        escolas.add(faber);
+        escolas.add(greendale);
+        escolas.add(harmon);
 
         List<Aluno> alunos = new ArrayList<>();
         alunos.add(ana);
         alunos.add(beth);
+        alunos.add(carl);
+        alunos.add(dan);
+        alunos.add(ellie);
         
         Distribuidor d = new Distribuidor(alunos, escolas);
         
         System.out.println(d.distribuir());
         System.out.println("Ok");
     }
+
+	private static void setarPreferenciasDoAluno(Aluno aluno, Escola... escolas)
+	{
+		List<Escola> pref = new ArrayList<>();
+		for(Escola escola: escolas)
+		{
+			pref.add(escola);
+		}
+        aluno.setPreferencia(pref);
+	}
 
     private static Escola criarEscola(int id, final String nome, int vagas, final String criterio1, final float peso1, final String criterio2, final float peso2, final String criterio3, final float peso3)
     {

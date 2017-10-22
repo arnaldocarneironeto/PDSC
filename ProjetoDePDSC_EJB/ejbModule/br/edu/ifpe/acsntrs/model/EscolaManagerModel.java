@@ -76,6 +76,12 @@ public class EscolaManagerModel implements EscolaManagerModelLocal
 	{
 		return em.createNamedQuery("Escola.findByNome", Escola.class).setParameter("nome", nome).getResultList();
 	}
+	
+	@Override
+	public List<Escola> read()
+	{
+		return em.createNamedQuery("Escola.findAll", Escola.class).getResultList();
+	}
 
 	@Override
 	public void delete(Escola escola)
