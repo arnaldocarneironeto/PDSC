@@ -20,7 +20,9 @@ import javax.xml.bind.annotation.XmlRootElement;
         {
             @NamedQuery(name = "Representante.findAll", query = "SELECT p FROM Representante p"),
             @NamedQuery(name = "Representante.findById", query = "SELECT p FROM Representante p WHERE p.id = :id"),
-            @NamedQuery(name = "Representante.findByEscola", query = "SELECT p FROM Representante p WHERE p.escola = :escola")
+            @NamedQuery(name = "Representante.findByEscola", query = "SELECT p FROM Representante p WHERE p.escola = :escola"),
+            @NamedQuery(name = "Representante.findByLogin", query = "SELECT p FROM Representante p WHERE p.login = :login"),
+            @NamedQuery(name = "Representante.findByNome", query = "SELECT p FROM Representante p WHERE p.nome = :nome")            
         })
 public class Representante extends Usuario
 {
