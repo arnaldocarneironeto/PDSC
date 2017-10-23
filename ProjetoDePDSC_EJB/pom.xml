@@ -10,7 +10,22 @@
 		<groupId>org.hibernate</groupId>
 		<artifactId>hibernate-core</artifactId>
 		<version>5.2.11.Final</version>
-	</dependency>  
+	</dependency>
+	<dependency>
+		<groupId>javax.validation</groupId>
+		<artifactId>validation-api</artifactId>
+		<version>1.0.0.GA</version>
+	</dependency>
+	<dependency>
+		<groupId>javax.ejb</groupId>
+		<artifactId>ejb-api</artifactId>
+		<version>3.0</version>
+	</dependency>
+	<dependency>
+		<groupId>javax.ejb</groupId>
+		<artifactId>javax.ejb-api</artifactId>
+		<version>3.2</version>
+	</dependency>
   </dependencies>
   <build>
     <sourceDirectory>ejbModule</sourceDirectory>

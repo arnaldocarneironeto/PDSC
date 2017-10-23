@@ -29,31 +29,32 @@
             <ui:define name="cont">
                 <h:form id="form">
                     <p:panel header="Escola">
+                    <h:commandButton action="#{EscolaManagerBean.novo()}" value="Nova Escola" />
                         <h:panelGrid columns="3">
                             <h:outputText value="Nome:" />
-                            <h:inputText id="inp_nome" value="" style="width: 500px" required="true" requiredMessage="Digite o nome da Escola"/>
+                            <h:inputText id="inp_nome" value="#{EscolaManagerBean.escolaAtual.nome}" style="width: 500px" required="true" requiredMessage="Digite o nome da Escola"/>
                             <h:message for="inp_nome" />
 
                             <h:outputText value="Descrição:" />
-                            <h:inputText id="inp_desc" value="" style="width: 400px" required="true" requiredMessage="Descreva a escola"/>
+                            <h:inputText id="inp_desc" value="#{EscolaManagerBean.escolaAtual.descricao}" style="width: 400px" required="true" requiredMessage="Descreva a escola"/>
                             <h:message for="inp_desc" />
 
                             <h:outputText value="Conceito:" />
-                            <h:inputText id="inp_conc" value="" required="true" requiredMessage="Digite o conceito da escola"/>
+                            <h:inputText id="inp_conc" value="#{EscolaManagerBean.escolaAtual.conceito}" required="true" requiredMessage="Digite o conceito da escola"/>
                             <h:message for="inp_conc" />
 
-                            <p:commandButton id="btnSalvar" value="SALVAR" actionListener="x" update="form" />
+                            <p:commandButton id="btnSalvar" value="SALVAR" actionListener="#{EscolaManagerBean.salvar()}" update="form" />
                         </h:panelGrid>
 
-
-                        <p:dataTable id="tabela" value="" var="esc" emptyMessage="Nenhum registro incluido." paginator="true" rows="10">
+						<!-- Não estou conseguindo ler os dados da lista a partir da variável 'esc' -->
+                        <p:dataTable id="tabela" value="#{EscolaManagerBean.listar()}" var="esc" emptyMessage="Nenhum registro incluido." paginator="true" rows="10">
                             <!--Definindo o cabeçalho da Tabela-->
                             <f:facet name="header">  
                                 Escolas 
                             </f:facet>
 
                             <p:column headerText="Nome" style="text-align: center">                                
-                                <h:outputText value="" />
+                                <h:outputText value="#{esc.}" />
                             </p:column>
                             <p:column headerText="Descrição" style="text-align: center">           
                                 <h:outputText value="" />
