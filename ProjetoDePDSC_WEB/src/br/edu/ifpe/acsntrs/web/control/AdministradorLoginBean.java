@@ -16,7 +16,7 @@ import br.edu.ifpe.acsntrs.model.AdministradorLoginModel;
  *
  * @author Arnaldo Carneiro <acsn@a.recife.ifpe.edu.br>
  */
-@ManagedBean(name = "AdminLoginBean")
+@ManagedBean(name = "AdministradorLoginBean")
 @SessionScoped
 public class AdministradorLoginBean implements Serializable
 {

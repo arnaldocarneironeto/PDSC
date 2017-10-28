@@ -2,10 +2,13 @@ package br.edu.ifpe.acsntrs.model;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.LocalBean;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -18,6 +21,7 @@ import br.edu.ifpe.acsntrs.jpa.RepresentanteJpaController;
  * @author Arnaldo Carneiro <acsn@a.recife.ifpe.edu.br>
  */
 @Stateless
+@TransactionManagement(TransactionManagementType.BEAN)
 @LocalBean
 public class RepresentanteManagerModel implements RepresentanteManagerModelLocal
 {
@@ -34,9 +38,13 @@ public class RepresentanteManagerModel implements RepresentanteManagerModelLocal
 	 */
 	public RepresentanteManagerModel()
 	{
-		this.controller = new RepresentanteJpaController(context.getUserTransaction(), em.getEntityManagerFactory());
 	}
 
+	@PostConstruct
+	public void init() {
+		this.controller = new RepresentanteJpaController(context.getUserTransaction(), em.getEntityManagerFactory());
+	}
+	
 	@Override
 	public Representante save(Representante rep)
 	{
@@ -86,7 +94,13 @@ public class RepresentanteManagerModel implements RepresentanteManagerModelLocal
 	@Override
 	public List<Representante> read(String nome)
 	{
-		return em.createNamedQuery("Representante.findByNome", Representante.class).getResultList();
+		return em.createNamedQuery("Representante.findByNome", Representante.class).setParameter("nome", nome).getResultList();
+	}
+	
+	@Override
+	public List<Representante> read()
+	{
+		return em.createNamedQuery("Representante.findAll", Representante.class).getResultList();
 	}
 
 	@Override

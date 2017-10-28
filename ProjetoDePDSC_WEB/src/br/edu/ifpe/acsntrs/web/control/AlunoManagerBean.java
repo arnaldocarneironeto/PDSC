@@ -1,6 +1,7 @@
 package br.edu.ifpe.acsntrs.web.control;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
@@ -32,13 +33,19 @@ public class AlunoManagerBean implements Serializable
 	public AlunoManagerBean()
 	{
 		this.editando = false;
-		this.alunoAtual = null;
+		this.alunoAtual = new Aluno();
 	}
 
 	public String listar()
 	{
 		return "crud_aluno?faces-redirect=true";
 	}
+	
+	public List<Aluno> lista()
+	{
+		return alunoManagerModel.read();
+	}
+	
 
 	public void novo()
 	{
@@ -46,15 +53,17 @@ public class AlunoManagerBean implements Serializable
 		this.editando = true;
 	}
 
-	public void salvar()
+	public String salvar()
 	{
 		alunoManagerModel.save(this.alunoAtual);
 		this.editando = false;
+		return "index?faces-redirect=true";
 	}
 
-	public void cancelar()
+	public String cancelar()
 	{
 		this.editando = false;
+		return "index?faces-redirect=true";
 	}
 
 	public void atualizar(Aluno aluno)

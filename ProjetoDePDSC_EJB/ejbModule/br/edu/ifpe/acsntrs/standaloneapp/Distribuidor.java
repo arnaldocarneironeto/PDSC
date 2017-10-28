@@ -81,6 +81,17 @@ public final class Distribuidor
                 result.put(aluno, listagem.getKey());
             }
         }
+        
+        for(Aluno aluno: alunos)
+        {
+        	aluno.setEscola_que_selecionou_este_aluno(result.get(aluno));
+        }
+        
+        for(Escola escola: escolas)
+        {
+        	escola.setAlunos_selecionados(listagens.get(escola));
+        }
+        
         return result;
     }
 
@@ -156,7 +167,20 @@ public final class Distribuidor
         Distribuidor d = new Distribuidor(alunos, escolas);
         
         System.out.println(d.distribuir());
-        System.out.println("Ok");
+        System.out.println("Ok\n");
+        
+        for(Aluno aluno: alunos)
+        {
+        	System.out.println(aluno + "->" + aluno.getEscola_que_selecionou_este_aluno());
+        }
+        
+        System.out.println();
+        
+        for(Escola escola: escolas)
+        {
+        	System.out.println(escola + "->" + escola.getAlunos_selecionados());
+        }
+        
     }
 
 	private static void setarPreferenciasDoAluno(Aluno aluno, Escola... escolas)

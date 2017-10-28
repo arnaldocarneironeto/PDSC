@@ -2,10 +2,13 @@ package br.edu.ifpe.acsntrs.model;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.LocalBean;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -18,6 +21,7 @@ import br.edu.ifpe.acsntrs.jpa.EscolaJpaController;
  * @author Arnaldo Carneiro <acsn@a.recife.ifpe.edu.br>
  */
 @Stateless
+@TransactionManagement(TransactionManagementType.BEAN)
 @LocalBean
 public class EscolaManagerModel implements EscolaManagerModelLocal
 {
@@ -34,7 +38,11 @@ public class EscolaManagerModel implements EscolaManagerModelLocal
 	 */
 	public EscolaManagerModel()
 	{
-		this.controller = new EscolaJpaController(context.getUserTransaction(), em.getEntityManagerFactory());
+	}
+	
+	@PostConstruct
+	public void init() {
+		this.controller = new EscolaJpaController(context.getUserTransaction(), em.getEntityManagerFactory());		
 	}
 
 	@Override

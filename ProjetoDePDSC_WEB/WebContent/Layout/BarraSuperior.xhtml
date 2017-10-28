@@ -7,10 +7,9 @@
 
     <h:body>
         <ui:composition>  
-            <!--NÃO ESTÁ FUNCIONANDO-->
             <p:imageSwitch effect="fade" id="fadeEffect">
                 <ui:repeat value="#{switch_mb.images}" var="image" id="fadeEffectImages">
-                    <p:graphicImage name="../Images/#{image}" id="image" />
+                    <p:graphicImage name="Images/#{image}" id="image" />
                 </ui:repeat>
             </p:imageSwitch> 
 

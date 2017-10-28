@@ -20,6 +20,8 @@ public interface RepresentanteManagerModelLocal
 	public Representante read(String login, String senha);
 
 	public List<Representante> read(String nome);
+	
+	public List<Representante> read();
 
 	public void delete(Representante rep);
 }

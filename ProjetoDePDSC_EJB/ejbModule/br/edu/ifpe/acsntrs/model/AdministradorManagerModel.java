@@ -2,10 +2,13 @@ package br.edu.ifpe.acsntrs.model;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.LocalBean;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -18,6 +21,7 @@ import br.edu.ifpe.acsntrs.jpa.AdministradorJpaController;
  * @author Arnaldo Carneiro <acsn@a.recife.ifpe.edu.br>
  */
 @Stateless
+@TransactionManagement(TransactionManagementType.BEAN)
 @LocalBean
 public class AdministradorManagerModel implements AdministradorManagerModelLocal
 {
@@ -31,7 +35,12 @@ public class AdministradorManagerModel implements AdministradorManagerModelLocal
 
 	public AdministradorManagerModel()
 	{
+	}
+	
+	@PostConstruct
+	public void init() {
 		this.controller = new AdministradorJpaController(context.getUserTransaction(), em.getEntityManagerFactory());
+		
 	}
 
 	@Override
@@ -84,6 +93,12 @@ public class AdministradorManagerModel implements AdministradorManagerModelLocal
 	public List<Administrador> read(String nome)
 	{
 		return em.createNamedQuery("Administrador.findByNome", Administrador.class).setParameter("nome", nome).getResultList();
+	}
+	
+	@Override
+	public List<Administrador> read()
+	{
+		return em.createNamedQuery("Administrador.findAll", Administrador.class).getResultList();
 	}
 
 	@Override

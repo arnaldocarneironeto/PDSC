@@ -2,10 +2,13 @@ package br.edu.ifpe.acsntrs.model;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.LocalBean;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import br.edu.ifpe.acsntrs.entity.Aluno;
@@ -17,6 +20,7 @@ import br.edu.ifpe.acsntrs.jpa.AlunoJpaController;
  * @author Arnaldo Carneiro <acsn@a.recife.ifpe.edu.br>
  */
 @Stateless
+@TransactionManagement(TransactionManagementType.BEAN)
 @LocalBean
 public class AlunoManagerModel implements AlunoManagerModelLocal
 {
@@ -29,6 +33,11 @@ public class AlunoManagerModel implements AlunoManagerModelLocal
 	private AlunoJpaController controller;
 
 	public AlunoManagerModel()
+	{
+	}
+
+	@PostConstruct
+	public void init()
 	{
 		this.controller = new AlunoJpaController(context.getUserTransaction(), em.getEntityManagerFactory());
 	}

@@ -1,6 +1,7 @@
 package br.edu.ifpe.acsntrs.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -32,6 +33,8 @@ public class AlunoLoginModel implements Serializable
 
 	public Aluno getAluno(String login, String senha)
 	{
+		List<Aluno> list = em.createNamedQuery("Aluno.findByLogin", Aluno.class).setParameter("login", login).getResultList();
+		if(list.isEmpty()) return null;
 		Aluno aluno = em.createNamedQuery("Aluno.findByLogin", Aluno.class).setParameter("login", login).getSingleResult();
 		if(aluno != null && senha.equals(aluno.getSenha()))
 		{

@@ -12,6 +12,7 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -72,7 +73,7 @@ public class Escola implements Serializable
     @Min(1)
     private Integer vagas;
 
-    @ElementCollection
+    @ElementCollection(fetch=FetchType.EAGER)
     @CollectionTable(name = "criterio")
     @JoinTable(name = "criterio", joinColumns = @JoinColumn(name = "id_escola"))
     @MapKeyColumn(name = "disciplina")

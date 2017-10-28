@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+    <ui:composition template="/Layout/Template.xhtml"> 
+        <ui:define name="tituloJanela"><h:outputText value="Cadastro de Escola" /></ui:define>
+        <ui:define name="conteudo">
+            <script>
+                var confirmation_message = "Confirma exclusão?";
+            </script>
+            <h:form id="form">
+                <h:messages />
+                <h:panelGroup rendered="#{!EscolaManagerBean.editando}">
+                    <h:dataTable value="#{EscolaManagerBean.lista()}" var="Escola" id="lista" frame="box" rules="all" cellpadding="3" styleClass="table table-hover table-responsive table-striped">
+                        <f:facet name="header">
+                            <h:commandButton action="#{EscolaManagerBean.novo()}" value="Novo">			
+                                <f:ajax execute="@form" render="@form"/>
+                            </h:commandButton>
+                        </f:facet>					
+                        <h:column>
+                            <f:facet name="header"><h:outputText value="Id" /></f:facet>
+                            <h:outputText value="#{Escola.id}" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header"><h:outputText value="Nome" /></f:facet>
+                            <h:outputText value="#{Escola.nome}" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header"><h:outputText value="Atualizar" /></f:facet>
+                            <h:commandLink action="#{EscolaManagerBean.atualizar(Escola)}" value="Atualizar">
+                                <f:ajax render="@form" execute="@form"/>
+                            </h:commandLink>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header"><h:outputText value="Excluir" /></f:facet>
+                            <h:commandLink action="#{EscolaManagerBean.apagar(Escola)}" value="Excluir" onclick="if (!confirm(confirmation_message))
+                                        return false">
+                                <f:ajax execute = "@form" render="@form"/>
+                            </h:commandLink>
+                        </h:column>	
+                    </h:dataTable>
+
+                </h:panelGroup>
+                <h:panelGroup rendered="#{EscolaManagerBean.editando}">
+                    <h:panelGrid columns="2">
+                        <f:facet name="header"><h:outputText value="Atualizando escola" /></f:facet>
+
+                        <h:outputLabel value="Id" />
+                        <p:inputText value="#{EscolaManagerBean.escolaAtual.id}" readonly="true"/>
+                        <h:outputLabel value="Nome" />
+                        <p:inputText value="#{EscolaManagerBean.escolaAtual.nome}" maxlength="40" size="40"/>
+                        <f:facet name="footer">
+                            <div align="center">
+                                <h:commandButton action="#{EscolaManagerBean.cancelar()}" value="Cancelar" immediate="true">
+                                    <f:ajax execute="@form" render="@form"/>
+                                </h:commandButton>
+                                <h:commandButton action="#{EscolaManagerBean.salvar()}" value="Salvar">
+                                    <f:ajax execute="@form" render="@form"/>
+                                </h:commandButton>
+                            </div>
+                        </f:facet>			
+                    </h:panelGrid>
+                </h:panelGroup>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+    <h:head></h:head> 
+    <h:body> 
+    </h:body> 
+</html>

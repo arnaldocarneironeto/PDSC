@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import br.edu.ifpe.acsntrs.entity.Administrador;
@@ -32,11 +33,18 @@ public class AdministradorLoginModel implements Serializable
 
 	public Administrador getAdminstrador(String login, String senha)
 	{
-		Administrador admin = em.createNamedQuery("Administrador.findByLogin", Administrador.class).setParameter("login", login).getSingleResult();
-		if(admin != null && senha.equals(admin.getSenha()))
+		try
 		{
-			return admin;
+			Administrador admin = em.createNamedQuery("Administrador.findByLogin", Administrador.class).setParameter("login", login).getSingleResult();
+			if(admin != null && senha.equals(admin.getSenha()))
+			{
+				return admin;
+			}
+			return null;
 		}
-		return null;
+		catch(NoResultException e)
+		{
+			return null;
+		}
 	}
 }

@@ -1,32 +1,439 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <title></title>
-        <link type="text/css" rel="stylesheet" href="#{request.contextPath}/CSS/style.css" />
-    </h:head>
-    
-    <h:body>
-        <ui:composition template="/Layout/Template.xhtml">
-            
-            <ui:define name="bar_esq">
-                <h:form>
-                    <p:menu class="menu">
-                        <p:submenu class="menu" label="Acessar">
-                            <p:menuitem class="menu" value="Login" url="" ></p:menuitem>
-                            <p:menuitem class="menu" value="Cadastro" url="cadastroAluno.xhtml" ></p:menuitem>
-                        </p:submenu>
-                    </p:menu>
-                </h:form>
-            </ui:define>
-            
-            <ui:define name="cont">
-                
-            </ui:define>
-        </ui:composition>
-    </h:body>
-</html>
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="/Layout/Template.xhtml">
+	<ui:define name="tituloJanela">
+		<h:outputText value="Bem vindo(a)" />
+		<h:outputText value=", #{AdministradorLoginBean.nome}"
+			rendered="#{AdministradorLoginBean.logado}" />!</ui:define>
+	<ui:define name="conteudo">
+		<h:panelGroup
+			rendered="#{!(AdministradorLoginBean.logado or AlunoLoginBean.logado or RepresentanteLoginBean.logado)}">
+			<span class="row"><h:outputText
+					value="Entre como administrador, representante de escola ou aluno" /></span>
+			<div class="row">
+				<h:form class="col-lg-6">
+					<p:fieldset legend="Aluno">
+						<p:panelGrid columns="2">
+							<h:outputLabel value="Login"></h:outputLabel>
+							<p:inputText value="#{AlunoLoginBean.login}" />
+							<h:outputLabel value="Senha"></h:outputLabel>
+							<p:password id="password" value="#{AlunoLoginBean.senha}" />
+							<f:facet name="footer">
+								<div align="center">
+									<h:commandButton action="#{AlunoLoginBean.logar()}" styleClass="ui-priority-primary" value="Entrar" />
+								</div>
+							</f:facet>
+						</p:panelGrid>
+					</p:fieldset>
+					<p:fieldset>
+						<h:commandButton action="#{AlunoLoginBean.cadastrar()}"
+							value="Cadastrar novo aluno" />
+					</p:fieldset>
+				</h:form>
+				<h:form class="col-lg-6">
+					<p:fieldset legend="Administrador">
+						<p:panelGrid columns="2">
+							<h:outputLabel value="Login"></h:outputLabel>
+							<p:inputText value="#{AdministradorLoginBean.login}" />
+							<h:outputLabel value="Senha"></h:outputLabel>
+							<p:password id="password" value="#{AdministradorLoginBean.senha}" />
+							<f:facet name="footer">
+								<div align="center">
+									<h:commandButton action="#{AdministradorLoginBean.logar()}" styleClass="ui-priority-primary" value="Entrar" />
+								</div>
+							</f:facet>
+						</p:panelGrid>
+					</p:fieldset>
+				</h:form>
+				<h:form class="col-lg-6">
+					<p:fieldset legend="Representante de escola">
+						<p:panelGrid columns="2">
+							<h:outputLabel value="Login"></h:outputLabel>
+							<p:inputText value="#{RepresentanteLoginBean.login}" />
+							<h:outputLabel value="Senha"></h:outputLabel>
+							<p:password id="password" value="#{RepresentanteLoginBean.senha}" />
+							<f:facet name="footer">
+								<div align="center">
+									<h:commandButton action="#{RepresentanteLoginBean.logar()}" styleClass="ui-priority-primary" value="Entrar" />
+								</div>
+							</f:facet>
+						</p:panelGrid>
+					</p:fieldset>
+				</h:form>
+			</div>
+			<h:messages />
+		</h:panelGroup>
+		
+		
+		<h:panelGroup rendered="#{AlunoLoginBean.logado}">
+			<h:outputText value="#{AlunoLoginBean.escola_que_selecionou_este_aluno.nome}" rendered="#{AlunoLoginBean.escola_que_selecionou_este_aluno ne null}"></h:outputText>
+			
+			<h:form onsubmit="#{orderListView.atualizarPreferencia(AlunoLoginBean.login)}" rendered="#{AlunoLoginBean.escola_que_selecionou_este_aluno eq null}">
+				<p:orderList value="#{orderListView.escolas}" var="escola" controlsLocation="none" itemLabel="#{escola}" itemValue="#{escola}" />
+				<p:commandButton value="Salvar ordem de preferência das escolas" update="displaySchools" oncomplete="PF('schoolDialog').show()" style="margin-top:5px" />
 
+				<p:dialog modal="true" showEffect="fade" hideEffect="fade" widgetVar="schoolDialog" header="Escolas" width="200">
+					<p:dataList id="displaySchools" value="#{orderListView.escolas}" var="escola">
+						<h:outputText value="#{escola}" />
+					</p:dataList>
+				</p:dialog>
+			</h:form>
+			<h:form>
+				<p:fieldset legend="Notas">
+				<h:outputText value="Portugues: " />
+				<h:inputText value="#{AlunoLoginBean.nota1}" />
+				<h:outputText value="Matematica " />
+				<h:inputText value="#{AlunoLoginBean.nota2}" />
+				<h:outputText value="Historia: " />
+				<h:inputText value="#{AlunoLoginBean.nota3}" />
+				<h:outputText value="Geografia: " />
+				<h:inputText value="#{AlunoLoginBean.nota4}" />
+				<h:outputText value="Biologia: " />
+				<h:inputText value="#{AlunoLoginBean.nota5}" />
+				<h:commandButton action="#{AlunoLoginBean.cadastrarNotas(AlunoLoginBean.nota1, AlunoLoginBean.nota2, AlunoLoginBean.nota3, AlunoLoginBean.nota4, AlunoLoginBean.nota5)}" value="Salvar Notas" />
+				</p:fieldset>
+			</h:form>
+
+			<h:form>
+				<h:commandButton action="#{AlunoLoginBean.sair()}" value="Sair" />
+			</h:form>
+			
+			<h:form>
+				<h:panelGrid columns="2" >
+	                <f:facet name="header"><h:outputText value="Atualizar dados do aluno" /></f:facet>
+	                <h:outputLabel value="Login" />
+	                <p:inputText value="#{AlunoLoginBean.login}" maxlength="16" size="16" disabled="true" />
+	                <h:outputLabel value="Email" />
+	                <p:inputText value="#{AlunoLoginBean.email}" maxlength="16" size="16"/>
+	                <h:outputLabel value="Nome" />
+	                <p:inputText value="#{AlunoLoginBean.nome}" maxlength="40" size="40"/>
+	                <h:outputLabel value="Senha" />
+	                <p:inputText value="#{AlunoLoginBean.senha}" />
+	                <f:facet name="footer">
+	                    <div align="center">
+	                        <h:commandButton action="#{AlunoLoginBean.atualizar()}" value="Salvar">
+	                            <f:ajax execute="@form" render="@form"/>
+	                        </h:commandButton>
+	                    </div>
+	                </f:facet>			
+	            </h:panelGrid>
+			</h:form>
+			
+		</h:panelGroup>
+		
+		<h:panelGroup rendered="#{AdministradorLoginBean.logado}">
+			
+			
+			 <h:form id="formAdministrador">
+			 <p:fieldset legend="Gerenciar Administrador">
+                <h:messages />
+                <h:panelGroup rendered="#{!AdministradorManagerBean.editando}">
+                    <h:dataTable value="#{AdministradorManagerBean.lista()}" var="administrator" id="lista" frame="box" rules="all" cellpadding="3" styleClass="table table-hover table-responsive table-striped">
+                        <f:facet name="header">
+                            <h:commandButton action="#{AdministradorManagerBean.novo()}" value="Novo">			
+                                <f:ajax execute="@form" render="@form"/>
+                            </h:commandButton>
+                        </f:facet>					
+                        <h:column>
+                            <f:facet name="header"><h:outputText value="Id" /></f:facet>
+                            <h:outputText value="#{administrator.id}" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header"><h:outputText value="login" /></f:facet>
+                            <h:outputText value="#{administrator.login}" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header"><h:outputText value="Nome" /></f:facet>
+                            <h:outputText value="#{administrator.nome}" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header"><h:outputText value="Senha" /></f:facet>
+                            <h:outputText value="•••••" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header"><h:outputText value="Atualizar" /></f:facet>
+                            <h:commandLink action="#{AdministradorManagerBean.atualizar(administrator)}" value="Atualizar">
+                                <f:ajax render="@form" execute="@form"/>
+                            </h:commandLink>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header"><h:outputText value="Excluir" /></f:facet>
+                            <h:commandLink action="#{AdministradorManagerBean.apagar(administrator)}" value="Excluir" onclick="if (!confirm(confirmation_message))
+                                        return false">
+                                <f:ajax execute = "@form" render="@form"/>
+                            </h:commandLink>
+                        </h:column>	
+                    </h:dataTable>
+
+                </h:panelGroup>
+                <h:panelGroup rendered="#{AdministradorManagerBean.editando}">
+                    <h:panelGrid columns="2">
+                        <f:facet name="header"><h:outputText value="Atualizando adminstrador" /></f:facet>
+
+                        <h:outputLabel value="Id" />
+                        <p:inputText value="#{AdministradorManagerBean.adminAtual.id}" readonly="true"/>
+                        <h:outputLabel value="Login" />
+                        <p:inputText value="#{AdministradorManagerBean.adminAtual.login}" maxlength="16" size="16"/>
+                        <h:outputLabel value="Nome" />
+                        <h:outputLabel value="Email" />
+                        <p:inputText value="#{AlunoManagerBean.alunoAtual.email}" maxlength="16" size="16"/>
+                        <p:inputText value="#{AdministradorManagerBean.adminAtual.nome}" maxlength="40" size="40"/>
+                        <h:outputLabel value="Senha" />
+                        <p:password id="password" feedback="true"
+                                    promptLabel="Digite aqui a sua senha"
+                                    weakLabel="Senha fraca"
+                                    goodLabel="Senha boa"
+                                    strongLabel="Senha forte"
+                                    value="#{AdministradorManagerBean.adminAtual.senha}" />
+                        <f:facet name="footer">
+                            <div align="center">
+                                <h:commandButton action="#{AdministradorManagerBean.cancelar()}" value="Cancelar" immediate="true">
+                                    <f:ajax execute="@form" render="@form"/>
+                                </h:commandButton>
+                                <h:commandButton action="#{AdministradorManagerBean.salvar()}" value="Salvar">
+                                    <f:ajax execute="@form" render="@form"/>
+                                </h:commandButton>
+                            </div>
+                        </f:facet>			
+                    </h:panelGrid>
+                </h:panelGroup>
+                </p:fieldset>
+            </h:form>
+			
+			<h:form id="formRepresentante">
+			<p:fieldset legend="Gerenciar Representantes">
+			<h:messages />
+			<h:panelGroup rendered="#{!RepresentanteManagerBean.editando}">
+				<h:dataTable value="#{RepresentanteManagerBean.lista()}"
+					var="representante" id="lista" frame="box" rules="all"
+					cellpadding="3"
+					styleClass="table table-hover table-responsive table-striped">
+					<f:facet name="header">
+						<h:commandButton action="#{RepresentanteManagerBean.novo()}"
+							value="Novo">
+							<f:ajax execute="@form" render="@form" />
+						</h:commandButton>
+					</f:facet>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Id" />
+						</f:facet>
+						<h:outputText value="#{representante.id}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="login" />
+						</f:facet>
+						<h:outputText value="#{representante.login}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Nome" />
+						</f:facet>
+						<h:outputText value="#{representante.nome}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Senha" />
+						</f:facet>
+						<h:outputText value="•••••" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Atualizar" />
+						</f:facet>
+						<h:commandLink
+							action="#{RepresentanteManagerBean.atualizar(representante)}"
+							value="Atualizar">
+							<f:ajax render="@form" execute="@form" />
+						</h:commandLink>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Excluir" />
+						</f:facet>
+						<h:commandLink
+							action="#{RepresentanteManagerBean.apagar(representante)}"
+							value="Excluir"
+							onclick="if (!confirm(confirmation_message))
+                                        return false">
+							<f:ajax execute="@form" render="@form" />
+						</h:commandLink>
+					</h:column>
+				</h:dataTable>
+
+			</h:panelGroup>
+			<h:panelGroup rendered="#{RepresentanteManagerBean.editando}">
+				<h:panelGrid columns="2">
+					<f:facet name="header">
+						<h:outputText value="Atualizando representante" />
+					</f:facet>
+
+					<h:outputLabel value="Id" />
+					<p:inputText value="#{RepresentanteManagerBean.repAtual.id}"
+						readonly="true" />
+					<h:outputLabel value="Login" />
+					<p:inputText value="#{RepresentanteManagerBean.repAtual.login}"
+						maxlength="16" size="16" />
+					<h:outputLabel value="Email" />
+					<p:inputText value="#{AlunoManagerBean.alunoAtual.email}"
+						maxlength="16" size="16" />
+					<h:outputLabel value="Nome" />
+					<p:inputText value="#{RepresentanteManagerBean.repAtual.nome}"
+						maxlength="40" size="40" />
+					<h:outputLabel value="Senha" />
+					<p:password id="password" feedback="true"
+						promptLabel="Digite aqui a sua senha" weakLabel="Senha fraca"
+						goodLabel="Senha boa" strongLabel="Senha forte"
+						value="#{RepresentanteManagerBean.repAtual.senha}" />
+					<f:facet name="footer">
+						<div align="center">
+							<h:commandButton action="#{RepresentanteManagerBean.cancelar()}"
+								value="Cancelar" immediate="true">
+								<f:ajax execute="@form" render="@form" />
+							</h:commandButton>
+							<h:commandButton action="#{RepresentanteManagerBean.salvar()}"
+								value="Salvar">
+								<f:ajax execute="@form" render="@form" />
+							</h:commandButton>
+						</div>
+					</f:facet>
+				</h:panelGrid>
+			</h:panelGroup>
+			</p:fieldset>
+		</h:form>
+		
+		 <h:form id="formAluno">
+		 <p:fieldset legend="Gerenciar Aluno">
+                <h:messages />
+                <h:panelGroup rendered="#{!AlunoManagerBean.editando}">
+                    <h:dataTable value="#{AlunoManagerBean.lista()}" var="administrator" id="lista" frame="box" rules="all" cellpadding="3" styleClass="table table-hover table-responsive table-striped">
+                        <f:facet name="header">
+                            <h:commandButton action="#{AlunoManagerBean.novo()}" value="Novo">			
+                                <f:ajax execute="@form" render="@form"/>
+                            </h:commandButton>
+                        </f:facet>					
+                        <h:column>
+                            <f:facet name="header"><h:outputText value="Id" /></f:facet>
+                            <h:outputText value="#{administrator.id}" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header"><h:outputText value="login" /></f:facet>
+                            <h:outputText value="#{administrator.login}" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header"><h:outputText value="Nome" /></f:facet>
+                            <h:outputText value="#{administrator.nome}" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header"><h:outputText value="Senha" /></f:facet>
+                            <h:outputText value="•••••" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header"><h:outputText value="Atualizar" /></f:facet>
+                            <h:commandLink action="#{AlunoManagerBean.atualizar(administrator)}" value="Atualizar">
+                                <f:ajax render="@form" execute="@form"/>
+                            </h:commandLink>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header"><h:outputText value="Excluir" /></f:facet>
+                            <h:commandLink action="#{AlunoManagerBean.apagar(administrator)}" value="Excluir" onclick="if (!confirm(confirmation_message))
+                                        return false">
+                                <f:ajax execute = "@form" render="@form"/>
+                            </h:commandLink>
+                        </h:column>	
+                    </h:dataTable>
+
+                </h:panelGroup>
+                <h:panelGroup rendered="#{AlunoManagerBean.editando}">
+                    <h:panelGrid columns="2">
+                        <f:facet name="header"><h:outputText value="Atualizando adminstrador" /></f:facet>
+
+                        <h:outputLabel value="Id" />
+                        <p:inputText value="#{AlunoManagerBean.adminAtual.id}" readonly="true"/>
+                        <h:outputLabel value="Login" />
+                        <p:inputText value="#{AlunoManagerBean.adminAtual.login}" maxlength="16" size="16"/>
+                        <h:outputLabel value="Nome" />
+                        <h:outputLabel value="Email" />
+                        <p:inputText value="#{AlunoManagerBean.alunoAtual.email}" maxlength="16" size="16"/>
+                        <p:inputText value="#{AlunoManagerBean.adminAtual.nome}" maxlength="40" size="40"/>
+                        <h:outputLabel value="Senha" />
+                        <p:password id="password" feedback="true"
+                                    promptLabel="Digite aqui a sua senha"
+                                    weakLabel="Senha fraca"
+                                    goodLabel="Senha boa"
+                                    strongLabel="Senha forte"
+                                    value="#{AlunoManagerBean.adminAtual.senha}" />
+                        <f:facet name="footer">
+                            <div align="center">
+                                <h:commandButton action="#{AlunoManagerBean.cancelar()}" value="Cancelar" immediate="true">
+                                    <f:ajax execute="@form" render="@form"/>
+                                </h:commandButton>
+                                <h:commandButton action="#{AlunoManagerBean.salvar()}" value="Salvar">
+                                    <f:ajax execute="@form" render="@form"/>
+                                </h:commandButton>
+                            </div>
+                        </f:facet>			
+                    </h:panelGrid>
+                </h:panelGroup>
+                </p:fieldset>
+            </h:form>
+				
+			<h:form>
+				<p:fieldset legend="Sistema">
+					<h:commandButton action="#{DistribuidorBean.distribuir()}" value="Rodar Sistema" />
+				</p:fieldset>
+			</h:form>
+			
+			<h:form>
+				<h:commandButton action="#{AdministradorLoginBean.sair()}" value="Sair" />
+			</h:form>
+			
+		</h:panelGroup>
+		
+		<h:panelGroup rendered="#{RepresentanteLoginBean.logado}">
+			<h:form>
+				<p:fieldset legend="Gerenciar Escola">
+				 <h:form id="form">
+					<h:messages />
+                <h:panelGroup>
+                        <f:facet name="header"><h:outputText value="Atualizando escola" /></f:facet>
+
+                        <h:outputLabel value="Id" />
+                        <p:inputText value="#{RepresentanteLoginBean.escola.id}" readonly="true"/>
+                        <h:outputLabel value="Nome" />
+                        <p:inputText value="#{RepresentanteLoginBean.escola.nome}" maxlength="40" size="40"/>
+                        <h:outputLabel value="Descrição" />
+                        <p:inputText value="#{RepresentanteLoginBean.escola.descricao}" maxlength="40" size="40"/>
+                        <h:outputLabel value="Conceito" />
+                        <p:inputText value="#{RepresentanteLoginBean.escola.conceito}" maxlength="40" size="40"/>
+                        <p:fieldset legend="Critérios">
+							<h:outputText value="Portugues: " />
+							<h:inputText value="#{RepresentanteLoginBean.nota1}" />
+							<h:outputText value="Matematica " />
+							<h:inputText value="#{RepresentanteLoginBean.nota2}" />
+							<h:outputText value="Historia: " />
+							<h:inputText value="#{RepresentanteLoginBean.nota3}" />
+							<h:outputText value="Geografia: " />
+							<h:inputText value="#{RepresentanteLoginBean.nota4}" />
+							<h:outputText value="Biologia: " />
+							<h:inputText value="#{RepresentanteLoginBean.nota5}" />
+							<h:commandButton action="#{RepresentanteLoginBean.salvar()}" value="Salvar" />
+						</p:fieldset>			
+                </h:panelGroup>
+                </h:form>
+				</p:fieldset>
+			</h:form>
+			
+			<h:form>
+				<h:commandButton action="#{RepresentanteLoginBean.sair()}" value="Sair" />
+			</h:form>
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>
+</html>

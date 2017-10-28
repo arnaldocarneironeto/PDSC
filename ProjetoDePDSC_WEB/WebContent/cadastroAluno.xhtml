@@ -13,31 +13,51 @@
         <ui:composition template="/Layout/Template.xhtml">
             
             <ui:define name="bar_esq">
-                <!-- Conteúdo da barra esquerda aqui-->
+                <h:form>
+                    <p:panelGrid class="panelGrid" columns="3">
+                        <h:outputText value="Nome:" />
+                        <h:inputText id="inp_nome" value="Teste" style="width: 500px" required="true" requiredMessage="Digite seu nome"/>
+                        <h:message for="inp_nome" />
+                        
+                        <h:outputText value="Email:" />
+                        <h:inputText id="inp_email" value="a@b" style="width: 400px" required="true" requiredMessage="Digite seu email"/>
+                        <h:message for="inp_email" />
+                        
+                        <h:outputText value="Login:" />
+                        <h:inputText id="inp_login" value="Teste" required="true" requiredMessage="Digite seu nome de usuário"/>
+                        <h:message for="inp_login" />
+                        
+                        <h:outputText value="Senha:" />
+                        <h:inputText id="inp_senha" value="****" required="true" requiredMessage="Digite sua senha"/>
+                        <h:message for="inp_senha" />
+                        
+                        <p:commandButton value="OK" actionListener=""/> 
+                        <p:button value="Cancelar" actionListener="" href="index.xhtml"/>
+                    </p:panelGrid>
+                </h:form>
             </ui:define>
             
             <ui:define name="cont">
                 <h:form>
-                <h:commandButton action="#{AlunoManagerBean.novo()}" value="Novo" />
                     <p:panelGrid class="panelGrid" columns="3">
                         <h:outputText value="Nome:" />
-                        <h:inputText id="inp_nome" value="#{AlunoManagerBean.alunoAtual.nome}" style="width: 500px" required="true" requiredMessage="Digite seu nome"/>
+                        <h:inputText id="inp_nome" value="Teste" style="width: 500px" required="true" requiredMessage="Digite seu nome"/>
                         <h:message for="inp_nome" />
                         
                         <h:outputText value="Email:" />
-                        <h:inputText id="inp_email" value="#{AlunoManagerBean.alunoAtual.email}" style="width: 400px" required="true" requiredMessage="Digite seu email"/>
+                        <h:inputText id="inp_email" value="a@b" style="width: 400px" required="true" requiredMessage="Digite seu email"/>
                         <h:message for="inp_email" />
                         
                         <h:outputText value="Login:" />
-                        <h:inputText id="inp_login" value="#{AlunoManagerBean.alunoAtual.nome}" required="true" requiredMessage="Digite seu nome de usuário"/>
+                        <h:inputText id="inp_login" value="Teste" required="true" requiredMessage="Digite seu nome de usuário"/>
                         <h:message for="inp_login" />
                         
                         <h:outputText value="Senha:" />
-                        <h:inputText id="inp_senha" value="#{AlunoManagerBean.alunoAtual.senha}" required="true" requiredMessage="Digite sua senha"/>
+                        <h:inputText id="inp_senha" value="****" required="true" requiredMessage="Digite sua senha"/>
                         <h:message for="inp_senha" />
                         
-                        <p:commandButton value="OK" actionListener="#{AlunoManagerBean.salvar()}"/> 
-                        <p:button value="Cancelar" actionListener="#{AlunoManagerBean.cancelar()}" href="index.xhtml"/>
+                        <p:commandButton value="OK" actionListener=""/> 
+                        <p:button value="Cancelar" actionListener="" href="index.xhtml"/>
                     </p:panelGrid>
                 </h:form>
             </ui:define>

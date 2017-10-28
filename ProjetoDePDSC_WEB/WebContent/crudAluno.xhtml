@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+    <ui:composition template="/Layout/Template.xhtml"> 
+        <ui:define name="tituloJanela"><h:outputText value="Cadastro de Aluno" /></ui:define>
+        <ui:define name="conteudo">
+            <script>
+                var confirmation_message = "Confirma exclusão?";
+            </script>
+            <h:form id="form">
+                <h:messages />
+                <h:panelGroup>
+                    <h:panelGrid columns="2" >
+                        <f:facet name="header"><h:outputText value="Atualizando aluno" /></f:facet>
+                        <h:outputLabel value="Login" />
+                        <p:inputText value="#{AlunoManagerBean.alunoAtual.login}" maxlength="16" size="16"/>
+                        <h:outputLabel value="Email" />
+                        <p:inputText value="#{AlunoManagerBean.alunoAtual.email}" maxlength="16" size="16"/>
+                        <h:outputLabel value="Nome" />
+                        <p:inputText value="#{AlunoManagerBean.alunoAtual.nome}" maxlength="40" size="40"/>
+                        <h:outputLabel value="Senha" />
+                        <p:password id="password" feedback="true"
+                                    promptLabel="Digite aqui a sua senha"
+                                    weakLabel="Senha fraca"
+                                    goodLabel="Senha boa"
+                                    strongLabel="Senha forte"
+                                    value="#{AlunoManagerBean.alunoAtual.senha}" />
+                        <f:facet name="footer">
+                            <div align="center">
+                                <h:commandButton action="#{AlunoManagerBean.cancelar()}" value="Cancelar" immediate="true">
+                                    <f:ajax execute="@form" render="@form"/>
+                                </h:commandButton>
+                                <h:commandButton action="#{AlunoManagerBean.salvar()}" value="Salvar">
+                                    <f:ajax execute="@form" render="@form"/>
+                                </h:commandButton>
+                            </div>
+                        </f:facet>			
+                    </h:panelGrid>
+                </h:panelGroup>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+    <h:head></h:head> 
+    <h:body> 
+    </h:body> 
+</html>

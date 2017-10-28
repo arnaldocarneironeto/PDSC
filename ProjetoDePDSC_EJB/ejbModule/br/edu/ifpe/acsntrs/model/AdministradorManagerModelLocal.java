@@ -20,6 +20,8 @@ public interface AdministradorManagerModelLocal
 	public Administrador read(String login, String senha);
 
 	public List<Administrador> read(String nome);
-
+	
+	public List<Administrador> read();
+	
 	public void delete(Administrador admin);
 }

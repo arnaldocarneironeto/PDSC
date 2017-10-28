@@ -4,6 +4,7 @@ import java.io.Serializable;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import br.edu.ifpe.acsntrs.entity.Representante;
@@ -31,11 +32,18 @@ public class RepresentanteLoginModel implements Serializable
 
 	public Representante getRepresentante(String login, String senha)
 	{
-		Representante rep = em.createNamedQuery("Representante.findByLogin", Representante.class).setParameter("login", login).getSingleResult();
-		if(rep != null && senha.equals(rep.getSenha()))
+		try
 		{
-			return rep;
+			Representante rep = em.createNamedQuery("Representante.findByLogin", Representante.class).setParameter("login", login).getSingleResult();
+			if(rep != null && senha.equals(rep.getSenha()))
+			{
+				return rep;
+			}
+			return null;
 		}
-		return null;
+		catch(NoResultException e)
+		{
+			return null;
+		}
 	}
 }

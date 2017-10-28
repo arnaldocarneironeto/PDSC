@@ -1,6 +1,7 @@
 package br.edu.ifpe.acsntrs.web.control;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
@@ -39,6 +40,11 @@ public class RepresentanteManagerBean implements Serializable
 	public String listar()
 	{
 		return "crud_representante?faces-redirect=true";
+	}
+	
+	public List<Representante> lista()
+	{
+		return repManagerModel.read();
 	}
 
 	public void novo()

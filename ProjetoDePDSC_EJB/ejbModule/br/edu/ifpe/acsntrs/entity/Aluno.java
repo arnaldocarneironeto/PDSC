@@ -1,5 +1,6 @@
 package br.edu.ifpe.acsntrs.entity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -39,7 +41,7 @@ public class Aluno extends Usuario
 {
     private static final long serialVersionUID = 8317245169749509422L;
     
-    @ElementCollection
+    @ElementCollection(fetch=FetchType.EAGER)
     @CollectionTable(name = "nota")
     @JoinTable(name = "nota", joinColumns = @JoinColumn(name = "id_usuario"))
     @MapKeyColumn(name = "disciplina")
@@ -57,6 +59,8 @@ public class Aluno extends Usuario
 
     public Aluno()
     {
+    	this.notas = new HashMap<>();
+    	this.preferencia = new ArrayList<>();
     }
 
     public Aluno(Integer id, String login, String senha, String email, String nome)

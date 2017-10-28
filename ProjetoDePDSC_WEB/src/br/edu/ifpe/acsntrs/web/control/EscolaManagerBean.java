@@ -1,6 +1,7 @@
 package br.edu.ifpe.acsntrs.web.control;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
@@ -39,6 +40,11 @@ public class EscolaManagerBean implements Serializable
 	public String listar()
 	{
 		return "crud_escola?faces-redirect=true";
+	}
+	
+	public List<Escola> lista()
+	{
+		return escolaManagerModel.read();
 	}
 
 	public void novo()

@@ -31,14 +31,15 @@
 
 		<ui:define name="cont">
 			<h:form>
-				<p:orderList value="#{OrderListView.escolas}" var="escola" controlsLocation="none"
-					itemLabel="#{escola}" itemValue="#{escola}" />
+				<p:orderList value="#{OrderListView.escolas}" var="escola"
+					controlsLocation="none" itemLabel="#{escola}" itemValue="#{escola}" />
 				<p:commandButton value="Submit" update="displayEscolas"
 					oncomplete="PF('escolasDialog').show()" style="margin-top:5px" />
 
 				<p:dialog modal="true" showEffect="fade" hideEffect="fade"
 					widgetVar="escolasDialog" header="Escolas" width="200">
-					<p:dataList id="displayEscolas" value="#{OrderListView.escolas}" var="escola">
+					<p:dataList id="displayEscolas" value="#{OrderListView.escolas}"
+						var="escola">
 						<h:outputText value="#{escola}" />
 					</p:dataList>
 				</p:dialog>
@@ -47,5 +48,3 @@
 	</ui:composition>
 </h:body>
 </html>
-
-
