@@ -1,17 +1,22 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package br.edu.ifpe.acsntrs.jpa;
 
-import br.edu.ifpe.acsntrs.jpa.exceptions.NonexistentEntityException;
-import br.edu.ifpe.acsntrs.jpa.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import br.edu.ifpe.acsntrs.entity.Representante;
-import java.util.ArrayList;
-import java.util.List;
 import br.edu.ifpe.acsntrs.entity.Aluno;
 import br.edu.ifpe.acsntrs.entity.Escola;
+import br.edu.ifpe.acsntrs.jpa.exceptions.NonexistentEntityException;
+import br.edu.ifpe.acsntrs.jpa.exceptions.RollbackFailureException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
@@ -42,10 +47,6 @@ public class EscolaJpaController implements Serializable
 
     public void create(Escola escola) throws RollbackFailureException, Exception
     {
-        if (escola.getRepresentantes() == null)
-        {
-            escola.setRepresentantes(new ArrayList<Representante>());
-        }
         if (escola.getAlunos_que_preferem_esta_escola() == null)
         {
             escola.setAlunos_que_preferem_esta_escola(new ArrayList<Aluno>());
@@ -59,16 +60,14 @@ public class EscolaJpaController implements Serializable
         {
             utx.begin();
             em = getEntityManager();
-            List<Representante> attachedRepresentantes =
-                    new ArrayList<Representante>();
-            for (Representante representantesRepresentanteToAttach : escola.getRepresentantes())
+            Representante representante = escola.getRepresentante();
+            if (representante != null)
             {
-                representantesRepresentanteToAttach =
-                        em.getReference(representantesRepresentanteToAttach.getClass(),
-                                        representantesRepresentanteToAttach.getId());
-                attachedRepresentantes.add(representantesRepresentanteToAttach);
+                representante =
+                        em.getReference(representante.getClass(),
+                                        representante.getId());
+                escola.setRepresentante(representante);
             }
-            escola.setRepresentantes(attachedRepresentantes);
             List<Aluno> attachedAlunos_que_preferem_esta_escola =
                     new ArrayList<Aluno>();
             for (Aluno alunos_que_preferem_esta_escolaAlunoToAttach : escola.getAlunos_que_preferem_esta_escola())
@@ -89,20 +88,17 @@ public class EscolaJpaController implements Serializable
             }
             escola.setAlunos_selecionados(attachedAlunos_selecionados);
             em.persist(escola);
-            for (Representante representantesRepresentante : escola.getRepresentantes())
+            if (representante != null)
             {
-                Escola oldEscolaOfRepresentantesRepresentante =
-                        representantesRepresentante.getEscola();
-                representantesRepresentante.setEscola(escola);
-                representantesRepresentante =
-                        em.merge(representantesRepresentante);
-                if (oldEscolaOfRepresentantesRepresentante != null)
+                Escola oldEscolaOfRepresentante = representante.getEscola();
+                if (oldEscolaOfRepresentante != null)
                 {
-                    oldEscolaOfRepresentantesRepresentante.getRepresentantes().
-                            remove(representantesRepresentante);
-                    oldEscolaOfRepresentantesRepresentante =
-                            em.merge(oldEscolaOfRepresentantesRepresentante);
+                    oldEscolaOfRepresentante.setRepresentante(null);
+                    oldEscolaOfRepresentante =
+                            em.merge(oldEscolaOfRepresentante);
                 }
+                representante.setEscola(escola);
+                representante = em.merge(representante);
             }
             for (Aluno alunos_que_preferem_esta_escolaAluno : escola.getAlunos_que_preferem_esta_escola())
             {
@@ -159,9 +155,8 @@ public class EscolaJpaController implements Serializable
             utx.begin();
             em = getEntityManager();
             Escola persistentEscola = em.find(Escola.class, escola.getId());
-            List<Representante> representantesOld =
-                    persistentEscola.getRepresentantes();
-            List<Representante> representantesNew = escola.getRepresentantes();
+            Representante representanteOld = persistentEscola.getRepresentante();
+            Representante representanteNew = escola.getRepresentante();
             List<Aluno> alunos_que_preferem_esta_escolaOld =
                     persistentEscola.getAlunos_que_preferem_esta_escola();
             List<Aluno> alunos_que_preferem_esta_escolaNew =
@@ -169,17 +164,13 @@ public class EscolaJpaController implements Serializable
             List<Aluno> alunos_selecionadosOld =
                     persistentEscola.getAlunos_selecionados();
             List<Aluno> alunos_selecionadosNew = escola.getAlunos_selecionados();
-            List<Representante> attachedRepresentantesNew =
-                    new ArrayList<Representante>();
-            for (Representante representantesNewRepresentanteToAttach : representantesNew)
+            if (representanteNew != null)
             {
-                representantesNewRepresentanteToAttach =
-                        em.getReference(representantesNewRepresentanteToAttach.getClass(),
-                                        representantesNewRepresentanteToAttach.getId());
-                attachedRepresentantesNew.add(representantesNewRepresentanteToAttach);
+                representanteNew =
+                        em.getReference(representanteNew.getClass(),
+                                        representanteNew.getId());
+                escola.setRepresentante(representanteNew);
             }
-            representantesNew = attachedRepresentantesNew;
-            escola.setRepresentantes(representantesNew);
             List<Aluno> attachedAlunos_que_preferem_esta_escolaNew =
                     new ArrayList<Aluno>();
             for (Aluno alunos_que_preferem_esta_escolaNewAlunoToAttach : alunos_que_preferem_esta_escolaNew)
@@ -203,33 +194,24 @@ public class EscolaJpaController implements Serializable
             alunos_selecionadosNew = attachedAlunos_selecionadosNew;
             escola.setAlunos_selecionados(alunos_selecionadosNew);
             escola = em.merge(escola);
-            for (Representante representantesOldRepresentante : representantesOld)
+            if (representanteOld != null &&
+                !representanteOld.equals(representanteNew))
             {
-                if (!representantesNew.contains(representantesOldRepresentante))
-                {
-                    representantesOldRepresentante.setEscola(null);
-                    representantesOldRepresentante =
-                            em.merge(representantesOldRepresentante);
-                }
+                representanteOld.setEscola(null);
+                representanteOld = em.merge(representanteOld);
             }
-            for (Representante representantesNewRepresentante : representantesNew)
+            if (representanteNew != null &&
+                !representanteNew.equals(representanteOld))
             {
-                if (!representantesOld.contains(representantesNewRepresentante))
+                Escola oldEscolaOfRepresentante = representanteNew.getEscola();
+                if (oldEscolaOfRepresentante != null)
                 {
-                    Escola oldEscolaOfRepresentantesNewRepresentante =
-                            representantesNewRepresentante.getEscola();
-                    representantesNewRepresentante.setEscola(escola);
-                    representantesNewRepresentante =
-                            em.merge(representantesNewRepresentante);
-                    if (oldEscolaOfRepresentantesNewRepresentante != null &&
-                        !oldEscolaOfRepresentantesNewRepresentante.equals(escola))
-                    {
-                        oldEscolaOfRepresentantesNewRepresentante.getRepresentantes().
-                                remove(representantesNewRepresentante);
-                        oldEscolaOfRepresentantesNewRepresentante =
-                                em.merge(oldEscolaOfRepresentantesNewRepresentante);
-                    }
+                    oldEscolaOfRepresentante.setRepresentante(null);
+                    oldEscolaOfRepresentante =
+                            em.merge(oldEscolaOfRepresentante);
                 }
+                representanteNew.setEscola(escola);
+                representanteNew = em.merge(representanteNew);
             }
             for (Aluno alunos_que_preferem_esta_escolaOldAluno : alunos_que_preferem_esta_escolaOld)
             {
@@ -334,12 +316,11 @@ public class EscolaJpaController implements Serializable
                 throw new NonexistentEntityException("The escola with id " + id +
                                                      " no longer exists.", enfe);
             }
-            List<Representante> representantes = escola.getRepresentantes();
-            for (Representante representantesRepresentante : representantes)
+            Representante representante = escola.getRepresentante();
+            if (representante != null)
             {
-                representantesRepresentante.setEscola(null);
-                representantesRepresentante =
-                        em.merge(representantesRepresentante);
+                representante.setEscola(null);
+                representante = em.merge(representante);
             }
             List<Aluno> alunos_que_preferem_esta_escola =
                     escola.getAlunos_que_preferem_esta_escola();

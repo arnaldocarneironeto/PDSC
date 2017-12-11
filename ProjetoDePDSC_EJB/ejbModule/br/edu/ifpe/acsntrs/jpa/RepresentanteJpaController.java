@@ -1,7 +1,10 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package br.edu.ifpe.acsntrs.jpa;
 
-import br.edu.ifpe.acsntrs.jpa.exceptions.NonexistentEntityException;
-import br.edu.ifpe.acsntrs.jpa.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -9,6 +12,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import br.edu.ifpe.acsntrs.entity.Escola;
 import br.edu.ifpe.acsntrs.entity.Representante;
+import br.edu.ifpe.acsntrs.jpa.exceptions.NonexistentEntityException;
+import br.edu.ifpe.acsntrs.jpa.exceptions.RollbackFailureException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -20,12 +25,7 @@ import javax.transaction.UserTransaction;
  */
 public class RepresentanteJpaController implements Serializable
 {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -40136275998246476L;
-
-	public RepresentanteJpaController(UserTransaction utx,
+    public RepresentanteJpaController(UserTransaction utx,
                                       EntityManagerFactory emf)
     {
         this.utx = utx;
@@ -57,7 +57,15 @@ public class RepresentanteJpaController implements Serializable
             em.persist(representante);
             if (escola != null)
             {
-                escola.getRepresentantes().add(representante);
+                Representante oldRepresentanteOfEscola =
+                        escola.getRepresentante();
+                if (oldRepresentanteOfEscola != null)
+                {
+                    oldRepresentanteOfEscola.setEscola(null);
+                    oldRepresentanteOfEscola =
+                            em.merge(oldRepresentanteOfEscola);
+                }
+                escola.setRepresentante(representante);
                 escola = em.merge(escola);
             }
             utx.commit();
@@ -107,12 +115,20 @@ public class RepresentanteJpaController implements Serializable
             representante = em.merge(representante);
             if (escolaOld != null && !escolaOld.equals(escolaNew))
             {
-                escolaOld.getRepresentantes().remove(representante);
+                escolaOld.setRepresentante(null);
                 escolaOld = em.merge(escolaOld);
             }
             if (escolaNew != null && !escolaNew.equals(escolaOld))
             {
-                escolaNew.getRepresentantes().add(representante);
+                Representante oldRepresentanteOfEscola =
+                        escolaNew.getRepresentante();
+                if (oldRepresentanteOfEscola != null)
+                {
+                    oldRepresentanteOfEscola.setEscola(null);
+                    oldRepresentanteOfEscola =
+                            em.merge(oldRepresentanteOfEscola);
+                }
+                escolaNew.setRepresentante(representante);
                 escolaNew = em.merge(escolaNew);
             }
             utx.commit();
@@ -173,7 +189,7 @@ public class RepresentanteJpaController implements Serializable
             Escola escola = representante.getEscola();
             if (escola != null)
             {
-                escola.getRepresentantes().remove(representante);
+                escola.setRepresentante(null);
                 escola = em.merge(escola);
             }
             em.remove(representante);

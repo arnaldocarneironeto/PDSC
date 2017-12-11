@@ -10,35 +10,31 @@ import javax.faces.bean.ManagedBean;
 import br.edu.ifpe.acsntrs.entity.Aluno;
 import br.edu.ifpe.acsntrs.model.AlunoManagerModel;
 
-/**
- * 
- * @author Arnaldo Carneiro <acsn@a.recife.ifpe.edu.br>
- */
-@ManagedBean(name = "AlunoManagerBean", eager = true)
+@ManagedBean(eager = true)
 @ApplicationScoped
-public class AlunoManagerBean implements Serializable
+public class AlunosCRUDBean implements Serializable
 {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 4229715974038721072L;
-
+	private static final long serialVersionUID = 5080647357343992845L;
+	
 	private Boolean editando;
-
+	
 	private Aluno alunoAtual;
-
+	
 	@EJB
 	private AlunoManagerModel alunoManagerModel;
 
-	public AlunoManagerBean()
+	public AlunosCRUDBean()
 	{
 		this.editando = false;
 		this.alunoAtual = new Aluno();
 	}
-
+	
 	public String listar()
 	{
-		return "crud_aluno?faces-redirect=true";
+		return "crudaluno?faces-redirect=true";
 	}
 	
 	public List<Aluno> lista()
@@ -46,32 +42,30 @@ public class AlunoManagerBean implements Serializable
 		return alunoManagerModel.read();
 	}
 	
-
 	public void novo()
 	{
 		this.alunoAtual = new Aluno();
 		this.editando = true;
 	}
-
+	
 	public String salvar()
 	{
-		alunoManagerModel.save(this.alunoAtual);
-		this.editando = false;
-		return "index?faces-redirect=true";
+		alunoManagerModel.save(alunoAtual);
+		return cancelar();
 	}
-
+	
 	public String cancelar()
 	{
 		this.editando = false;
 		return "index?faces-redirect=true";
 	}
-
+	
 	public void atualizar(Aluno aluno)
 	{
 		this.alunoAtual = aluno;
 		this.editando = true;
 	}
-
+	
 	public void apagar(Aluno aluno)
 	{
 		alunoManagerModel.delete(aluno);

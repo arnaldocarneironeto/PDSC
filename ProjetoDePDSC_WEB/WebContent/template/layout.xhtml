@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <ui:insert name="title">
+            <title>Sistema de distribuição de vagas de escolas entre alunos</title>
+        </ui:insert>
+    </h:head>
+    <h:body>
+        <h:form id="form">
+            <table width="100%">
+                <tr>
+                    <td colspan="2" align="center">
+                        <ui:insert name="cabecalho">
+                            <h1>Sistema de distribuição de vagas de escolas entre alunos</h1>
+                            <p>Bem vindo(a), [inserir nome do usuário aqui]</p>
+                            <h:form>
+                            	<h:panelGrid id="dadosUsuario" columns="2">
+	                            	<h:outputText id="nomeUsuario" value="Nome de usuário:" />
+	                            	<h:inputText id="nome" label="Nome" value="#" maxlength="200" size="100" />
+	                            	<h:outputText id="senhaUsuario" value="Senha:" />
+	                            	<h:inputSecret id="senha" label="Senha" value="#" maxlength="50" size="50" />
+	                            	<h:commandButton action="#" value="Entrar" />
+	                            </h:panelGrid>
+                            </h:form>
+                            <h:commandButton action="#" value="Sair" />
+                        </ui:insert>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="200px" valign="top">
+                        <ui:insert name="menu">
+                            <h1>Menu</h1>
+                            <h:panelGrid columns="1">
+                                <h:commandLink value="Cadastro de Usuário" action="usuario.xhtml"/>
+                            </h:panelGrid>
+                        </ui:insert>
+                    </td>
+                    <td>
+                        <ui:insert name="conteudo">
+                            Conteúdo
+                        </ui:insert>
+                    </td>
+                </tr>
+            </table>
+        </h:form>
+    </h:body>
+</html>

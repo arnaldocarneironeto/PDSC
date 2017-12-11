@@ -23,6 +23,7 @@ import javax.persistence.MapKeyColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
@@ -80,8 +81,8 @@ public class Escola implements Serializable
     @Column(name = "peso")
     private Map<String, Float> criterios = new HashMap<>();
 
-    @OneToMany(mappedBy = "escola")
-    private List<Representante> representantes;
+    @OneToOne(mappedBy = "escola")
+    private Representante representante;
 
     @ManyToMany(mappedBy = "preferencia")
     private List<Aluno> alunos_que_preferem_esta_escola;
@@ -142,14 +143,14 @@ public class Escola implements Serializable
         this.criterios = criterios;
     }
 
-    public List<Representante> getRepresentantes()
+    public Representante getRepresentante()
     {
-        return representantes;
+        return representante;
     }
 
-    public void setRepresentantes(List<Representante> representantes)
+    public void setRepresentante(Representante representante)
     {
-        this.representantes = representantes;
+        this.representante = representante;
     }
 
     public List<Aluno> getAlunos_que_preferem_esta_escola()

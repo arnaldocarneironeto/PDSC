@@ -1,8 +1,13 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package br.edu.ifpe.acsntrs.jpa;
 
+import br.edu.ifpe.acsntrs.entity.Usuario;
 import br.edu.ifpe.acsntrs.jpa.exceptions.NonexistentEntityException;
 import br.edu.ifpe.acsntrs.jpa.exceptions.RollbackFailureException;
-import br.edu.ifpe.acsntrs.entity.Usuario;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -19,12 +24,7 @@ import javax.transaction.UserTransaction;
  */
 public class UsuarioJpaController implements Serializable
 {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -1873833607272615407L;
-
-	public UsuarioJpaController(UserTransaction utx, EntityManagerFactory emf)
+    public UsuarioJpaController(UserTransaction utx, EntityManagerFactory emf)
     {
         this.utx = utx;
         this.emf = emf;
