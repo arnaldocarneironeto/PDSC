@@ -49,4 +49,10 @@ public class Representante extends Usuario
     {
         this.escola = escola;
     }
+
+	@Override
+	public Boolean isRepresentante()
+	{
+		return true;
+	}
 }

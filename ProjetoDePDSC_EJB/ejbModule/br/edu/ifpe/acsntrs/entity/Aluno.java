@@ -102,4 +102,10 @@ public class Aluno extends Usuario
     {
         return this.preferencia.indexOf(escola);
     }
+
+	@Override
+	public Boolean isAluno()
+	{
+		return true;
+	}
 }

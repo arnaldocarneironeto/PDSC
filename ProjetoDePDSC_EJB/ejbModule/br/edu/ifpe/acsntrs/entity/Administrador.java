@@ -35,4 +35,10 @@ public class Administrador extends Usuario
     {
         super(id, login, senha, email, nome);
     }
+
+	@Override
+	public Boolean isAdmin()
+	{
+		return true;
+	}
 }

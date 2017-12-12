@@ -126,6 +126,21 @@ public abstract class Usuario implements Serializable
     {
         this.nome = nome;
     }
+    
+    public Boolean isAluno()
+    {
+    	return false;
+    }
+
+    public Boolean isRepresentante()
+    {
+    	return false;
+    }
+
+    public Boolean isAdmin()
+    {
+    	return false;
+    }
 
     @Override
     public int hashCode()

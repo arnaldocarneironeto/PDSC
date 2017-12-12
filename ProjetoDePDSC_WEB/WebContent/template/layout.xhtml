@@ -13,17 +13,21 @@
                     <td colspan="2" align="center">
                         <ui:insert name="cabecalho">
                             <h1>Sistema de distribuição de vagas de escolas entre alunos</h1>
-                            <p>Bem vindo(a), [inserir nome do usuário aqui]</p>
-                            <h:form>
-                            	<h:panelGrid id="dadosUsuario" columns="2">
-	                            	<h:outputText id="nomeUsuario" value="Nome de usuário:" />
-	                            	<h:inputText id="nome" label="Nome" value="#" maxlength="200" size="100" />
-	                            	<h:outputText id="senhaUsuario" value="Senha:" />
-	                            	<h:inputSecret id="senha" label="Senha" value="#" maxlength="50" size="50" />
-	                            	<h:commandButton action="#" value="Entrar" />
-	                            </h:panelGrid>
-                            </h:form>
-                            <h:commandButton action="#" value="Sair" />
+                            <h:panelGrid rendered="#{loginBean.usuario != null}">
+	                            <p>Bem vindo(a), <h:outputText value="#{loginBean.usuario.nome}" /></p>
+	                            <h:commandButton action="#" value="Sair" />
+                            </h:panelGrid>
+                            <h:panelGrid rendered="#{loginBean.usuario == null}">
+	                            <h:form>
+	                            	<h:panelGrid id="dadosUsuario" columns="2">
+		                            	<h:outputText id="nomeUsuario" value="Nome de usuário:" />
+		                            	<h:inputText id="nome" label="Nome" value="#{loginBean.login}" maxlength="200" size="100" />
+		                            	<h:outputText id="senhaUsuario" value="Senha:" />
+		                            	<h:inputSecret id="senha" label="Senha" value="#{loginBean.senha}" maxlength="50" size="50" />
+		                            	<h:commandButton action="#{loginBean.logon()}" value="Entrar" />
+		                            </h:panelGrid>
+	                            </h:form>
+                            </h:panelGrid>
                         </ui:insert>
                     </td>
                 </tr>

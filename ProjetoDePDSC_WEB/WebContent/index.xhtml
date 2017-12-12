@@ -5,15 +5,18 @@
       xmlns:f="http://java.sun.com/jsf/core">
     <ui:composition template="/template/layout.xhtml">
         <ui:define name="menu"> <!-- Renderizar apenas se estiver logado -->
-            <h:panelGrid columns="1" rendered="true">
-                <h:commandLink value="Alterar dados" action="#" />
-<!--                 Para alunos -->
+            <h:panelGrid columns="1" rendered="#{loginBean.aluno != null or loginBean.representante != null}">
+                <h:commandButton value="Alterar dados" action="#{pageControlBean.vaParaAlteracaoCadastral()}" />
+            </h:panelGrid>
+            <h:panelGrid columns="1" rendered="#{loginBean.aluno != null}">
                 <h:commandLink value="Definir preferência de escolas" action="#" />
                 <h:commandLink value="Ver dados da escola para a qual foi aceito(a)" action="#" />
-<!--                 Para representantes -->
+            </h:panelGrid>
+            <h:panelGrid columns="1" rendered="#{loginBean.representante != null}">
                 <h:commandLink value="Gerenciar escola" action="#" />
                 <h:commandLink value="Ver lista de alunos" action="#" />
-<!--                 Para administradores -->
+            </h:panelGrid>
+            <h:panelGrid columns="1" rendered="#{loginBean.administrador != null}">
                 <h:commandLink value="Gerenciar alunos" action="#" />
                 <h:commandLink value="Gerenciar representantes" action="#" />
                 <h:commandLink value="Gerenciar administradores" action="#" />
@@ -21,7 +24,7 @@
             </h:panelGrid>
         </ui:define>
         <ui:define name="conteudo">
-        	<h:panelGroup id="conteudoaberto">
+        	<h:panelGroup id="conteudoaberto" rendered="#{loginBean.usuario == null}">
 	            <h1>Caríssimo aluno, cadastre-se aqui</h1>
 	            <h:form>
 	            	<h:panelGrid columns="2">
@@ -38,8 +41,9 @@
 	            	</h:panelGrid>
 	            	<h:commandButton action="#" value="Cadastre-se" />
 	            </h:form>
+	            <h1>Caro representante de escola: entre em contato diretamente conosco em sdvea@sdvea.com.br (endereço fictício)</h1>
             </h:panelGroup>
-            <h:panelGroup id="dadosAluno">
+            <h:panelGroup id="dadosAluno" rendered="#{loginBean.aluno != null}">
             	<h1>Veja e/ou altere seus dados</h1>
             	<h:form>
             		<h:panelGrid columns="2">
@@ -57,7 +61,7 @@
             		<h:commandButton action="#" value="Salvar alterações" />
             	</h:form>
             </h:panelGroup>
-            <h:panelGroup id="ordemEscolas">
+            <h:panelGroup id="ordemEscolas" rendered="#{loginBean.aluno != null}">
             	<h1>Ordene as escolas conforme a sua preferência</h1>
             	<h:form>
             		<p:growl id="msgs" showDetail="true" />
@@ -79,7 +83,7 @@
 	            	<h:commandButton action="#" value="Salvar" />
             	</h:form>
             </h:panelGroup>
-            <h:panelGroup id="escola">
+            <h:panelGroup id="escola" rendered="#{loginBean.aluno != null}">
             	<h1>Você foi selecionado(a) para esta escola</h1>
             	<h:form>
             		<h:panelGrid columns="2">
@@ -92,7 +96,7 @@
             		</h:panelGrid>
             	</h:form>
             </h:panelGroup>
-            <h:panelGroup id="dadosRepresentante">
+            <h:panelGroup id="dadosRepresentante" rendered="#{loginBean.representante != null}">
             	<h1>Veja e/ou altere seus dados</h1>
             	<h:form>
             		<h:panelGrid columns="2">
@@ -110,7 +114,7 @@
             		<h:commandButton action="#" value="Salvar alterações" />
             	</h:form>
             </h:panelGroup>
-            <h:panelGroup id="dadosEscola">
+            <h:panelGroup id="dadosEscola" rendered="#{loginBean.representante != null}">
             	<h1>Veja e/ou altere os dados da escola</h1>
             	<h:form>
             		<h:messages />
@@ -174,7 +178,7 @@
             		</h:panelGroup>
             	</h:form>
             </h:panelGroup>
-            <h:panelGroup>
+            <h:panelGroup rendered="#{loginBean.representante != null}">
             	<h1>Lista de alunos selecionados</h1>
             	<h:dataTable value="#{escolaManager.escola.alunos_selecionados}" var="aluno">
       				<h:column>
@@ -191,7 +195,7 @@
       				</h:column>
       			</h:dataTable>
             </h:panelGroup>
-            <h:panelGroup>
+            <h:panelGroup rendered="#{loginBean.administrador != null}">
             	<h1>Gerenciar alunos</h1>
             	<h:dataTable value="#{alunosCRUDBean.lista()}" var="aluno" id="listaAlunos">
 	            	<f:facet name="header">
@@ -254,7 +258,7 @@
                     </f:facet>
             	</h:panelGrid>
             </h:panelGroup>
-            <h:panelGroup>
+            <h:panelGroup rendered="#{loginBean.administrador != null}">
             	<h1>Gerenciar representantes</h1>
             	<h:dataTable value="#{representantesCRUDBean.lista()}" var="representante" id="listaRepresentantes">
 	            	<f:facet name="header">
@@ -317,7 +321,7 @@
                     </f:facet>
             	</h:panelGrid>
             </h:panelGroup>
-            <h:panelGroup>
+            <h:panelGroup rendered="#{loginBean.administrador != null}">
             	<h1>Gerenciar administradores</h1>
             	<h:dataTable value="#{administradoresCRUDBean.lista()}" var="administrador" id="listaAdministradores">
 	            	<f:facet name="header">
@@ -380,7 +384,7 @@
                     </f:facet>
             	</h:panelGrid>
             </h:panelGroup>
-            <h:panelGroup>
+            <h:panelGroup rendered="#{loginBean.administrador != null}">
             	<h:commandButton action="#" value="Iniciar fase de cadastros" />
             	<h:commandButton action="#" value="Iniciar fase de definição de preferências" />
             	<h:commandButton action="#" value="Executar distribuição de vagas" />
