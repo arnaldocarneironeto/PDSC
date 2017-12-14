@@ -15,7 +15,7 @@
                             <h1>Sistema de distribuição de vagas de escolas entre alunos</h1>
                             <h:panelGrid rendered="#{loginBean.usuario != null}">
 	                            <p>Bem vindo(a), <h:outputText value="#{loginBean.usuario.nome}" /></p>
-	                            <h:commandButton action="#" value="Sair" />
+	                            <h:commandButton action="#{loginBean.logoff()}" value="Sair" />
                             </h:panelGrid>
                             <h:panelGrid rendered="#{loginBean.usuario == null}">
 	                            <h:form>

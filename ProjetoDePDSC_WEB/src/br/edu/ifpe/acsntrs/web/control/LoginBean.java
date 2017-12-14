@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 
 import br.edu.ifpe.acsntrs.entity.Administrador;
@@ -17,7 +17,7 @@ import br.edu.ifpe.acsntrs.entity.Usuario;
 import br.edu.ifpe.acsntrs.model.UsuarioLoginModel;
 
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class LoginBean implements Serializable
 {
 	/**
@@ -45,7 +45,7 @@ public class LoginBean implements Serializable
 
 	public LoginBean()
 	{
-		logoff();
+//		logoff();
 	}
 	
 	@PostConstruct
@@ -56,12 +56,17 @@ public class LoginBean implements Serializable
 	
 	public void logon()
 	{
-		logoff();
+		this.usuario = null;
+		this.aluno = null;
+		this.representante = null;
+		this.administrador = null;
 		this.usuario = loginModel.getUsuario(login, senha);
 		this.login = "";
 		this.senha = "";
 		if(usuario != null)
 		{
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("user", usuario);
+			System.out.println("Entrou no login");
 			if(this.usuario.isAdmin())
 			{
 				this.administrador = (Administrador) usuario;
@@ -80,19 +85,23 @@ public class LoginBean implements Serializable
 			FacesContext facesContext = FacesContext.getCurrentInstance();
             facesContext.addMessage(null, new FacesMessage("Nome de usuário ou senha inválidos"));
 		}
+		System.out.println("Saiu do login");
 	}
 
-	public String logoff()
+	public void logoff()
 	{
+		System.out.println("Entrou no logoff");
 		this.usuario = null;
 		this.aluno = null;
 		this.representante = null;
 		this.administrador = null;
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		if(pageControlBean != null)
 		{
 			pageControlBean.vaParaInicio();
 		}
-		return "index?faces-redirect=true";
+//		return "index?faces-redirect=true";
+		System.out.println("Saiu do logoff");
 	}
 
 	public Usuario getUsuario()

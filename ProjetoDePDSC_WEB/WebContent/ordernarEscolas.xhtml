@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <ui:composition template="/template/layout.xhtml">
+        <ui:define name="menu">
+            <h:panelGrid columns="1" rendered="#{loginBean.aluno != null or loginBean.representante != null}">
+                <h:commandButton value="Alterar dados" action="#{pageControlBean.vaParaAlteracaoCadastral}" />
+                <h:commandButton value="Alterar dados" actionListener="#{pageControlBean.vaParaAlteracaoCadastral2}" />
+            </h:panelGrid>
+            <h:panelGrid columns="1" rendered="#{loginBean.aluno != null}">
+                <h:commandLink value="Definir preferência de escolas" action="#" />
+                <h:commandLink value="Ver dados da escola para a qual foi aceito(a)" action="#" />
+            </h:panelGrid>
+        </ui:define>
+        <ui:define name="conteudo">
+        	<h:panelGroup id="conteudoaberto" rendered="#{loginBean.usuario == null}">
+	            <h1>Caríssimo aluno, cadastre-se aqui</h1>
+	            <h:form>
+	            	<h:panelGrid columns="2">
+		            	<h:outputLabel value="Nome" for="cadNome" />
+		            	<h:inputText id="cadNome" value="Nome" label="Nome" />
+		            	<h:outputLabel value="E-mail" for="cadEmail" />
+		            	<h:inputText id="cadEmail" value="E-mail" label="Email" />
+		            	<h:outputLabel value="Nome de usuário" for="cadLogin" />
+		            	<h:inputText id="cadLogin" value="Login" label="Login" />
+		            	<h:outputLabel value="Senha" for="cadSenha" />
+		            	<h:inputSecret id="cadSenha" value="Senha" label="Senha" />
+		            	<h:outputLabel value="Confirmação de senha" for="cadConfSenha" />
+		            	<h:inputSecret id="cadConfSenha" value="Confirmação de senha" label="confSenha" />
+	            	</h:panelGrid>
+	            	<h:commandButton action="#" value="Cadastre-se" />
+	            </h:form>
+	            <h1>Caro representante de escola: entre em contato diretamente conosco em sdvea@sdvea.com.br (endereço fictício)</h1>
+            </h:panelGroup>
+            <h:panelGroup id="dadosAluno" rendered="#{loginBean.aluno != null and pageControlBean.isInAlteracaoCadastral()}">
+            	<h1>Veja e/ou altere seus dados</h1>
+            	<h:form>
+            		<h:panelGrid columns="2">
+	            		<h:outputLabel value="Nome" for="nomeAluno" />
+	            		<h:inputText id="nomeAluno" value="Nome do aluno"  />
+	            		<h:outputLabel value="Email" for="emailAluno" />
+	            		<h:inputText id="emailAluno" value="E-mail"  />
+	            		<h:outputLabel value="Nome de usuário" for="loginAluno" />
+	            		<h:inputText id="loginAluno" value="Nome de usuário" disabled="true" />
+	            		<h:outputLabel value="Senha" for="senhaAluno" />
+	            		<h:inputSecret id="senhaAluno" value="Senha"  />
+	            		<h:outputLabel value="Confirmação de Senha" for="confSenhaAluno" />
+	            		<h:inputSecret id="confSenhaAluno" value="Confirmação de Senha"  />
+            		</h:panelGrid>
+            		<h:commandButton action="#" value="Salvar alterações" />
+            	</h:form>
+            </h:panelGroup>
+            <h:panelGroup id="ordemEscolas" rendered="#{loginBean.aluno != null}">
+            	<h1>Ordene as escolas conforme a sua preferência</h1>
+            	<h:form>
+            		<p:growl id="msgs" showDetail="true" />
+	            	<p:orderList value="#{orderListView.escolas}" var="escola" itemValue="#{escola}" controlsLocation="right" responsive="true" >
+	            		<p:ajax event="select" listener="#{orderListView.onSelect}" update="msgs" />
+	            		<p:column styleClass="your-orderlist-row" style="width:33%;">
+	            			<h:outputText value="#{escola.nome}" />
+	            		</p:column>
+	            		<p:column styleClass="your-orderlist-row" style="width:5%;">
+	            			<h:outputText value="#{escola.conceito}" />
+	            		</p:column>
+	            		<p:column styleClass="your-orderlist-row" style="width:62%;">
+	            			<h:outputText value="#{escola.descricao}" />
+	            		</p:column>
+	            	</p:orderList>
+	            	<h:panelGroup>
+	            		<h:outputText value="#{escola}" />
+	            	</h:panelGroup>
+	            	<h:commandButton action="#" value="Salvar" />
+            	</h:form>
+            </h:panelGroup>
+            <h:panelGroup id="escola" rendered="#{loginBean.aluno != null}">
+            	<h1>Você foi selecionado(a) para esta escola</h1>
+            	<h:form>
+            		<h:panelGrid columns="2">
+	            		<h:outputLabel value="Nome" for="nomeEscola" />
+	            		<h:outputText value="#{escola.nome}" id="nomeEscola" />
+	            		<h:outputLabel value="Conceito" for="conceitoEscola" />
+	            		<h:outputText value="#{escola.conceito}" id="conceitoEscola" />
+	            		<h:outputLabel value="Descrição" for="descricaoEscola" />
+	            		<h:outputText value="#{escola.descricao}" id="descricaoEscola" />
+            		</h:panelGrid>
+            	</h:form>
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>

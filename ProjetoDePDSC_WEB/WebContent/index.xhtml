@@ -4,7 +4,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
     <ui:composition template="/template/layout.xhtml">
-        <ui:define name="menu"> <!-- Renderizar apenas se estiver logado -->
+        <ui:define name="menu">
             <h:panelGrid columns="1" rendered="#{loginBean.aluno != null or loginBean.representante != null}">
                 <h:commandButton value="Alterar dados" action="#{pageControlBean.vaParaAlteracaoCadastral()}" />
             </h:panelGrid>
@@ -32,10 +32,10 @@
 		            	<h:inputText id="cadNome" value="Nome" label="Nome" />
 		            	<h:outputLabel value="E-mail" for="cadEmail" />
 		            	<h:inputText id="cadEmail" value="E-mail" label="Email" />
-		            	<h:outputLabel value="Nome de usuário" for="cadNomeAluno" />
+		            	<h:outputLabel value="Nome de usuário" for="cadLogin" />
 		            	<h:inputText id="cadLogin" value="Login" label="Login" />
 		            	<h:outputLabel value="Senha" for="cadSenha" />
-		            	<h:inputSecret id="CadSenha" value="Senha" label="Senha" />
+		            	<h:inputSecret id="cadSenha" value="Senha" label="Senha" />
 		            	<h:outputLabel value="Confirmação de senha" for="cadConfSenha" />
 		            	<h:inputSecret id="cadConfSenha" value="Confirmação de senha" label="confSenha" />
 	            	</h:panelGrid>
@@ -43,7 +43,7 @@
 	            </h:form>
 	            <h1>Caro representante de escola: entre em contato diretamente conosco em sdvea@sdvea.com.br (endereço fictício)</h1>
             </h:panelGroup>
-            <h:panelGroup id="dadosAluno" rendered="#{loginBean.aluno != null}">
+            <h:panelGroup id="dadosAluno" rendered="#{loginBean.aluno != null and pageControlBean.isInAlteracaoCadastral()}">
             	<h1>Veja e/ou altere seus dados</h1>
             	<h:form>
             		<h:panelGrid columns="2">
@@ -96,7 +96,7 @@
             		</h:panelGrid>
             	</h:form>
             </h:panelGroup>
-            <h:panelGroup id="dadosRepresentante" rendered="#{loginBean.representante != null}">
+            <h:panelGroup id="dadosRepresentante" rendered="#{loginBean.representante != null and pageControlBean.isInAlteracaoCadastral()}">
             	<h1>Veja e/ou altere seus dados</h1>
             	<h:form>
             		<h:panelGrid columns="2">

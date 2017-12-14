@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <ui:composition template="/template/layout.xhtml">
+        <ui:define name="menu">
+            <h:panelGrid columns="1" rendered="#{loginBean.aluno != null or loginBean.representante != null}">
+                <h:commandButton value="Alterar dados" action="#{pageControlBean.vaParaAlteracaoCadastral}" />
+            </h:panelGrid>
+            <h:panelGrid columns="1" rendered="#{loginBean.aluno != null}">
+                <h:commandLink value="Definir preferência de escolas" action="#" />
+                <h:commandLink value="Ver dados da escola para a qual foi aceito(a)" action="#" />
+            </h:panelGrid>
+        </ui:define>
+        <ui:define name="conteudo">
+            <h:panelGroup id="dadosAluno" rendered="#{loginBean.aluno != null and pageControlBean.isInAlteracaoCadastral()}">
+            	<h1>Veja e/ou altere seus dados</h1>
+            	<h:form>
+            		<h:panelGrid columns="2">
+	            		<h:outputLabel value="Nome" for="nomeAluno" />
+	            		<h:inputText id="nomeAluno" value="Nome do aluno"  />
+	            		<h:outputLabel value="Email" for="emailAluno" />
+	            		<h:inputText id="emailAluno" value="E-mail"  />
+	            		<h:outputLabel value="Nome de usuário" for="loginAluno" />
+	            		<h:inputText id="loginAluno" value="Nome de usuário" disabled="true" />
+	            		<h:outputLabel value="Senha" for="senhaAluno" />
+	            		<h:inputSecret id="senhaAluno" value="Senha"  />
+	            		<h:outputLabel value="Confirmação de Senha" for="confSenhaAluno" />
+	            		<h:inputSecret id="confSenhaAluno" value="Confirmação de Senha"  />
+            		</h:panelGrid>
+            		<h:commandButton action="#" value="Salvar alterações" />
+            	</h:form>
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>

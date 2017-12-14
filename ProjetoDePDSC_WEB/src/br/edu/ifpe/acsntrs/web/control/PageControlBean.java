@@ -14,7 +14,7 @@ public class PageControlBean implements Serializable
 	 */
 	private static final long serialVersionUID = 601666043117479842L;
 	
-	private String page;
+	private int page;
 	
 	public PageControlBean()
 	{
@@ -23,21 +23,21 @@ public class PageControlBean implements Serializable
 	
 	public void vaParaInicio()
 	{
-		this.page = "";
+		this.page = 0;
 	}
 	
-	public void vaParaAlteracaoCadastral()
+//	public void vaParaAlteracaoCadastral()
+//	{
+//		this.page = 1;
+//	}
+//	
+	public String vaParaAlteracaoCadastral()
 	{
-		this.page = "crud";
+		return "alteraAluno?faces-redirect=true";
 	}
 
-	public String getPage()
+	public Boolean isInAlteracaoCadastral()
 	{
-		return page;
-	}
-
-	public void setPage(String page)
-	{
-		this.page = page;
+		return this.page == 1;
 	}
 }
