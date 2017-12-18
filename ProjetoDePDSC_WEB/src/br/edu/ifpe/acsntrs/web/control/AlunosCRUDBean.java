@@ -4,14 +4,18 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.enterprise.context.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 
 import br.edu.ifpe.acsntrs.entity.Aluno;
 import br.edu.ifpe.acsntrs.model.AlunoManagerModel;
 
+/**
+ * 
+ * @author Tássio
+ */
 @ManagedBean(eager = true)
-@ApplicationScoped
+@SessionScoped
 public class AlunosCRUDBean implements Serializable
 {
 	/**
@@ -44,20 +48,20 @@ public class AlunosCRUDBean implements Serializable
 	
 	public void novo()
 	{
+		System.out.println("chamou novo");
 		this.alunoAtual = new Aluno();
 		this.editando = true;
 	}
 	
-	public String salvar()
+	public void salvar()
 	{
 		alunoManagerModel.save(alunoAtual);
-		return cancelar();
+		this.editando = false;
 	}
 	
-	public String cancelar()
+	public void cancelar()
 	{
 		this.editando = false;
-		return "index?faces-redirect=true";
 	}
 	
 	public void atualizar(Aluno aluno)

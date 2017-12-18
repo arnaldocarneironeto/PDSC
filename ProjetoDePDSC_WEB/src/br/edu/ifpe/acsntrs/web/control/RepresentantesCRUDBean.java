@@ -4,14 +4,18 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.enterprise.context.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 
 import br.edu.ifpe.acsntrs.entity.Representante;
 import br.edu.ifpe.acsntrs.model.RepresentanteManagerModel;
 
+/**
+*
+* @author Tássio
+*/
 @ManagedBean(eager = true)
-@ApplicationScoped
+@SessionScoped
 public class RepresentantesCRUDBean implements Serializable
 {
 	/**
@@ -48,16 +52,15 @@ public class RepresentantesCRUDBean implements Serializable
 		this.editando = true;
 	}
 	
-	public String salvar()
+	public void salvar()
 	{
 		representanteManagerModel.save(representanteAtual);
-		return cancelar();
+		this.editando = false;
 	}
 	
-	public String cancelar()
+	public void cancelar()
 	{
 		this.editando = false;
-		return "index?faces-redirect=true";
 	}
 	
 	public void atualizar(Representante representante)

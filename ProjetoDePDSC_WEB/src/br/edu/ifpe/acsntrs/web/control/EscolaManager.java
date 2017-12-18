@@ -3,15 +3,20 @@ package br.edu.ifpe.acsntrs.web.control;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
-import javax.enterprise.context.SessionScoped;
+
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 
-import br.edu.ifpe.acsntrs.entity.Aluno;
 import br.edu.ifpe.acsntrs.entity.Escola;
+import br.edu.ifpe.acsntrs.model.EscolaManagerModel;
 
+/**
+ * 
+ * @author Tássio
+ */
 @ManagedBean
 @SessionScoped
 public class EscolaManager implements Serializable
@@ -22,39 +27,68 @@ public class EscolaManager implements Serializable
 	private static final long serialVersionUID = 174490391411374612L;
 	
 	private Escola escola;
-	private Entry<String, Float> criterio;
+	private String nomeCriterio;
+	private Float peso;
+	private Boolean editandoCriterio;
+	
+	@EJB
+	private EscolaManagerModel managerModel;
+	
+	@ManagedProperty("#{loginBean}")
+	private LoginBean loginBean;
 
 	public EscolaManager()
 	{
-		// TODO Auto-generated constructor stub
-		escola = new Escola();
-		Map<String, Float> c = new HashMap<>();
-		c.put("Matemática", (float) 6.0);
-		c.put("Português", (float) 4.0);
-		criterio = c.entrySet().iterator().next();
-		List<Aluno> alunos_selecionados = new ArrayList<>();
-		alunos_selecionados.add(newAluno("Ana", "ana@teste.com", "Português", 8.0, "Matemática", 7.5));
-		alunos_selecionados.add(newAluno("Bernardo", "bernardo@teste.com", "Matemática", 6.0, "Física", 6.5));
-		alunos_selecionados.add(newAluno("Carla", "carla@teste.com", "Português", 9.0, "Inglês", 8.5));
-		escola.setAlunos_selecionados(alunos_selecionados );
-		escola.setCriterios(c);
-	}
-
-	private Aluno newAluno(String nome, String email, String disciplina1, double d, String disciplina2, double e)
-	{
-		Aluno a = new Aluno();
-		a.setEmail(email);
-		a.setNome(nome);
-		Map<String, Float> n = new HashMap<>();
-		n.put(disciplina1, (float) d);
-		n.put(disciplina2, (float) e);
-		a.setNotas(n);
-		return a;
+		this.editandoCriterio = false;
 	}
 
 	public Escola getEscola()
 	{
+		escola = loginBean.getRepresentante().getEscola();
+		if(escola == null)
+		{
+			escola = new Escola();
+			escola.setAlunos_que_preferem_esta_escola(new ArrayList<>());
+			escola.setAlunos_selecionados(new ArrayList<>());
+			escola.setCriterios(new HashMap<>());
+		}
 		return escola;
+	}
+	
+	public void novo()
+	{
+		this.nomeCriterio = "";
+		this.peso = 0.0f;
+		this.editandoCriterio = true;
+	}
+	
+	public void adicionar()
+	{
+		this.escola.getCriterios().put(nomeCriterio, peso);
+		this.editandoCriterio = false;
+	}
+	
+	public void atualizar(Entry<String, Float> criterio)
+	{
+		this.nomeCriterio = criterio.getKey();
+		this.peso = criterio.getValue();
+		this.editandoCriterio = true;
+	}
+	
+	public void cancelar()
+	{
+		this.editandoCriterio = false;
+	}
+	
+	public void salvar()
+	{
+		loginBean.getRepresentante().setEscola(escola);
+		managerModel.save(escola);
+	}
+	
+	public void excluir(Entry<String, Float> criterio)
+	{
+		this.escola.getCriterios().remove(criterio.getKey());
 	}
 
 	public void setEscola(Escola escola)
@@ -62,13 +96,43 @@ public class EscolaManager implements Serializable
 		this.escola = escola;
 	}
 
-	public Entry<String, Float> getCriterio()
+	public LoginBean getLoginBean()
 	{
-		return criterio;
+		return loginBean;
 	}
 
-	public void setCriterio(Entry<String, Float> criterio)
+	public void setLoginBean(LoginBean loginBean)
 	{
-		this.criterio = criterio;
+		this.loginBean = loginBean;
+	}
+
+	public Boolean getEditandoCriterio()
+	{
+		return editandoCriterio;
+	}
+
+	public void setEditandoCriterio(Boolean editandoCriterio)
+	{
+		this.editandoCriterio = editandoCriterio;
+	}
+
+	public String getNomeCriterio()
+	{
+		return nomeCriterio;
+	}
+
+	public void setNomeCriterio(String nomeCriterio)
+	{
+		this.nomeCriterio = nomeCriterio;
+	}
+
+	public Float getPeso()
+	{
+		return peso;
+	}
+
+	public void setPeso(Float peso)
+	{
+		this.peso = peso;
 	}
 }

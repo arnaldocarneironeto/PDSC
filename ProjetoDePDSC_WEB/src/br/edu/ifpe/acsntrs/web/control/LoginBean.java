@@ -7,7 +7,7 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import br.edu.ifpe.acsntrs.entity.Administrador;
@@ -16,8 +16,12 @@ import br.edu.ifpe.acsntrs.entity.Representante;
 import br.edu.ifpe.acsntrs.entity.Usuario;
 import br.edu.ifpe.acsntrs.model.UsuarioLoginModel;
 
+/**
+ * 
+ * @author Arnaldo Carneiro <acsn@a.recife.ifpe.edu.br>
+ */
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class LoginBean implements Serializable
 {
 	/**
@@ -36,16 +40,20 @@ public class LoginBean implements Serializable
 	private String login;
 
 	private String senha;
+	
+	private Boolean logado;
 
 	@EJB
 	private UsuarioLoginModel loginModel;
 	
 	@ManagedProperty("#{pageControlBean}")
 	private PageControlBean pageControlBean;
+	
+	@ManagedProperty("#{alteraAluno}")
+	private AlteraAluno alteraAluno;
 
 	public LoginBean()
 	{
-//		logoff();
 	}
 	
 	@PostConstruct
@@ -54,7 +62,7 @@ public class LoginBean implements Serializable
 		pageControlBean.vaParaInicio();
 	}
 	
-	public void logon()
+	public String logon()
 	{
 		this.usuario = null;
 		this.aluno = null;
@@ -65,8 +73,6 @@ public class LoginBean implements Serializable
 		this.senha = "";
 		if(usuario != null)
 		{
-			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("user", usuario);
-			System.out.println("Entrou no login");
 			if(this.usuario.isAdmin())
 			{
 				this.administrador = (Administrador) usuario;
@@ -74,6 +80,7 @@ public class LoginBean implements Serializable
 			if(this.usuario.isAluno())
 			{
 				this.aluno = (Aluno) usuario;
+				alteraAluno.setAluno(aluno);
 			}
 			if(this.usuario.isRepresentante())
 			{
@@ -85,12 +92,11 @@ public class LoginBean implements Serializable
 			FacesContext facesContext = FacesContext.getCurrentInstance();
             facesContext.addMessage(null, new FacesMessage("Nome de usuário ou senha inválidos"));
 		}
-		System.out.println("Saiu do login");
+		return "index?faces-redirect=true";
 	}
 
-	public void logoff()
+	public String logoff()
 	{
-		System.out.println("Entrou no logoff");
 		this.usuario = null;
 		this.aluno = null;
 		this.representante = null;
@@ -100,8 +106,7 @@ public class LoginBean implements Serializable
 		{
 			pageControlBean.vaParaInicio();
 		}
-//		return "index?faces-redirect=true";
-		System.out.println("Saiu do logoff");
+		return "index?faces-redirect=true";
 	}
 
 	public Usuario getUsuario()
@@ -167,5 +172,25 @@ public class LoginBean implements Serializable
 	public void setPageControlBean(PageControlBean pageControlBean)
 	{
 		this.pageControlBean = pageControlBean;
+	}
+
+	public Boolean getLogado()
+	{
+		return logado;
+	}
+
+	public void setLogado(Boolean logado)
+	{
+		this.logado = logado;
+	}
+
+	public AlteraAluno getAlteraAluno()
+	{
+		return alteraAluno;
+	}
+
+	public void setAlteraAluno(AlteraAluno alteraAluno)
+	{
+		this.alteraAluno = alteraAluno;
 	}
 }

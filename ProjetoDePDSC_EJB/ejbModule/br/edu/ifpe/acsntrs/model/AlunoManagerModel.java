@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import br.edu.ifpe.acsntrs.entity.Aluno;
 import br.edu.ifpe.acsntrs.jpa.AlunoJpaController;
@@ -113,5 +114,22 @@ public class AlunoManagerModel implements AlunoManagerModelLocal
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public boolean alreadyExists(String login, String email)
+	{
+		try
+		{
+			em.createNamedQuery("Aluno.findByLogin", Aluno.class).setParameter("login", login).getSingleResult();
+			return true;
+		}
+		catch(NoResultException e) {}
+		try
+		{
+			em.createNamedQuery("Aluno.findByEmail", Aluno.class).setParameter("email", email).getSingleResult();
+			return true;
+		}
+		catch (NoResultException e) {}
+		return false;
 	}
 }

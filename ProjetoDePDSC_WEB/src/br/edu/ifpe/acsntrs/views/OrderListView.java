@@ -14,6 +14,10 @@ import br.edu.ifpe.acsntrs.entity.Escola;
 import br.edu.ifpe.acsntrs.model.AlunoManagerModel;
 import br.edu.ifpe.acsntrs.model.EscolaManagerModel; 
 
+/**
+ * 
+ * @author Tássio
+ */
 @RequestScoped 
 @ManagedBean
 public class OrderListView {
