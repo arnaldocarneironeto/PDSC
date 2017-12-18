@@ -84,7 +84,7 @@ public class Escola implements Serializable
     @OneToOne(mappedBy = "escola")
     private Representante representante;
 
-    @ManyToMany(mappedBy = "preferencia")
+    @ManyToMany(mappedBy = "preferencia", fetch = FetchType.EAGER)
     private List<Aluno> alunos_que_preferem_esta_escola;
 
     @OneToMany(mappedBy = "escola_que_selecionou_este_aluno")
@@ -92,6 +92,11 @@ public class Escola implements Serializable
     
     @Transient
     private List<Aluno> preferencias_desta_escola;
+    
+    public Escola()
+    {
+    	this.alunos_selecionados = new ArrayList<>();
+    }
 
     public Integer getId()
     {
@@ -230,6 +235,7 @@ public class Escola implements Serializable
         Map<Aluno, Double> medias = new HashMap<>();
         for(Aluno aluno: alunos)
         {
+        	System.out.println("chamou isso");
             medias.put(aluno, this.getMediaDoAluno(aluno));
         }
         List<Map.Entry<Aluno, Double>> lista = new LinkedList<>(medias.entrySet());

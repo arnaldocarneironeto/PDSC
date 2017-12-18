@@ -53,7 +53,7 @@ public class Aluno extends Usuario
     @JoinColumn(name = "escola_id")
     private List<Escola> preferencia;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "escola_que_selecionou_id")
     private Escola escola_que_selecionou_este_aluno = null;
 

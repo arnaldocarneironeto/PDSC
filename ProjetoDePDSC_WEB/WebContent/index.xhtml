@@ -131,7 +131,7 @@
                             <h:panelGroup>
                                 <h:outputText value="#{escola}" />
                             </h:panelGroup>
-                            <p:commandButton action="#" value="Salvar" />
+                            <p:commandButton action="#{orderListView.atualizarPreferencia(loginBean.aluno)}" value="Salvar" />
                         </h:form>
                     </p:panel>
 
@@ -139,11 +139,11 @@
                         <h:form>
                             <h:panelGrid columns="2">
                                 <p:outputLabel value="Nome" for="nomeEscola" />
-                                <p:outputLabel value="#{escola.nome}" id="nomeEscola" />
+                                <p:outputLabel value="#{loginBean.aluno.escola_que_selecionou_este_aluno.nome}" id="nomeEscola" />
                                 <p:outputLabel value="Conceito" for="conceitoEscola" />
-                                <p:outputLabel value="#{escola.conceito}" id="conceitoEscola" />
+                                <p:outputLabel value="#{loginBean.aluno.escola_que_selecionou_este_aluno.conceito}" id="conceitoEscola" />
                                 <p:outputLabel value="Descrição" for="descricaoEscola" />
-                                <p:outputLabel value="#{escola.descricao}" id="descricaoEscola" />
+                                <p:outputLabel value="#{loginBean.aluno.escola_que_selecionou_este_aluno.descricao}" id="descricaoEscola" />
                             </h:panelGrid>
                         </h:form>
                     </p:panel>
@@ -152,13 +152,13 @@
                         <h:form>
                             <h:panelGrid columns="2">
                                 <p:outputLabel value="Nome" for="nomeRepresentante" />
-                                <p:inputText id="nomeRepresentante" value="Nome do representante"  />
+                                <p:inputText id="nomeRepresentante" value="#{representantesCRUDBean.representanteAtual.nome}"  />
                                 <p:outputLabel value="Email" for="emailRepresentante" />
-                                <p:inputText id="emailRepresentante" value="E-mail"  />
+                                <p:inputText id="emailRepresentante" value="#{representantesCRUDBean.representanteAtual.email}"  />
                                 <p:outputLabel value="Nome de usuário" for="loginRepresentante" />
-                                <p:inputText id="loginRepresentante" value="Nome de usuário" disabled="true" />
+                                <p:inputText id="loginRepresentante" value="#{representantesCRUDBean.representanteAtual.login}" disabled="true" />
                                 <p:outputLabel value="Senha" for="senhaRepresentante" />
-                                <p:password id="senhaRepresentante" value="Senha"  />
+                                <p:password id="senhaRepresentante" value="#{representantesCRUDBean.representanteAtual.senha}"  />
                                 <p:outputLabel value="Confirmação de Senha" for="confSenhaRepresentante" />
                                 <p:password id="confSenhaRepresentante" value="Confirmação de Senha"  />
                             </h:panelGrid>
@@ -172,13 +172,13 @@
                             <p:messages />
                             <h:panelGroup>
                                 <p:outputLabel value="Nome" for="escolaNome" />
-                                <p:inputText id="escolaNome" value="#{escolaManager.escola.nome}" />
+                                <p:inputText id="escolaNome" value="#{escolaManager.nome}" />
                                 <p:outputLabel value="Conceito" for="escolaConceito" />
-                                <p:inputText id="escolaConceito" value="#{escolaManager.escola.conceito}" />
+                                <p:inputText id="escolaConceito" value="#{escolaManager.conceito}" />
                                 <p:outputLabel value="Descrição" for="escolaDescrição" />
-                                <p:inputText id="escolaDescrição" value="#{escolaManager.escola.descricao}" />
+                                <p:inputText id="escolaDescrição" value="#{escolaManager.descricao}" />
                                 <p:outputLabel value="Número de vagas disponíveis" for="escolaVagas" />
-                                <p:inputText id="escolaVagas" value="#{escolaManager.escola.vagas}" />
+                                <p:inputText id="escolaVagas" value="#{escolaManager.vagas}" />
                             </h:panelGroup>
 
                             <h:panelGroup rendered="#{!escolaManager.editandoCriterio}">
@@ -455,9 +455,9 @@
 
                     <h:panelGroup rendered="#{loginBean.administrador != null and pageControlBean.isInGerenciarSistema()}">
                     	<h:form>
-	                        <p:commandButton action="#" value="Iniciar fase de cadastros" />
-	                        <p:commandButton action="#" value="Iniciar fase de definição de preferências" />
-	                        <p:commandButton action="#" value="Executar distribuição de vagas" />
+	                        <p:commandButton action="#{distribuidorBean.setCadastrando()}" value="Iniciar fase de cadastros" rendered="#{distribuidorBean.isDistribuindo()}"/>
+	                        <p:commandButton action="#{distribuidorBean.setOrdenando()}" value="Iniciar fase de definição de preferências" rendered="#{distribuidorBean.isCadastrando()}" />
+	                        <p:commandButton action="#{distribuidorBean.setDistribuindo()}" value="Executar distribuição de vagas" rendered="#{distribuidorBean.isOrdenando()}" />
                         </h:form>
                     </h:panelGroup>
 

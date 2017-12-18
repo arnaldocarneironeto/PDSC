@@ -3,6 +3,7 @@ package br.edu.ifpe.acsntrs.web.control;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.ejb.EJB;
@@ -26,9 +27,14 @@ public class EscolaManager implements Serializable
 	 */
 	private static final long serialVersionUID = 174490391411374612L;
 	
+	private String nome;
+	private String conceito;
+	private String descricao;
+	private Integer vagas;
 	private Escola escola;
 	private String nomeCriterio;
 	private Float peso;
+	private Map<String, Float> criterios;
 	private Boolean editandoCriterio;
 	
 	@EJB
@@ -48,10 +54,16 @@ public class EscolaManager implements Serializable
 		if(escola == null)
 		{
 			escola = new Escola();
+			escola.setRepresentante(loginBean.getRepresentante());
 			escola.setAlunos_que_preferem_esta_escola(new ArrayList<>());
 			escola.setAlunos_selecionados(new ArrayList<>());
 			escola.setCriterios(new HashMap<>());
 		}
+		nome = escola.getNome();
+		conceito = escola.getConceito();
+		descricao = escola.getDescricao();
+		vagas = escola.getVagas();
+		criterios = escola.getCriterios();
 		return escola;
 	}
 	
@@ -82,6 +94,13 @@ public class EscolaManager implements Serializable
 	
 	public void salvar()
 	{
+		escola.setNome(nome);
+		escola.setConceito(conceito);
+		escola.setDescricao(descricao);
+		escola.setVagas(vagas);
+		escola.setCriterios(criterios);
+		System.out.println(escola.getAlunos_que_preferem_esta_escola());
+		
 		loginBean.getRepresentante().setEscola(escola);
 		managerModel.save(escola);
 	}
@@ -134,5 +153,55 @@ public class EscolaManager implements Serializable
 	public void setPeso(Float peso)
 	{
 		this.peso = peso;
+	}
+
+	public String getNome()
+	{
+		return nome;
+	}
+
+	public void setNome(String nome)
+	{
+		this.nome = nome;
+	}
+
+	public String getConceito()
+	{
+		return conceito;
+	}
+
+	public void setConceito(String conceito)
+	{
+		this.conceito = conceito;
+	}
+
+	public String getDescricao()
+	{
+		return descricao;
+	}
+
+	public void setDescricao(String descricao)
+	{
+		this.descricao = descricao;
+	}
+
+	public Integer getVagas()
+	{
+		return vagas;
+	}
+
+	public void setVagas(Integer vagas)
+	{
+		this.vagas = vagas;
+	}
+
+	public Map<String, Float> getCriterios()
+	{
+		return criterios;
+	}
+
+	public void setCriterios(Map<String, Float> criterios)
+	{
+		this.criterios = criterios;
 	}
 }

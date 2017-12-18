@@ -93,7 +93,7 @@ public class AlunoManagerModel implements AlunoManagerModelLocal
 	{
 		return em.createNamedQuery("Aluno.findByNome", Aluno.class).setParameter("nome", nome).getResultList();
 	}
-
+	
 	@Override
 	public List<Aluno> read()
 	{
