@@ -1,7 +1,6 @@
 package br.edu.ifpe.acsntrs.web.control;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -12,7 +11,9 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
 import br.edu.ifpe.acsntrs.entity.Escola;
+import br.edu.ifpe.acsntrs.entity.Representante;
 import br.edu.ifpe.acsntrs.model.EscolaManagerModel;
+import br.edu.ifpe.acsntrs.model.RepresentanteManagerModel;
 
 /**
  * 
@@ -31,7 +32,6 @@ public class EscolaManager implements Serializable
 	private String conceito;
 	private String descricao;
 	private Integer vagas;
-	private Escola escola;
 	private String nomeCriterio;
 	private Float peso;
 	private Map<String, Float> criterios;
@@ -40,6 +40,9 @@ public class EscolaManager implements Serializable
 	@EJB
 	private EscolaManagerModel managerModel;
 	
+	@EJB
+	private RepresentanteManagerModel representanteManagerModel;
+	
 	@ManagedProperty("#{loginBean}")
 	private LoginBean loginBean;
 
@@ -47,24 +50,23 @@ public class EscolaManager implements Serializable
 	{
 		this.editandoCriterio = false;
 	}
-
-	public Escola getEscola()
+	
+	public void atualizaView()
 	{
-		escola = loginBean.getRepresentante().getEscola();
-		if(escola == null)
+		Representante rep = loginBean.getRepresentante();
+		if(rep != null)
 		{
-			escola = new Escola();
-			escola.setRepresentante(loginBean.getRepresentante());
-			escola.setAlunos_que_preferem_esta_escola(new ArrayList<>());
-			escola.setAlunos_selecionados(new ArrayList<>());
-			escola.setCriterios(new HashMap<>());
+			Escola escola = rep.getEscola();
+			if(escola == null)
+			{
+				escola = new Escola();
+			}
+			nome = escola.getNome();
+			conceito = escola.getConceito();
+			descricao = escola.getDescricao();
+			vagas = escola.getVagas();
+			criterios = escola.getCriterios() != null? escola.getCriterios(): new HashMap<>();
 		}
-		nome = escola.getNome();
-		conceito = escola.getConceito();
-		descricao = escola.getDescricao();
-		vagas = escola.getVagas();
-		criterios = escola.getCriterios();
-		return escola;
 	}
 	
 	public void novo()
@@ -76,7 +78,7 @@ public class EscolaManager implements Serializable
 	
 	public void adicionar()
 	{
-		this.escola.getCriterios().put(nomeCriterio, peso);
+		criterios.put(nomeCriterio, peso);
 		this.editandoCriterio = false;
 	}
 	
@@ -94,25 +96,21 @@ public class EscolaManager implements Serializable
 	
 	public void salvar()
 	{
+		Escola escola = loginBean.getRepresentante().getEscola() != null? loginBean.getRepresentante().getEscola(): new Escola();
 		escola.setNome(nome);
 		escola.setConceito(conceito);
 		escola.setDescricao(descricao);
 		escola.setVagas(vagas);
 		escola.setCriterios(criterios);
-		System.out.println(escola.getAlunos_que_preferem_esta_escola());
-		
-		loginBean.getRepresentante().setEscola(escola);
+		escola.setRepresentante(loginBean.getRepresentante());
 		managerModel.save(escola);
+		loginBean.getRepresentante().setEscola(escola);
+		representanteManagerModel.save(loginBean.getRepresentante());
 	}
 	
 	public void excluir(Entry<String, Float> criterio)
 	{
-		this.escola.getCriterios().remove(criterio.getKey());
-	}
-
-	public void setEscola(Escola escola)
-	{
-		this.escola = escola;
+		criterios.remove(criterio.getKey());
 	}
 
 	public LoginBean getLoginBean()
@@ -123,36 +121,6 @@ public class EscolaManager implements Serializable
 	public void setLoginBean(LoginBean loginBean)
 	{
 		this.loginBean = loginBean;
-	}
-
-	public Boolean getEditandoCriterio()
-	{
-		return editandoCriterio;
-	}
-
-	public void setEditandoCriterio(Boolean editandoCriterio)
-	{
-		this.editandoCriterio = editandoCriterio;
-	}
-
-	public String getNomeCriterio()
-	{
-		return nomeCriterio;
-	}
-
-	public void setNomeCriterio(String nomeCriterio)
-	{
-		this.nomeCriterio = nomeCriterio;
-	}
-
-	public Float getPeso()
-	{
-		return peso;
-	}
-
-	public void setPeso(Float peso)
-	{
-		this.peso = peso;
 	}
 
 	public String getNome()
@@ -195,6 +163,26 @@ public class EscolaManager implements Serializable
 		this.vagas = vagas;
 	}
 
+	public String getNomeCriterio()
+	{
+		return nomeCriterio;
+	}
+
+	public void setNomeCriterio(String nomeCriterio)
+	{
+		this.nomeCriterio = nomeCriterio;
+	}
+
+	public Float getPeso()
+	{
+		return peso;
+	}
+
+	public void setPeso(Float peso)
+	{
+		this.peso = peso;
+	}
+
 	public Map<String, Float> getCriterios()
 	{
 		return criterios;
@@ -203,5 +191,15 @@ public class EscolaManager implements Serializable
 	public void setCriterios(Map<String, Float> criterios)
 	{
 		this.criterios = criterios;
+	}
+
+	public Boolean getEditandoCriterio()
+	{
+		return editandoCriterio;
+	}
+
+	public void setEditandoCriterio(Boolean editandoCriterio)
+	{
+		this.editandoCriterio = editandoCriterio;
 	}
 }

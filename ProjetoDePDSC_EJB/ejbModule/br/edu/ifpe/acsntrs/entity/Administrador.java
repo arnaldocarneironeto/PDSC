@@ -21,7 +21,8 @@ import javax.xml.bind.annotation.XmlRootElement;
             @NamedQuery(name = "Administrador.findById", query = "SELECT a FROM Administrador a WHERE a.id = :id"),
             @NamedQuery(name = "Administrador.findByLogin", query = "SELECT a FROM Administrador a WHERE a.login = :login"),
             @NamedQuery(name = "Administrador.findByEmail", query = "SELECT a FROM Administrador a WHERE a.email = :email"),
-            @NamedQuery(name = "Administrador.findByNome", query = "SELECT a FROM Administrador a WHERE a.nome = :nome")
+            @NamedQuery(name = "Administrador.findByNome", query = "SELECT a FROM Administrador a WHERE a.nome = :nome"),
+            @NamedQuery(name = "Administrador.countAll", query = "SELECT COUNT(a) FROM Administrador a")
         })
 public class Administrador extends Usuario
 {

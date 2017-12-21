@@ -2,7 +2,6 @@ package br.edu.ifpe.acsntrs.model;
 
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.LocalBean;
 import javax.ejb.SessionContext;
@@ -13,7 +12,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import br.edu.ifpe.acsntrs.entity.Aluno;
-import br.edu.ifpe.acsntrs.jpa.AlunoJpaController;
 
 /**
  * Session Bean implementation class AlunoManagerModel
@@ -31,16 +29,8 @@ public class AlunoManagerModel implements AlunoManagerModelLocal
 	@Resource
 	SessionContext context;
 
-	private AlunoJpaController controller;
-
 	public AlunoManagerModel()
 	{
-	}
-
-	@PostConstruct
-	public void init()
-	{
-		this.controller = new AlunoJpaController(context.getUserTransaction(), em.getEntityManagerFactory());
 	}
 
 	public Aluno save(Aluno aluno)
@@ -50,11 +40,15 @@ public class AlunoManagerModel implements AlunoManagerModelLocal
 		{
 			if(aluno.getId() == null || read(aluno) == null)
 			{
-				controller.create(aluno);
+				context.getUserTransaction().begin();
+				em.persist(aluno);
+				context.getUserTransaction().commit();
 			}
 			else
 			{
-				controller.edit(aluno);
+				context.getUserTransaction().begin();
+				em.merge(aluno);
+				context.getUserTransaction().commit();
 			}
 
 			return read(aluno);
@@ -72,7 +66,7 @@ public class AlunoManagerModel implements AlunoManagerModelLocal
 		Aluno result = null;
 		if(aluno != null && aluno.getId() != null)
 		{
-			result = controller.findAluno(aluno.getId());
+            return em.find(Aluno.class, aluno.getId());
 		}
 		return result;
 	}
@@ -107,7 +101,10 @@ public class AlunoManagerModel implements AlunoManagerModelLocal
 		{
 			try
 			{
-				controller.destroy(aluno.getId());
+				context.getUserTransaction().begin();
+				aluno = em.getReference(Aluno.class, aluno.getId());
+				em.remove(aluno);
+				context.getUserTransaction().commit();
 			}
 			catch(Exception e)
 			{

@@ -167,72 +167,77 @@
                     </p:panel>
 
                     <h:panelGroup id="dadosEscola" rendered="#{loginBean.representante != null and pageControlBean.isInGerenciarEscola()}" >
-                        <h1>Veja e/ou altere os dados da escola</h1>
-                        <h:form>
-                            <p:messages />
-                            <h:panelGroup>
-                                <p:outputLabel value="Nome" for="escolaNome" />
-                                <p:inputText id="escolaNome" value="#{escolaManager.nome}" />
-                                <p:outputLabel value="Conceito" for="escolaConceito" />
-                                <p:inputText id="escolaConceito" value="#{escolaManager.conceito}" />
-                                <p:outputLabel value="Descrição" for="escolaDescrição" />
-                                <p:inputText id="escolaDescrição" value="#{escolaManager.descricao}" />
-                                <p:outputLabel value="Número de vagas disponíveis" for="escolaVagas" />
-                                <p:inputText id="escolaVagas" value="#{escolaManager.vagas}" />
-                            </h:panelGroup>
-
-                            <h:panelGroup rendered="#{!escolaManager.editandoCriterio}">
-                                <p:dataTable value="#{escolaManager.escola.criterios.entrySet().toArray()}" var="criterio">
-                                    <f:facet name="header">
-                                        <p:commandButton action="#{escolaManager.novo()}" value="Novo critério">
-                                            <f:ajax execute="@form" render="@form" />
-                                        </p:commandButton>
-                                    </f:facet>
-                                    <p:column>
-                                        <f:facet name="header"><p:outputLabel value="Disciplina" /></f:facet>
-                                        <p:outputLabel value="#{criterio.key}" />
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header"><p:outputLabel value="Critério" /></f:facet>
-                                        <p:outputLabel value="#{criterio.value}" />
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header"><p:outputLabel value="Atualizar" /></f:facet>
-                                        <p:commandButton action="#{escolaManager.atualizar(criterio)}" value="Atualizar">
-                                            <f:ajax render="@form" execute="@form" />
-                                        </p:commandButton>
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header"><p:outputLabel value="Excluir" /></f:facet>
-                                        <p:commandButton action="#{escolaManager.excluir(criterio)}" value="Excluir" onclick="if (!confirm('Deseja realmente excluir o critério?'))
-                                                    return false">
-                                            <f:ajax render="@form" execute="@form" />
-                                        </p:commandButton>
-                                    </p:column>
-                                </p:dataTable>
-                            </h:panelGroup>
-
-                            <h:panelGroup rendered="#{escolaManager.editandoCriterio}">
-                                <h:panelGrid columns="2">
-                                    <f:facet name="header"><p:outputLabel value="Atualizando critério" /></f:facet>
-                                    <p:outputLabel value="Disciplina" for="criterioNome" />
-                                    <p:inputText id="criterioNome" value="#{escolaManager.nomeCriterio}"/>
-                                    <p:outputLabel value="Peso" for="criterioPeso" />
-                                    <p:inputText id="criterioPeso" value="#{escolaManager.peso}"/>
-                                    <f:facet name="footer">
-                                        <div align="center">
-                                            <p:commandButton action="#{escolaManager.cancelar()}" value="Cancelar" immediate="true">
-                                                <f:ajax execute="@form" render="@form"/>
-                                            </p:commandButton>
-                                            <p:commandButton action="#{escolaManager.adicionar()}" value="Adicionar critério">
-                                                <f:ajax execute="@form" render="@form"/>
-                                            </p:commandButton>
-                                        </div>
-                                    </f:facet>
-                                </h:panelGrid>
-                            </h:panelGroup>
-                            <p:commandButton action="#{escolaManager.salvar()}" value="Salvar tudo" />
-                        </h:form>
+                    	<f:view>
+	                    	<f:metadata>
+	                    		<f:viewAction action="#{escolaManager.atualizaView()}" />
+	                    	</f:metadata>
+	                        <h1>Veja e/ou altere os dados da escola</h1>
+	                        <h:form>
+	                            <p:messages />
+	                            <h:panelGroup>
+	                                <p:outputLabel value="Nome" for="escolaNome" />
+	                                <p:inputText id="escolaNome" value="#{escolaManager.nome}" />
+	                                <p:outputLabel value="Conceito" for="escolaConceito" />
+	                                <p:inputText id="escolaConceito" value="#{escolaManager.conceito}" />
+	                                <p:outputLabel value="Descrição" for="escolaDescrição" />
+	                                <p:inputText id="escolaDescrição" value="#{escolaManager.descricao}" />
+	                                <p:outputLabel value="Número de vagas disponíveis" for="escolaVagas" />
+	                                <p:inputText id="escolaVagas" value="#{escolaManager.vagas}" />
+	                            </h:panelGroup>
+	
+	                            <h:panelGroup rendered="#{!escolaManager.editandoCriterio}">
+	                                <p:dataTable value="#{escolaManager.criterios.entrySet().toArray()}" var="criterio">
+	                                    <f:facet name="header">
+	                                        <p:commandButton action="#{escolaManager.novo()}" value="Novo critério">
+	                                            <f:ajax execute="@form" render="@form" />
+	                                        </p:commandButton>
+	                                    </f:facet>
+	                                    <p:column>
+	                                        <f:facet name="header"><p:outputLabel value="Disciplina" /></f:facet>
+	                                        <p:outputLabel value="#{criterio.key}" />
+	                                    </p:column>
+	                                    <p:column>
+	                                        <f:facet name="header"><p:outputLabel value="Critério" /></f:facet>
+	                                        <p:outputLabel value="#{criterio.value}" />
+	                                    </p:column>
+	                                    <p:column>
+	                                        <f:facet name="header"><p:outputLabel value="Atualizar" /></f:facet>
+	                                        <p:commandButton action="#{escolaManager.atualizar(criterio)}" value="Atualizar">
+	                                            <f:ajax render="@form" execute="@form" />
+	                                        </p:commandButton>
+	                                    </p:column>
+	                                    <p:column>
+	                                        <f:facet name="header"><p:outputLabel value="Excluir" /></f:facet>
+	                                        <p:commandButton action="#{escolaManager.excluir(criterio)}" value="Excluir" onclick="if (!confirm('Deseja realmente excluir o critério?'))
+	                                                    return false">
+	                                            <f:ajax render="@form" execute="@form" />
+	                                        </p:commandButton>
+	                                    </p:column>
+	                                </p:dataTable>
+	                            </h:panelGroup>
+	
+	                            <h:panelGroup rendered="#{escolaManager.editandoCriterio}">
+	                                <h:panelGrid columns="2">
+	                                    <f:facet name="header"><p:outputLabel value="Atualizando critério" /></f:facet>
+	                                    <p:outputLabel value="Disciplina" for="criterioNome" />
+	                                    <p:inputText id="criterioNome" value="#{escolaManager.nomeCriterio}"/>
+	                                    <p:outputLabel value="Peso" for="criterioPeso" />
+	                                    <p:inputText id="criterioPeso" value="#{escolaManager.peso}"/>
+	                                    <f:facet name="footer">
+	                                        <div align="center">
+	                                            <p:commandButton action="#{escolaManager.cancelar()}" value="Cancelar" immediate="true">
+	                                                <f:ajax execute="@form" render="@form"/>
+	                                            </p:commandButton>
+	                                            <p:commandButton action="#{escolaManager.adicionar()}" value="Adicionar critério">
+	                                                <f:ajax execute="@form" render="@form"/>
+	                                            </p:commandButton>
+	                                        </div>
+	                                    </f:facet>
+	                                </h:panelGrid>
+	                            </h:panelGroup>
+	                            <p:commandButton action="#{escolaManager.salvar()}" value="Salvar tudo" />
+	                        </h:form>
+                        </f:view>
                     </h:panelGroup>
 
                     <p:panel rendered="#{loginBean.representante != null and pageControlBean.isInVerAlunos()}" header="Lista de alunos selecionados">
@@ -322,7 +327,7 @@
                     <h:panelGroup rendered="#{loginBean.administrador != null and pageControlBean.isInGerenciarRepresentantes()}">
                         <h1>Gerenciar representantes</h1>
                         <h:form>
-	                        <h:dataTable value="#{representantesCRUDBean.lista()}" var="representante" id="listaRepresentantes" rendered="#{!representantesCRUDBean.editando}">
+	                        <p:dataTable value="#{representantesCRUDBean.lista()}" var="representante" id="listaRepresentantes" rendered="#{!representantesCRUDBean.editando}">
 	                            <f:facet name="header">
 	                                <p:commandButton action="#{representantesCRUDBean.novo()}" value="Novo">			
 	                                    <f:ajax execute="@form" render="@form"/>
@@ -357,7 +362,7 @@
 	                                    <f:ajax execute = "@form" render="@form"/>
 	                                </p:commandButton>
 	                            </p:column>
-	                        </h:dataTable>
+	                        </p:dataTable>
 	                        <h:panelGrid columns="2"  rendered="#{representantesCRUDBean.editando}">
 	                            <f:facet name="header"><p:outputLabel value="Editando representante" /></f:facet>
 	                            <p:outputLabel value="Nome" />

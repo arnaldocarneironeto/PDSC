@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
 import javax.persistence.Basic;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -235,7 +236,6 @@ public class Escola implements Serializable
         Map<Aluno, Double> medias = new HashMap<>();
         for(Aluno aluno: alunos)
         {
-        	System.out.println("chamou isso");
             medias.put(aluno, this.getMediaDoAluno(aluno));
         }
         List<Map.Entry<Aluno, Double>> lista = new LinkedList<>(medias.entrySet());

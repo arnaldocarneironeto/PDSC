@@ -2,7 +2,6 @@ package br.edu.ifpe.acsntrs.model;
 
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.LocalBean;
 import javax.ejb.SessionContext;
@@ -13,7 +12,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import br.edu.ifpe.acsntrs.entity.Administrador;
-import br.edu.ifpe.acsntrs.jpa.AdministradorJpaController;
 
 /**
  * Session Bean implementation class AdministradorManagerModel
@@ -31,16 +29,8 @@ public class AdministradorManagerModel implements AdministradorManagerModelLocal
 	@Resource
 	SessionContext context;
 
-	private AdministradorJpaController controller;
-
 	public AdministradorManagerModel()
 	{
-	}
-	
-	@PostConstruct
-	public void init() {
-		this.controller = new AdministradorJpaController(context.getUserTransaction(), em.getEntityManagerFactory());
-		
 	}
 
 	@Override
@@ -51,11 +41,15 @@ public class AdministradorManagerModel implements AdministradorManagerModelLocal
 		{
 			if(admin.getId() == null || read(admin) == null)
 			{
-				controller.create(admin);
+				context.getUserTransaction().begin();
+				em.persist(admin);
+				context.getUserTransaction().commit();
 			}
 			else
 			{
-				controller.edit(admin);
+				context.getUserTransaction().begin();
+				em.merge(admin);
+				context.getUserTransaction().commit();
 			}
 
 			return read(admin);
@@ -73,7 +67,7 @@ public class AdministradorManagerModel implements AdministradorManagerModelLocal
 		Administrador result = null;
 		if(admin != null && admin.getId() != null)
 		{
-			result = controller.findAdministrador(admin.getId());
+			result = em.find(Administrador.class, admin.getId());
 		}
 		return result;
 	}
@@ -108,7 +102,10 @@ public class AdministradorManagerModel implements AdministradorManagerModelLocal
 		{
 			try
 			{
-				controller.destroy(admin.getId());
+				context.getUserTransaction().begin();
+	            admin = em.getReference(Administrador.class, admin.getId());
+				em.remove(admin);
+				context.getUserTransaction().commit();				
 			}
 			catch(Exception e)
 			{

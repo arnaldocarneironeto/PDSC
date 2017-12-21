@@ -2,12 +2,12 @@ package br.edu.ifpe.acsntrs.web.control;
 
 import java.util.Map.Entry;
 
-final public class MyEntry<K, V> implements Entry<K, V>
+final public class EntradaDeMapa<K, V> implements Entry<K, V>
 {
 	private K key;
 	private V value;
 	
-	public MyEntry(K key, V value)
+	public EntradaDeMapa(K key, V value)
 	{
 		this.key = key;
 		this.value = value;

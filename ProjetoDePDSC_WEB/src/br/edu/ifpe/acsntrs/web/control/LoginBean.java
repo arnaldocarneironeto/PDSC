@@ -60,6 +60,10 @@ public class LoginBean implements Serializable
 	private void init()
 	{
 		pageControlBean.vaParaInicio();
+		if(loginModel.adminExists() == false)
+		{
+			loginModel.createDefaultAdmin();
+		}
 	}
 	
 	public String logon()

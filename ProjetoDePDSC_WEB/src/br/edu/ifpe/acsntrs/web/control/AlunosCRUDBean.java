@@ -48,7 +48,6 @@ public class AlunosCRUDBean implements Serializable
 	
 	public void novo()
 	{
-		System.out.println("chamou novo");
 		this.alunoAtual = new Aluno();
 		this.editando = true;
 	}

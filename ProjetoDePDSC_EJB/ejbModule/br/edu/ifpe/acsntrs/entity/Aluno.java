@@ -50,7 +50,7 @@ public class Aluno extends Usuario
     
     @ManyToMany
     @OrderColumn(name = "ordem_de_preferencia")
-    @JoinColumn(name = "escola_id")
+    @JoinTable(name = "aluno_escola", joinColumns= @JoinColumn(name = "alunos_que_preferem_esta_escola_id_usuario"), inverseJoinColumns = @JoinColumn(name = "preferencia_id_escola"))
     private List<Escola> preferencia;
 
     @ManyToOne(fetch = FetchType.EAGER)

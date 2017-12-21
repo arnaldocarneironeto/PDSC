@@ -2,8 +2,8 @@ package br.edu.ifpe.acsntrs.model;
 
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
@@ -13,7 +13,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import br.edu.ifpe.acsntrs.entity.Representante;
-import br.edu.ifpe.acsntrs.jpa.RepresentanteJpaController;
 
 /**
  * Session Bean implementation class RepresentanteManagerModel
@@ -31,18 +30,14 @@ public class RepresentanteManagerModel implements RepresentanteManagerModelLocal
 	@Resource
 	SessionContext context;
 
-	private RepresentanteJpaController controller;
+	@EJB
+	private EscolaManagerModel emm;
 
 	/**
 	 * Default constructor.
 	 */
 	public RepresentanteManagerModel()
 	{
-	}
-
-	@PostConstruct
-	public void init() {
-		this.controller = new RepresentanteJpaController(context.getUserTransaction(), em.getEntityManagerFactory());
 	}
 	
 	@Override
@@ -53,11 +48,15 @@ public class RepresentanteManagerModel implements RepresentanteManagerModelLocal
 		{
 			if(rep.getId() == null || read(rep) == null)
 			{
-				controller.create(rep);
+				context.getUserTransaction().begin();
+				em.persist(rep);
+				context.getUserTransaction().commit();
 			}
 			else
 			{
-				controller.edit(rep);
+				context.getUserTransaction().begin();
+				em.merge(rep);
+				context.getUserTransaction().commit();
 			}
 
 			return read(rep);
@@ -75,7 +74,7 @@ public class RepresentanteManagerModel implements RepresentanteManagerModelLocal
 		Representante result = null;
 		if(rep != null && rep.getId() != null)
 		{
-			result = controller.findRepresentante(rep.getId());
+			result = em.find(Representante.class, rep.getId());
 		}
 		return result;
 	}
@@ -110,7 +109,10 @@ public class RepresentanteManagerModel implements RepresentanteManagerModelLocal
 		{
 			try
 			{
-				controller.destroy(rep.getId());
+				context.getUserTransaction().begin();
+				rep = em.getReference(Representante.class, rep.getId());
+				em.remove(rep);
+				context.getUserTransaction().commit();
 			}
 			catch(Exception e)
 			{

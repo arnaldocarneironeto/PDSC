@@ -2,7 +2,6 @@ package br.edu.ifpe.acsntrs.model;
 
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.LocalBean;
 import javax.ejb.SessionContext;
@@ -12,8 +11,8 @@ import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import br.edu.ifpe.acsntrs.entity.Aluno;
 import br.edu.ifpe.acsntrs.entity.Escola;
-import br.edu.ifpe.acsntrs.jpa.EscolaJpaController;
 
 /**
  * Session Bean implementation class EscolaManagerModel
@@ -31,18 +30,11 @@ public class EscolaManagerModel implements EscolaManagerModelLocal
 	@Resource
 	SessionContext context;
 
-	private EscolaJpaController controller;
-
 	/**
 	 * Default constructor.
 	 */
 	public EscolaManagerModel()
 	{
-	}
-	
-	@PostConstruct
-	public void init() {
-		this.controller = new EscolaJpaController(context.getUserTransaction(), em.getEntityManagerFactory());		
 	}
 
 	@Override
@@ -53,11 +45,15 @@ public class EscolaManagerModel implements EscolaManagerModelLocal
 		{
 			if(escola.getId() == null || read(escola) == null)
 			{
-				controller.create(escola);
+				context.getUserTransaction().begin();
+				em.persist(escola);
+				context.getUserTransaction().commit();
 			}
 			else
 			{
-				controller.edit(escola);
+				context.getUserTransaction().begin();
+				em.merge(escola);
+				context.getUserTransaction().commit();
 			}
 
 			return read(escola);
@@ -74,7 +70,7 @@ public class EscolaManagerModel implements EscolaManagerModelLocal
 	{
 		if(escola != null && escola.getId() != null)
 		{
-			return controller.findEscola(escola.getId());
+			return em.find(Escola.class, escola.getId());
 		}
 		return null;
 	}
@@ -98,7 +94,24 @@ public class EscolaManagerModel implements EscolaManagerModelLocal
 		{
 			try
 			{
-				controller.destroy(escola.getId());
+				context.getUserTransaction().begin();
+				escola = em.getReference(Escola.class, escola.getId());
+				List<Aluno> alunos_que_preferem_esta_escola = escola.getAlunos_que_preferem_esta_escola();
+	            for (Aluno alunos_que_preferem_esta_escolaAluno :alunos_que_preferem_esta_escola)
+	            {
+	                alunos_que_preferem_esta_escolaAluno.getPreferencia().remove(escola);
+	                em.merge(alunos_que_preferem_esta_escolaAluno);
+	            }
+	            List<Aluno> alunos_selecionados = escola.getAlunos_selecionados();
+	            for (Aluno alunos_selecionadosAluno :alunos_selecionados)
+	            {
+	                alunos_selecionadosAluno.setEscola_que_selecionou_este_aluno(null);
+	                em.merge(alunos_selecionadosAluno);
+	            }
+	            escola.getRepresentante().setEscola(null);
+	            em.merge(escola.getRepresentante());
+				em.remove(escola);
+				context.getUserTransaction().commit();
 			}
 			catch(Exception e)
 			{

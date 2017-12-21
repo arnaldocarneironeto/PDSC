@@ -2,12 +2,15 @@ package br.edu.ifpe.acsntrs.web.control;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import br.edu.ifpe.acsntrs.entity.Escola;
 import br.edu.ifpe.acsntrs.entity.Representante;
+import br.edu.ifpe.acsntrs.model.EscolaManagerModel;
 import br.edu.ifpe.acsntrs.model.RepresentanteManagerModel;
 
 /**
@@ -29,6 +32,9 @@ public class RepresentantesCRUDBean implements Serializable
 	
 	@EJB
 	private RepresentanteManagerModel representanteManagerModel;
+	
+	@EJB
+	private EscolaManagerModel escolaManagerModel;
 
 	public RepresentantesCRUDBean()
 	{
@@ -71,6 +77,13 @@ public class RepresentantesCRUDBean implements Serializable
 	
 	public void apagar(Representante representante)
 	{
+		Escola escola = representante.getEscola();
+		Map<String, Float> criterios = escola.getCriterios();
+		criterios.clear();
+		escolaManagerModel.save(escola);
+		representanteManagerModel.save(representante);
+		
+		escolaManagerModel.delete(escola);
 		representanteManagerModel.delete(representante);
 	}
 
