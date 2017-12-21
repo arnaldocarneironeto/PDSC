@@ -175,14 +175,16 @@
 	                        <h:form>
 	                            <p:messages />
 	                            <h:panelGroup>
-	                                <p:outputLabel value="Nome" for="escolaNome" />
-	                                <p:inputText id="escolaNome" value="#{escolaManager.nome}" />
-	                                <p:outputLabel value="Conceito" for="escolaConceito" />
-	                                <p:inputText id="escolaConceito" value="#{escolaManager.conceito}" />
-	                                <p:outputLabel value="Descrição" for="escolaDescrição" />
-	                                <p:inputText id="escolaDescrição" value="#{escolaManager.descricao}" />
-	                                <p:outputLabel value="Número de vagas disponíveis" for="escolaVagas" />
-	                                <p:inputText id="escolaVagas" value="#{escolaManager.vagas}" />
+	                            	<h:panelGrid columns="2">
+		                                <p:outputLabel value="Nome" for="escolaNome" />
+		                                <p:inputText id="escolaNome" value="#{escolaManager.nome}" />
+		                                <p:outputLabel value="Conceito" for="escolaConceito" />
+		                                <p:inputText id="escolaConceito" value="#{escolaManager.conceito}" />
+		                                <p:outputLabel value="Descrição" for="escolaDescrição" />
+		                                <p:inputTextarea id="escolaDescrição" value="#{escolaManager.descricao}" maxlength="1000" cols="125" rows="8" />
+		                                <p:outputLabel value="Número de vagas disponíveis" for="escolaVagas" />
+		                                <p:inputText id="escolaVagas" value="#{escolaManager.vagas}" />
+	                                </h:panelGrid>
 	                            </h:panelGroup>
 	
 	                            <h:panelGroup rendered="#{!escolaManager.editandoCriterio}">
