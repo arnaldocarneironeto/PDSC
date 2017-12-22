@@ -10,6 +10,11 @@ import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
 
 import br.edu.ifpe.acsntrs.entity.Aluno;
 import br.edu.ifpe.acsntrs.entity.Escola;
@@ -70,7 +75,20 @@ public class EscolaManagerModel implements EscolaManagerModelLocal
 	{
 		if(escola != null && escola.getId() != null)
 		{
-			return em.find(Escola.class, escola.getId());
+			try
+			{
+				context.getUserTransaction().begin();
+				Escola e = em.find(Escola.class, escola.getId());
+				e.getAlunos_selecionados().size();
+				e.getCriterios().size();
+				context.getUserTransaction().commit();
+				return e;
+			}
+			catch(IllegalStateException | NotSupportedException | SystemException | SecurityException | RollbackException | HeuristicMixedException | HeuristicRollbackException e1)
+			{
+				e1.printStackTrace();
+				return null;
+			}
 		}
 		return null;
 	}

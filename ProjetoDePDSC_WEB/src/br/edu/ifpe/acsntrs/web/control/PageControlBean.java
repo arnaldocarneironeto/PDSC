@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import br.edu.ifpe.acsntrs.utils.PageEnum;
+
 /**
  * 
  * @author Arnaldo Carneiro <acsn@a.recife.ifpe.edu.br>

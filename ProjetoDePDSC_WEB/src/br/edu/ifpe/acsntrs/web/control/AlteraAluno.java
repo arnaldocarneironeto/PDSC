@@ -1,6 +1,8 @@
 package br.edu.ifpe.acsntrs.web.control;
 
 import java.io.Serializable;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -29,6 +31,14 @@ public class AlteraAluno implements Serializable
 	
 	private Aluno aluno;
 	
+	private Boolean editandoNota;
+	
+	private String nomeDisciplina;
+	
+	private Float notaDisciplina;
+	
+	private Map<String, Float> notas;
+	
 	@EJB
 	private AlunoManagerModel managerModel;
 	
@@ -47,6 +57,31 @@ public class AlteraAluno implements Serializable
 			managerModel.save(aluno);			
 		}
 		return "index?faces-redirect=true";
+	}
+	
+	public void nova()
+	{
+		// TODO
+	}
+	
+	public void atualizar(Entry<String, Float> nota)
+	{
+		//TODO
+	}
+	
+	public void excluir(Entry<String, Float> nota)
+	{
+		// TODO
+	}
+	
+	public void cancelar()
+	{
+		// TODO
+	}
+	
+	public void adicionar()
+	{
+		// TODO
 	}
 
 	public Aluno getAluno()
@@ -77,5 +112,45 @@ public class AlteraAluno implements Serializable
 	public void setConfSenha(String confSenha)
 	{
 		this.confSenha = confSenha;
+	}
+
+	public Boolean getEditandoNota()
+	{
+		return editandoNota;
+	}
+
+	public void setEditandoNota(Boolean editandoNota)
+	{
+		this.editandoNota = editandoNota;
+	}
+
+	public Map<String, Float> getNotas()
+	{
+		return notas;
+	}
+
+	public void setNotas(Map<String, Float> notas)
+	{
+		this.notas = notas;
+	}
+
+	public String getNomeDisciplina()
+	{
+		return nomeDisciplina;
+	}
+
+	public void setNomeDisciplina(String nomeDisciplina)
+	{
+		this.nomeDisciplina = nomeDisciplina;
+	}
+
+	public Float getNotaDisciplina()
+	{
+		return notaDisciplina;
+	}
+
+	public void setNotaDisciplina(Float notaDisciplina)
+	{
+		this.notaDisciplina = notaDisciplina;
 	}
 }

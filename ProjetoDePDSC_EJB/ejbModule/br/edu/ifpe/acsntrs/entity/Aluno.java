@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Arnaldo Carneiro <acsn@a.recife.ifpe.edu.br>
  */
 @Entity
-@DiscriminatorValue("L")
+@DiscriminatorValue("Aluno")
 @Table(name = "aluno", catalog = "pdscappdatabase", schema = "")
 @XmlRootElement
 @NamedQueries(
@@ -55,12 +55,13 @@ public class Aluno extends Usuario
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "escola_que_selecionou_id")
-    private Escola escola_que_selecionou_este_aluno = null;
+    private Escola escola_que_selecionou_este_aluno;
 
     public Aluno()
     {
     	this.notas = new HashMap<>();
     	this.preferencia = new ArrayList<>();
+    	this.escola_que_selecionou_este_aluno = null;
     }
 
     public Aluno(Integer id, String login, String senha, String email, String nome)

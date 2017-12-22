@@ -1,7 +1,9 @@
 package br.edu.ifpe.acsntrs.web.control;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -10,6 +12,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
+import br.edu.ifpe.acsntrs.entity.Aluno;
 import br.edu.ifpe.acsntrs.entity.Escola;
 import br.edu.ifpe.acsntrs.entity.Representante;
 import br.edu.ifpe.acsntrs.model.EscolaManagerModel;
@@ -35,6 +38,7 @@ public class EscolaManager implements Serializable
 	private String nomeCriterio;
 	private Float peso;
 	private Map<String, Float> criterios;
+	private List<Aluno> alunosSelecionados;
 	private Boolean editandoCriterio;
 	
 	@EJB
@@ -61,11 +65,13 @@ public class EscolaManager implements Serializable
 			{
 				escola = new Escola();
 			}
+			escola = managerModel.read(escola);
 			nome = escola.getNome();
 			conceito = escola.getConceito();
 			descricao = escola.getDescricao();
 			vagas = escola.getVagas();
 			criterios = escola.getCriterios() != null? escola.getCriterios(): new HashMap<>();
+			alunosSelecionados = escola.getAlunos_selecionados() != null? escola.getAlunos_selecionados(): new ArrayList<>();
 		}
 	}
 	
@@ -201,5 +207,15 @@ public class EscolaManager implements Serializable
 	public void setEditandoCriterio(Boolean editandoCriterio)
 	{
 		this.editandoCriterio = editandoCriterio;
+	}
+
+	public List<Aluno> getAlunosSelecionados()
+	{
+		return alunosSelecionados;
+	}
+
+	public void setAlunosSelecionados(List<Aluno> alunosSelecionados)
+	{
+		this.alunosSelecionados = alunosSelecionados;
 	}
 }

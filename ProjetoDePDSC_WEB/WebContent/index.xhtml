@@ -108,7 +108,57 @@
 
                                 <p:outputLabel value="Confirmação de Senha" for="confSenhaAluno" />
                                 <p:password id="confSenhaAluno" value="#{alteraAluno.confSenha}"  />
-                            </h:panelGrid>    
+                            </h:panelGrid>
+
+	                        <h:panelGroup rendered="#{!alteraAluno.editandoNota}">
+                                <p:dataTable value="#{alteraAluno.notas.entrySet().toArray()}" var="nota">
+                                    <f:facet name="header">
+                                        <p:commandButton action="#{alteraAluno.nova()}" value="Nova nota">
+                                            <f:ajax execute="@form" render="@form" />
+                                        </p:commandButton>
+                                    </f:facet>
+                                    <p:column>
+                                        <f:facet name="header"><p:outputLabel value="Disciplina" /></f:facet>
+                                        <p:outputLabel value="#{nota.key}" />
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header"><p:outputLabel value="Nota" /></f:facet>
+                                        <p:outputLabel value="#{nota.value}" />
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header"><p:outputLabel value="Atualizar" /></f:facet>
+                                        <p:commandButton action="#{alteraAluno.atualizar(nota)}" value="Atualizar">
+                                            <f:ajax render="@form" execute="@form" />
+                                        </p:commandButton>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header"><p:outputLabel value="Excluir" /></f:facet>
+                                        <p:commandButton action="#{alteraAluno.excluir(nota)}" value="Excluir" onclick="if (!confirm('Deseja realmente excluir a nota?')) return false">
+                                            <f:ajax render="@form" execute="@form" />
+                                        </p:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{alteraAluno.editandoNota}">
+                                <h:panelGrid columns="2">
+                                    <f:facet name="header"><p:outputLabel value="Atualizando nota" /></f:facet>
+                                    <p:outputLabel value="Disciplina" for="nomeDisciplina" />
+                                    <p:inputText id="nomeDisciplina" value="#{alteraAluno.nomeDisciplina}"/>
+                                    <p:outputLabel value="Nota" for="notaDisciplina" />
+                                    <p:inputText id="notaDisciplina" value="#{alteraAluno.notaDisciplina}"/>
+                                    <f:facet name="footer">
+                                        <div align="center">
+                                            <p:commandButton action="#{alteraAluno.cancelar()}" value="Cancelar" immediate="true">
+                                                <f:ajax execute="@form" render="@form"/>
+                                            </p:commandButton>
+                                            <p:commandButton action="#{alteraAluno.adicionar()}" value="Adicionar critério">
+                                                <f:ajax execute="@form" render="@form"/>
+                                            </p:commandButton>
+                                        </div>
+                                    </f:facet>
+                                </h:panelGrid>
+                            </h:panelGroup>
                             <p:commandButton action="#{alteraAluno.salvar(loginBean.aluno)}" value="Salvar alterações" />
                         </h:form>
                     </p:panel>
@@ -243,20 +293,25 @@
                     </h:panelGroup>
 
                     <p:panel rendered="#{loginBean.representante != null and pageControlBean.isInVerAlunos()}" header="Lista de alunos selecionados">
-                        <p:dataTable value="#{escolaManager.escola.alunos_selecionados}" var="aluno">
-                            <p:column>
-                                <f:facet name="header"><p:outputLabel value="Nome" /></f:facet>
-                                <p:outputLabel value="#{aluno.nome}" />
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header"><p:outputLabel value="E-mail" /></f:facet>
-                                <p:outputLabel value="#{aluno.email}" />
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header"><p:outputLabel value="Notas" /></f:facet>
-                                <p:outputLabel value="#{aluno.notas}" />
-                            </p:column>
-                        </p:dataTable>
+                    	<f:view>
+                    		<f:metadata>
+	                    		<f:viewAction action="#{escolaManager.atualizaView()}" />
+	                    	</f:metadata>
+	                        <p:dataTable value="#{escolaManager.alunosSelecionados}" var="aluno">
+	                            <p:column>
+	                                <f:facet name="header"><p:outputLabel value="Nome" /></f:facet>
+	                                <p:outputLabel value="#{aluno.nome}" />
+	                            </p:column>
+	                            <p:column>
+	                                <f:facet name="header"><p:outputLabel value="E-mail" /></f:facet>
+	                                <p:outputLabel value="#{aluno.email}" />
+	                            </p:column>
+	                            <p:column>
+	                                <f:facet name="header"><p:outputLabel value="Notas" /></f:facet>
+	                                <p:outputLabel value="#{aluno.notas}" />
+	                            </p:column>
+	                        </p:dataTable>
+                        </f:view>
                     </p:panel>
 
                     <h:panelGroup rendered="#{loginBean.administrador != null and pageControlBean.isInGerenciarAlunos()}">

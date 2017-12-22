@@ -80,7 +80,7 @@ public class Escola implements Serializable
     @JoinTable(name = "criterio", joinColumns = @JoinColumn(name = "id_escola"))
     @MapKeyColumn(name = "disciplina")
     @Column(name = "peso")
-    private Map<String, Float> criterios = new HashMap<>();
+    private Map<String, Float> criterios;
 
     @OneToOne(mappedBy = "escola")
     private Representante representante;
@@ -97,6 +97,8 @@ public class Escola implements Serializable
     public Escola()
     {
     	this.alunos_selecionados = new ArrayList<>();
+    	this.alunos_que_preferem_esta_escola = new ArrayList<>();
+    	this.criterios = new HashMap<>();
     }
 
     public Integer getId()

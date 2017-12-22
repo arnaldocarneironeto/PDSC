@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Arnaldo Carneiro <acsn@a.recife.ifpe.edu.br>
  */
 @Entity
-@DiscriminatorValue("D")
+@DiscriminatorValue("Administrador")
 @Table(name = "administrador", catalog = "pdscappdatabase", schema = "")
 @XmlRootElement
 @NamedQueries(
