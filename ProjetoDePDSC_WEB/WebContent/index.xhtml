@@ -50,175 +50,174 @@
             
             <ui:define name="conteudo">
                 <p:layoutUnit position="center">
-                
-                	<p:messages style="color:red;margin:8px;" />
-
-                    <p:panel rendered="#{loginBean.usuario == null}"> 
-                        <h:form>
-                            <h:panelGrid id="dadosUsuario" columns="3">
-                                <p:outputLabel for="nome" value="Usuário:" />
-                                <p:inputText id="nome" label="Nome" maxlength="50" size="50" value="#{loginBean.login}"/>
-                                <p:message for="nome"/>
-
-                                <p:outputLabel for="senha" value="Senha:" />
-                                <p:password id="senha" label="Senha" maxlength="50" size="50" value="#{loginBean.senha}"/>
-                                <p:message for="senha"/>
-
-                                <p:commandButton value="Entrar" action="#{loginBean.logon()}" icon="fa fa-sign-in"/>                             
-                            </h:panelGrid>
-                        </h:form>
-                    </p:panel>
-
-                    <p:panel id="conteudoaberto" rendered="#{loginBean.usuario == null}" header="Caríssimo aluno, cadastre-se aqui" footer="Representante de escola: entre em contato diretamente conosco (sdvea@sdvea.com.br)">
-                        <h:form >
-                            <h:panelGrid columns="2">
-                                <p:outputLabel value="Nome" for="cadNome" />
-                                <p:inputText id="cadNome" value="#{cadastroAlunoBean.nome}" label="Nome" />
-
-                                <p:outputLabel value="E-mail" for="cadEmail" />
-                                <p:inputText id="cadEmail" value="#{cadastroAlunoBean.email}" label="Email" />
-
-                                <p:outputLabel value="Nome de usuário" for="cadLogin" />
-                                <p:inputText id="cadLogin" value="#{cadastroAlunoBean.login}" label="Login" />
-
-                                <p:outputLabel value="Senha" for="cadSenha" />
-                                <p:password id="cadSenha" value="#{cadastroAlunoBean.senha}" label="Senha" />
-
-                                <p:outputLabel value="Confirmação de senha" for="cadConfSenha" />
-                                <p:password id="cadConfSenha" value="#{cadastroAlunoBean.confSenha}" label="confSenha" />
-                            </h:panelGrid>
-                            <p:commandButton action="#{cadastroAlunoBean.cadastrar()}" value="Cadastre-se" />
-                        </h:form>
-                    </p:panel>
-
-                    <p:panel id="dadosAluno" rendered="#{loginBean.aluno != null and pageControlBean.isInAlteracaoCadastral()}" header="Veja e/ou altere seus dados">
-                        <h:form >
-                            <h:panelGrid columns="2">
-                                <p:outputLabel value="Nome" for="nomeAluno" />
-                                <p:inputText id="nomeAluno" value="#{alteraAluno.aluno.nome}"  />
-
-                                <p:outputLabel value="Email" for="emailAluno" />
-                                <p:inputText id="emailAluno" value="#{alteraAluno.aluno.email}"  />
-
-                                <p:outputLabel value="Nome de usuário" for="loginAluno" />
-                                <p:inputText id="loginAluno" value="#{alteraAluno.aluno.login}" disabled="true" />
-
-                                <p:outputLabel value="Senha" for="senhaAluno" />
-                                <p:password id="senhaAluno" value="#{alteraAluno.senha}"  />
-
-                                <p:outputLabel value="Confirmação de Senha" for="confSenhaAluno" />
-                                <p:password id="confSenhaAluno" value="#{alteraAluno.confSenha}"  />
-                            </h:panelGrid>
-
-	                        <h:panelGroup rendered="#{!alteraAluno.editandoNota}">
-                                <p:dataTable value="#{alteraAluno.notas.entrySet().toArray()}" var="nota">
-                                    <f:facet name="header">
-                                        <p:commandButton action="#{alteraAluno.nova()}" value="Nova nota">
-                                            <f:ajax execute="@form" render="@form" />
-                                        </p:commandButton>
-                                    </f:facet>
-                                    <p:column>
-                                        <f:facet name="header"><p:outputLabel value="Disciplina" /></f:facet>
-                                        <p:outputLabel value="#{nota.key}" />
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header"><p:outputLabel value="Nota" /></f:facet>
-                                        <p:outputLabel value="#{nota.value}" />
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header"><p:outputLabel value="Atualizar" /></f:facet>
-                                        <p:commandButton action="#{alteraAluno.atualizar(nota)}" value="Atualizar">
-                                            <f:ajax render="@form" execute="@form" />
-                                        </p:commandButton>
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header"><p:outputLabel value="Excluir" /></f:facet>
-                                        <p:commandButton action="#{alteraAluno.excluir(nota)}" value="Excluir" onclick="if (!confirm('Deseja realmente excluir a nota?')) return false">
-                                            <f:ajax render="@form" execute="@form" />
-                                        </p:commandButton>
-                                    </p:column>
-                                </p:dataTable>
-                            </h:panelGroup>
-
-                            <h:panelGroup rendered="#{alteraAluno.editandoNota}">
-                                <h:panelGrid columns="2">
-                                    <f:facet name="header"><p:outputLabel value="Atualizando nota" /></f:facet>
-                                    <p:outputLabel value="Disciplina" for="nomeDisciplina" />
-                                    <p:inputText id="nomeDisciplina" value="#{alteraAluno.nomeDisciplina}"/>
-                                    <p:outputLabel value="Nota" for="notaDisciplina" />
-                                    <p:inputText id="notaDisciplina" value="#{alteraAluno.notaDisciplina}"/>
-                                    <f:facet name="footer">
-                                        <div align="center">
-                                            <p:commandButton action="#{alteraAluno.cancelar()}" value="Cancelar" immediate="true">
-                                                <f:ajax execute="@form" render="@form"/>
-                                            </p:commandButton>
-                                            <p:commandButton action="#{alteraAluno.adicionar()}" value="Adicionar critério">
-                                                <f:ajax execute="@form" render="@form"/>
-                                            </p:commandButton>
-                                        </div>
-                                    </f:facet>
-                                </h:panelGrid>
-                            </h:panelGroup>
-                            <p:commandButton action="#{alteraAluno.salvar(loginBean.aluno)}" value="Salvar alterações" />
-                        </h:form>
-                    </p:panel>
-
-                    <p:panel id="ordemEscolas" rendered="#{loginBean.aluno != null and pageControlBean.isInPreferenciaEscolas()}" header="Ordene as escolas conforme a sua preferência">
-                        <h:form>
-                            <p:orderList value="#{orderListView.escolas}" var="escola" itemValue="#{escola}" controlsLocation="right" responsive="true" converter="escolaConverter" >
-                                <p:column styleClass="your-orderlist-row" style="width:30%;">
-                                    <h:outputText value="#{escola.nome}" />
-                                </p:column>
-                                <p:column styleClass="your-orderlist-row" style="width:5%;">
-                                    <h:outputText value="#{escola.conceito}" />
-                                </p:column>
-                                <p:column styleClass="your-orderlist-row" style="width:62%;">
-                                    <h:outputText value="#{escola.descricao}" />
-                                </p:column>
-                            </p:orderList>
-                            <h:panelGroup>
-                                <h:outputText value="#{escola}" />
-                            </h:panelGroup>
-                            <p:commandButton action="#{orderListView.atualizarPreferencia(loginBean.aluno)}" value="Salvar" />
-                        </h:form>
-                    </p:panel>
-
-                    <p:panel id="escola" rendered="#{loginBean.aluno != null and pageControlBean.isInVerEscolaQueFoiAceito()}" header="Você foi selecionado(a) para esta escola:">
-                        <h:form>
-                            <h:panelGrid columns="2">
-                                <p:outputLabel value="Nome" for="nomeEscola" />
-                                <p:outputLabel value="#{loginBean.aluno.escola_que_selecionou_este_aluno.nome}" id="nomeEscola" />
-                                <p:outputLabel value="Conceito" for="conceitoEscola" />
-                                <p:outputLabel value="#{loginBean.aluno.escola_que_selecionou_este_aluno.conceito}" id="conceitoEscola" />
-                                <p:outputLabel value="Descrição" for="descricaoEscola" />
-                                <p:outputLabel value="#{loginBean.aluno.escola_que_selecionou_este_aluno.descricao}" id="descricaoEscola" />
-                            </h:panelGrid>
-                        </h:form>
-                    </p:panel>
-
-                    <p:panel id="dadosRepresentante" rendered="#{loginBean.representante != null and pageControlBean.isInAlteracaoCadastral()}" header="Veja e/ou altere seus dados">
-                        <h:form>
-                            <h:panelGrid columns="2">
-                                <p:outputLabel value="Nome" for="nomeRepresentante" />
-                                <p:inputText id="nomeRepresentante" value="#{representantesCRUDBean.representanteAtual.nome}"  />
-                                <p:outputLabel value="Email" for="emailRepresentante" />
-                                <p:inputText id="emailRepresentante" value="#{representantesCRUDBean.representanteAtual.email}"  />
-                                <p:outputLabel value="Nome de usuário" for="loginRepresentante" />
-                                <p:inputText id="loginRepresentante" value="#{representantesCRUDBean.representanteAtual.login}" disabled="true" />
-                                <p:outputLabel value="Senha" for="senhaRepresentante" />
-                                <p:password id="senhaRepresentante" value="#{representantesCRUDBean.representanteAtual.senha}"  />
-                                <p:outputLabel value="Confirmação de Senha" for="confSenhaRepresentante" />
-                                <p:password id="confSenhaRepresentante" value="Confirmação de Senha"  />
-                            </h:panelGrid>
-                            <p:commandButton action="#" value="Salvar alterações" />
-                        </h:form>
-                    </p:panel>
-
-                    <h:panelGroup id="dadosEscola" rendered="#{loginBean.representante != null and pageControlBean.isInGerenciarEscola()}" >
-                    	<f:view>
-	                    	<f:metadata>
-	                    		<f:viewAction action="#{escolaManager.atualizaView()}" />
-	                    	</f:metadata>
+                   	<f:view>
+                    	<f:metadata>
+                    		<f:viewAction action="#{viewUpdater.atualizaView(loginBean.usuario)}" />
+                    	</f:metadata>
+	                	<p:messages style="color:red;margin:8px;" />
+	
+	                    <p:panel rendered="#{loginBean.usuario == null}"> 
+	                        <h:form>
+	                            <h:panelGrid id="dadosUsuario" columns="3">
+	                                <p:outputLabel for="nome" value="Usuário:" />
+	                                <p:inputText id="nome" label="Nome" maxlength="50" size="50" value="#{loginBean.login}"/>
+	                                <p:message for="nome"/>
+	
+	                                <p:outputLabel for="senha" value="Senha:" />
+	                                <p:password id="senha" label="Senha" maxlength="50" size="50" value="#{loginBean.senha}"/>
+	                                <p:message for="senha"/>
+	
+	                                <p:commandButton value="Entrar" action="#{loginBean.logon()}" icon="fa fa-sign-in"/>                             
+	                            </h:panelGrid>
+	                        </h:form>
+	                    </p:panel>
+	
+	                    <p:panel id="conteudoaberto" rendered="#{loginBean.usuario == null}" header="Caríssimo aluno, cadastre-se aqui" footer="Representante de escola: entre em contato diretamente conosco (sdvea@sdvea.com.br)">
+	                        <h:form >
+	                            <h:panelGrid columns="2">
+	                                <p:outputLabel value="Nome" for="cadNome" />
+	                                <p:inputText id="cadNome" value="#{cadastroAlunoBean.nome}" label="Nome" />
+	
+	                                <p:outputLabel value="E-mail" for="cadEmail" />
+	                                <p:inputText id="cadEmail" value="#{cadastroAlunoBean.email}" label="Email" />
+	
+	                                <p:outputLabel value="Nome de usuário" for="cadLogin" />
+	                                <p:inputText id="cadLogin" value="#{cadastroAlunoBean.login}" label="Login" />
+	
+	                                <p:outputLabel value="Senha" for="cadSenha" />
+	                                <p:password id="cadSenha" value="#{cadastroAlunoBean.senha}" label="Senha" />
+	
+	                                <p:outputLabel value="Confirmação de senha" for="cadConfSenha" />
+	                                <p:password id="cadConfSenha" value="#{cadastroAlunoBean.confSenha}" label="confSenha" />
+	                            </h:panelGrid>
+	                            <p:commandButton action="#{cadastroAlunoBean.cadastrar()}" value="Cadastre-se" />
+	                        </h:form>
+	                    </p:panel>
+	
+	                    <p:panel id="dadosAluno" rendered="#{loginBean.aluno != null and pageControlBean.isInAlteracaoCadastral()}" header="Veja e/ou altere seus dados">
+	                        <h:form >
+	                            <h:panelGrid columns="2">
+	                                <p:outputLabel value="Nome" for="nomeAluno" />
+	                                <p:inputText id="nomeAluno" value="#{alteraAluno.aluno.nome}"  />
+	
+	                                <p:outputLabel value="Email" for="emailAluno" />
+	                                <p:inputText id="emailAluno" value="#{alteraAluno.aluno.email}"  />
+	
+	                                <p:outputLabel value="Nome de usuário" for="loginAluno" />
+	                                <p:inputText id="loginAluno" value="#{alteraAluno.aluno.login}" disabled="true" />
+	
+	                                <p:outputLabel value="Senha" for="senhaAluno" />
+	                                <p:password id="senhaAluno" value="#{alteraAluno.senha}"  />
+	
+	                                <p:outputLabel value="Confirmação de Senha" for="confSenhaAluno" />
+	                                <p:password id="confSenhaAluno" value="#{alteraAluno.confSenha}"  />
+	                            </h:panelGrid>
+	
+		                        <h:panelGroup rendered="#{!alteraAluno.editandoNota}">
+	                                <p:dataTable value="#{alteraAluno.notas.entrySet().toArray()}" var="nota">
+	                                    <f:facet name="header">
+	                                        <p:commandButton action="#{alteraAluno.nova()}" value="Nova nota">
+	                                            <f:ajax execute="@form" render="@form" />
+	                                        </p:commandButton>
+	                                    </f:facet>
+	                                    <p:column>
+	                                        <f:facet name="header"><p:outputLabel value="Disciplina" /></f:facet>
+	                                        <p:outputLabel value="#{nota.key}" />
+	                                    </p:column>
+	                                    <p:column>
+	                                        <f:facet name="header"><p:outputLabel value="Nota" /></f:facet>
+	                                        <p:outputLabel value="#{nota.value}" />
+	                                    </p:column>
+	                                    <p:column>
+	                                        <f:facet name="header"><p:outputLabel value="Atualizar" /></f:facet>
+	                                        <p:commandButton action="#{alteraAluno.atualizar(nota)}" value="Atualizar">
+	                                            <f:ajax render="@form" execute="@form" />
+	                                        </p:commandButton>
+	                                    </p:column>
+	                                    <p:column>
+	                                        <f:facet name="header"><p:outputLabel value="Excluir" /></f:facet>
+	                                        <p:commandButton action="#{alteraAluno.excluir(nota)}" value="Excluir" onclick="if (!confirm('Deseja realmente excluir a nota?')) return false">
+	                                            <f:ajax render="@form" execute="@form" />
+	                                        </p:commandButton>
+	                                    </p:column>
+	                                </p:dataTable>
+	                            </h:panelGroup>
+	
+	                            <h:panelGroup rendered="#{alteraAluno.editandoNota}">
+	                                <h:panelGrid columns="2">
+	                                    <f:facet name="header"><p:outputLabel value="Atualizando nota" /></f:facet>
+	                                    <p:outputLabel value="Disciplina" for="nomeDisciplina" />
+	                                    <p:inputText id="nomeDisciplina" value="#{alteraAluno.nomeDisciplina}"/>
+	                                    <p:outputLabel value="Nota" for="notaDisciplina" />
+	                                    <p:inputText id="notaDisciplina" value="#{alteraAluno.notaDisciplina}"/>
+	                                    <f:facet name="footer">
+	                                        <div align="center">
+	                                            <p:commandButton action="#{alteraAluno.cancelar()}" value="Cancelar" immediate="true">
+	                                                <f:ajax execute="@form" render="@form"/>
+	                                            </p:commandButton>
+	                                            <p:commandButton action="#{alteraAluno.adicionar()}" value="Adicionar critério">
+	                                                <f:ajax execute="@form" render="@form"/>
+	                                            </p:commandButton>
+	                                        </div>
+	                                    </f:facet>
+	                                </h:panelGrid>
+	                            </h:panelGroup>
+	                            <p:commandButton action="#{alteraAluno.salvar(loginBean.aluno)}" value="Salvar alterações" />
+	                        </h:form>
+	                    </p:panel>
+	
+	                    <p:panel id="ordemEscolas" rendered="#{loginBean.aluno != null and pageControlBean.isInPreferenciaEscolas()}" header="Ordene as escolas conforme a sua preferência">
+	                        <h:form>
+	                            <p:orderList value="#{orderListView.escolas}" var="escola" itemValue="#{escola}" controlsLocation="right" responsive="true" converter="escolaConverter" >
+	                                <p:column styleClass="your-orderlist-row" style="width:30%;">
+	                                    <h:outputText value="#{escola.nome}" />
+	                                </p:column>
+	                                <p:column styleClass="your-orderlist-row" style="width:5%;">
+	                                    <h:outputText value="#{escola.conceito}" />
+	                                </p:column>
+	                                <p:column styleClass="your-orderlist-row" style="width:62%;">
+	                                    <h:outputText value="#{escola.descricao}" />
+	                                </p:column>
+	                            </p:orderList>
+	                            <h:panelGroup>
+	                                <h:outputText value="#{escola}" />
+	                            </h:panelGroup>
+	                            <p:commandButton action="#{orderListView.atualizarPreferencia(loginBean.aluno)}" value="Salvar" />
+	                        </h:form>
+	                    </p:panel>
+	
+	                    <p:panel id="escola" rendered="#{loginBean.aluno != null and pageControlBean.isInVerEscolaQueFoiAceito()}" header="Você foi selecionado(a) para esta escola:">
+	                        <h:form>
+	                            <h:panelGrid columns="2">
+	                                <p:outputLabel value="Nome" for="nomeEscola" />
+	                                <p:outputLabel value="#{loginBean.aluno.escola_que_selecionou_este_aluno.nome}" id="nomeEscola" />
+	                                <p:outputLabel value="Conceito" for="conceitoEscola" />
+	                                <p:outputLabel value="#{loginBean.aluno.escola_que_selecionou_este_aluno.conceito}" id="conceitoEscola" />
+	                                <p:outputLabel value="Descrição" for="descricaoEscola" />
+	                                <p:outputLabel value="#{loginBean.aluno.escola_que_selecionou_este_aluno.descricao}" id="descricaoEscola" />
+	                            </h:panelGrid>
+	                        </h:form>
+	                    </p:panel>
+	
+	                    <p:panel id="dadosRepresentante" rendered="#{loginBean.representante != null and pageControlBean.isInAlteracaoCadastral()}" header="Veja e/ou altere seus dados">
+	                        <h:form>
+	                            <h:panelGrid columns="2">
+	                                <p:outputLabel value="Nome" for="nomeRepresentante" />
+	                                <p:inputText id="nomeRepresentante" value="#{representantesCRUDBean.representanteAtual.nome}"  />
+	                                <p:outputLabel value="Email" for="emailRepresentante" />
+	                                <p:inputText id="emailRepresentante" value="#{representantesCRUDBean.representanteAtual.email}"  />
+	                                <p:outputLabel value="Nome de usuário" for="loginRepresentante" />
+	                                <p:inputText id="loginRepresentante" value="#{representantesCRUDBean.representanteAtual.login}" disabled="true" />
+	                                <p:outputLabel value="Senha" for="senhaRepresentante" />
+	                                <p:password id="senhaRepresentante" value="#{representantesCRUDBean.representanteAtual.senha}"  />
+	                                <p:outputLabel value="Confirmação de Senha" for="confSenhaRepresentante" />
+	                                <p:password id="confSenhaRepresentante" value="Confirmação de Senha"  />
+	                            </h:panelGrid>
+	                            <p:commandButton action="#" value="Salvar alterações" />
+	                        </h:form>
+	                    </p:panel>
+	
+	                    <h:panelGroup id="dadosEscola" rendered="#{loginBean.representante != null and pageControlBean.isInGerenciarEscola()}" >
 	                        <h1>Veja e/ou altere os dados da escola</h1>
 	                        <h:form>
 	                            <p:messages />
@@ -285,242 +284,241 @@
 	                                    </f:facet>
 	                                </h:panelGrid>
 	                            </h:panelGroup>
-	                            <p:commandButton action="#{escolaManager.salvar()}" value="Salvar tudo" />
+	                            <p:commandButton action="#{escolaManager.salvar(loginBean.representante)}" value="Salvar tudo" />
 	                        </h:form>
-                        </f:view>
-                    </h:panelGroup>
-
-                    <p:panel rendered="#{loginBean.representante != null and pageControlBean.isInVerAlunos()}" header="Lista de alunos selecionados">
-                    	<f:view>
-                    		<f:metadata>
-	                    		<f:viewAction action="#{escolaManager.atualizaView()}" />
-	                    	</f:metadata>
-	                        <p:dataTable value="#{escolaManager.alunosSelecionados}" var="aluno">
-	                            <p:column>
-	                                <f:facet name="header"><p:outputLabel value="Nome" /></f:facet>
-	                                <p:outputLabel value="#{aluno.nome}" />
-	                            </p:column>
-	                            <p:column>
-	                                <f:facet name="header"><p:outputLabel value="E-mail" /></f:facet>
-	                                <p:outputLabel value="#{aluno.email}" />
-	                            </p:column>
-	                            <p:column>
-	                                <f:facet name="header"><p:outputLabel value="Notas" /></f:facet>
-	                                <p:outputLabel value="#{aluno.notas}" />
-	                            </p:column>
-	                        </p:dataTable>
-                        </f:view>
-                    </p:panel>
-
-                    <h:panelGroup rendered="#{loginBean.administrador != null and pageControlBean.isInGerenciarAlunos()}">
-                        <h1>Gerenciar alunos</h1>
-                        <h:form>
-	                        <p:dataTable value="#{alunosCRUDBean.lista()}" var="aluno" id="listaAlunos" rendered="#{!alunosCRUDBean.editando}">
-	                            <f:facet name="header">
-	                                <p:commandButton action="#{alunosCRUDBean.novo()}" value="Novo">			
-	                                    <f:ajax execute="@form" render="@form"/>
-	                                </p:commandButton>
-	                            </f:facet>					
-	                            <p:column>
-	                                <f:facet name="header"><p:outputLabel value="Nome" /></f:facet>
-	                                <p:outputLabel value="#{aluno.nome}" />
-	                            </p:column>
-	                            <p:column>
-	                                <f:facet name="header"><p:outputLabel value="E-mail" /></f:facet>
-	                                <p:outputLabel value="#{aluno.email}" />
-	                            </p:column>
-	                            <p:column>
-	                                <f:facet name="header"><p:outputLabel value="Nome de usuário" /></f:facet>
-	                                <p:outputLabel value="#{aluno.login}" />
-	                            </p:column>
-	                            <p:column>
-	                                <f:facet name="header"><p:outputLabel value="Senha" /></f:facet>
-	                                <p:outputLabel value="•••••" />
-	                            </p:column>
-	                            <p:column>
-	                                <f:facet name="header"><p:outputLabel value="Atualizar" /></f:facet>
-	                                <p:commandButton action="#{alunosCRUDBean.atualizar(aluno)}" value="Atualizar">
-	                                    <f:ajax render="@form" execute="@form"/>
-	                                </p:commandButton>
-	                            </p:column>
-	                            <p:column>
-	                                <f:facet name="header"><p:outputLabel value="Excluir" /></f:facet>
-	                                <p:commandButton action="#{alunosCRUDBean.apagar(aluno)}" value="Excluir" onclick="if (!confirm('Deseja realmente excluir o aluno?'))
-	                                            return false">
-	                                    <f:ajax execute = "@form" render="@form"/>
-	                                </p:commandButton>
-	                            </p:column>
-	                        </p:dataTable>
-	                        <h:panelGrid columns="2" rendered="#{alunosCRUDBean.editando}">
-	                            <f:facet name="header"><p:outputLabel value="Editando aluno" /></f:facet>
-	                            <p:outputLabel value="Nome" />
-	                            <p:inputText value="#{alunosCRUDBean.alunoAtual.nome}"/>
-	                            <p:outputLabel value="E-mail" />
-	                            <p:inputText value="#{alunosCRUDBean.alunoAtual.email}"/>
-	                            <p:outputLabel value="Nome de usuário" />
-	                            <p:inputText value="#{alunosCRUDBean.alunoAtual.login}"/>
-	                            <p:outputLabel value="Senha" />
-	                            <p:password value="#{alunosCRUDBean.alunoAtual.senha}" feedback="true"
-	                                        promptLabel="Digite a nova senha"
-	                                        weakLabel="Senha fraca"
-	                                        goodLabel="Senha boa"
-	                                        strongLabel="Senha forte"/>
-	                            <f:facet name="footer">
-	                                <div align="center">
-	                                    <p:commandButton action="#{alunosCRUDBean.cancelar()}" value="Cancelar" immediate="true">
-	                                        <f:ajax execute="@form" render="@form"/>
-	                                    </p:commandButton>
-	                                    <p:commandButton action="#{alunosCRUDBean.salvar()}" value="Salvar">
-	                                        <f:ajax execute="@form" render="@form"/>
-	                                    </p:commandButton>
-	                                </div>
-	                            </f:facet>
-    	                    </h:panelGrid>
-                        </h:form>
-                    </h:panelGroup>
-
-                    <h:panelGroup rendered="#{loginBean.administrador != null and pageControlBean.isInGerenciarRepresentantes()}">
-                        <h1>Gerenciar representantes</h1>
-                        <h:form>
-	                        <p:dataTable value="#{representantesCRUDBean.lista()}" var="representante" id="listaRepresentantes" rendered="#{!representantesCRUDBean.editando}">
-	                            <f:facet name="header">
-	                                <p:commandButton action="#{representantesCRUDBean.novo()}" value="Novo">			
-	                                    <f:ajax execute="@form" render="@form"/>
-	                                </p:commandButton>
-	                            </f:facet>					
-	                            <p:column>
-	                                <f:facet name="header"><p:outputLabel value="Nome" /></f:facet>
-	                                <p:outputLabel value="#{representante.nome}" />
-	                            </p:column>
-	                            <p:column>
-	                                <f:facet name="header"><p:outputLabel value="E-mail" /></f:facet>
-	                                <p:outputLabel value="#{representante.email}" />
-	                            </p:column>
-	                            <p:column>
-	                                <f:facet name="header"><p:outputLabel value="Nome de usuário" /></f:facet>
-	                                <p:outputLabel value="#{representante.login}" />
-	                            </p:column>
-	                            <p:column>
-	                                <f:facet name="header"><p:outputLabel value="Senha" /></f:facet>
-	                                <p:outputLabel value="•••••" />
-	                            </p:column>
-	                            <p:column>
-	                                <f:facet name="header"><p:outputLabel value="Atualizar" /></f:facet>
-	                                <p:commandButton action="#{representantesCRUDBean.atualizar(representante)}" value="Atualizar">
-	                                    <f:ajax render="@form" execute="@form"/>
-	                                </p:commandButton>
-	                            </p:column>
-	                            <p:column>
-	                                <f:facet name="header"><p:outputLabel value="Excluir" /></f:facet>
-	                                <p:commandButton action="#{representantesCRUDBean.apagar(representante)}" value="Excluir" onclick="if (!confirm('Deseja realmente excluir o representante (e a respectiva escola)?'))
-	                                            return false">
-	                                    <f:ajax execute = "@form" render="@form"/>
-	                                </p:commandButton>
-	                            </p:column>
-	                        </p:dataTable>
-	                        <h:panelGrid columns="2"  rendered="#{representantesCRUDBean.editando}">
-	                            <f:facet name="header"><p:outputLabel value="Editando representante" /></f:facet>
-	                            <p:outputLabel value="Nome" />
-	                            <p:inputText value="#{representantesCRUDBean.representanteAtual.nome}"/>
-	                            <p:outputLabel value="E-mail" />
-	                            <p:inputText value="#{representantesCRUDBean.representanteAtual.email}"/>
-	                            <p:outputLabel value="Nome de usuário" />
-	                            <p:inputText value="#{representantesCRUDBean.representanteAtual.login}"/>
-	                            <p:outputLabel value="Senha" />
-	                            <p:password value="#{representantesCRUDBean.representanteAtual.senha}" feedback="true"
-	                                        promptLabel="Digite a nova senha"
-	                                        weakLabel="Senha fraca"
-	                                        goodLabel="Senha boa"
-	                                        strongLabel="Senha forte"/>
-	                            <f:facet name="footer">
-	                                <div align="center">
-	                                    <p:commandButton action="#{representantesCRUDBean.cancelar()}" value="Cancelar" immediate="true">
-	                                        <f:ajax execute="@form" render="@form"/>
-	                                    </p:commandButton>
-	                                    <p:commandButton action="#{representantesCRUDBean.salvar()}" value="Salvar">
-	                                        <f:ajax execute="@form" render="@form"/>
-	                                    </p:commandButton>
-	                                </div>
-	                            </f:facet>
-	                        </h:panelGrid>
-                        </h:form>
-                    </h:panelGroup>
-
-                    <h:panelGroup rendered="#{loginBean.administrador != null and pageControlBean.isInGerenciarAdministradores()}">
-                        <h1>Gerenciar Administradores</h1>
-                        <h:form>
-	                        <p:dataTable value="#{administradoresCRUDBean.lista()}" var="administrador" id="listaAdministradores" rendered="#{!administradoresCRUDBean.editando}">
-	                            <f:facet name="header">
-	                                <p:commandButton action="#{administradoresCRUDBean.novo()}" value="Novo">			
-	                                    <f:ajax execute="@form" render="@form"/>
-	                                </p:commandButton>
-	                            </f:facet>					
-	                            <p:column>
-	                                <f:facet name="header"><p:outputLabel value="Nome" /></f:facet>
-	                                <p:outputLabel value="#{administrador.nome}" />
-	                            </p:column>
-	                            <p:column>
-	                                <f:facet name="header"><p:outputLabel value="E-mail" /></f:facet>
-	                                <p:outputLabel value="#{administrador.email}" />
-	                            </p:column>
-	                            <p:column>
-	                                <f:facet name="header"><p:outputLabel value="Nome de usuário" /></f:facet>
-	                                <p:outputLabel value="#{administrador.login}" />
-	                            </p:column>
-	                            <p:column>
-	                                <f:facet name="header"><p:outputLabel value="Senha" /></f:facet>
-	                                <p:outputLabel value="•••••" />
-	                            </p:column>
-	                            <p:column>
-	                                <f:facet name="header"><p:outputLabel value="Atualizar" /></f:facet>
-	                                <p:commandButton action="#{administradoresCRUDBean.atualizar(administrador)}" value="Atualizar">
-	                                    <f:ajax render="@form" execute="@form"/>
-	                                </p:commandButton>
-	                            </p:column>
-	                            <p:column>
-	                                <f:facet name="header"><p:outputLabel value="Excluir" /></f:facet>
-	                                <p:commandButton action="#{administradoresCRUDBean.apagar(administrador)}" value="Excluir" onclick="if (!confirm('Deseja realmente excluir o administrador?'))
-	                                            return false">
-	                                    <f:ajax execute = "@form" render="@form"/>
-	                                </p:commandButton>
-	                            </p:column>
-	                        </p:dataTable>
-	                        <h:panelGrid columns="2" rendered="#{administradoresCRUDBean.editando}">
-	                            <f:facet name="header"><p:outputLabel value="Editando administrador" /></f:facet>
-	                            <p:outputLabel value="Nome" />
-	                            <p:inputText value="#{administradoresCRUDBean.administradorAtual.nome}"/>
-	                            <p:outputLabel value="E-mail" />
-	                            <p:inputText value="#{administradoresCRUDBean.administradorAtual.email}"/>
-	                            <p:outputLabel value="Nome de usuário" />
-	                            <p:inputText value="#{administradoresCRUDBean.administradorAtual.login}"/>
-	                            <p:outputLabel value="senha" />
-	                            <p:password value="#{administradoresCRUDBean.administradorAtual.senha}" feedback="true"
-	                                        promptLabel="Digite a nova senha"
-	                                        weakLabel="Senha fraca"
-	                                        goodLabel="Senha boa"
-	                                        strongLabel="Senha forte"/>
-	                            <f:facet name="footer">
-	                                <div align="center">
-	                                    <p:commandButton action="#{administradoresCRUDBean.cancelar()}" value="Cancelar" immediate="true">
-	                                        <f:ajax execute="@form" render="@form"/>
-	                                    </p:commandButton>
-	                                    <p:commandButton action="#{administradoresCRUDBean.salvar()}" value="Salvar">
-	                                        <f:ajax execute="@form" render="@form"/>
-	                                    </p:commandButton>
-	                                </div>
-	                            </f:facet>
-	                        </h:panelGrid>
-                        </h:form>
-                    </h:panelGroup>
-
-                    <h:panelGroup rendered="#{loginBean.administrador != null and pageControlBean.isInGerenciarSistema()}">
-                    	<h:form>
-	                        <p:commandButton action="#{distribuidorBean.setCadastrando()}" value="Iniciar fase de cadastros" rendered="#{distribuidorBean.isDistribuindo()}"/>
-	                        <p:commandButton action="#{distribuidorBean.setOrdenando()}" value="Iniciar fase de definição de preferências" rendered="#{distribuidorBean.isCadastrando()}" />
-	                        <p:commandButton action="#{distribuidorBean.setDistribuindo()}" value="Executar distribuição de vagas" rendered="#{distribuidorBean.isOrdenando()}" />
-                        </h:form>
-                    </h:panelGroup>
-
+	                    </h:panelGroup>
+	
+	                    <p:panel rendered="#{loginBean.representante != null and pageControlBean.isInVerAlunos()}" header="Lista de alunos selecionados">
+	                    	<f:view>
+	                    		<f:metadata>
+		                    		<f:viewAction action="#{escolaManager.atualizaView()}" />
+		                    	</f:metadata>
+		                        <p:dataTable value="#{escolaManager.alunosSelecionados}" var="aluno">
+		                            <p:column>
+		                                <f:facet name="header"><p:outputLabel value="Nome" /></f:facet>
+		                                <p:outputLabel value="#{aluno.nome}" />
+		                            </p:column>
+		                            <p:column>
+		                                <f:facet name="header"><p:outputLabel value="E-mail" /></f:facet>
+		                                <p:outputLabel value="#{aluno.email}" />
+		                            </p:column>
+		                            <p:column>
+		                                <f:facet name="header"><p:outputLabel value="Notas" /></f:facet>
+		                                <p:outputLabel value="#{aluno.notas}" />
+		                            </p:column>
+		                        </p:dataTable>
+	                        </f:view>
+	                    </p:panel>
+	
+	                    <h:panelGroup rendered="#{loginBean.administrador != null and pageControlBean.isInGerenciarAlunos()}">
+	                        <h1>Gerenciar alunos</h1>
+	                        <h:form>
+		                        <p:dataTable value="#{alunosCRUDBean.lista()}" var="aluno" id="listaAlunos" rendered="#{!alunosCRUDBean.editando}">
+		                            <f:facet name="header">
+		                                <p:commandButton action="#{alunosCRUDBean.novo()}" value="Novo">			
+		                                    <f:ajax execute="@form" render="@form"/>
+		                                </p:commandButton>
+		                            </f:facet>					
+		                            <p:column>
+		                                <f:facet name="header"><p:outputLabel value="Nome" /></f:facet>
+		                                <p:outputLabel value="#{aluno.nome}" />
+		                            </p:column>
+		                            <p:column>
+		                                <f:facet name="header"><p:outputLabel value="E-mail" /></f:facet>
+		                                <p:outputLabel value="#{aluno.email}" />
+		                            </p:column>
+		                            <p:column>
+		                                <f:facet name="header"><p:outputLabel value="Nome de usuário" /></f:facet>
+		                                <p:outputLabel value="#{aluno.login}" />
+		                            </p:column>
+		                            <p:column>
+		                                <f:facet name="header"><p:outputLabel value="Senha" /></f:facet>
+		                                <p:outputLabel value="•••••" />
+		                            </p:column>
+		                            <p:column>
+		                                <f:facet name="header"><p:outputLabel value="Atualizar" /></f:facet>
+		                                <p:commandButton action="#{alunosCRUDBean.atualizar(aluno)}" value="Atualizar">
+		                                    <f:ajax render="@form" execute="@form"/>
+		                                </p:commandButton>
+		                            </p:column>
+		                            <p:column>
+		                                <f:facet name="header"><p:outputLabel value="Excluir" /></f:facet>
+		                                <p:commandButton action="#{alunosCRUDBean.apagar(aluno)}" value="Excluir" onclick="if (!confirm('Deseja realmente excluir o aluno?'))
+		                                            return false">
+		                                    <f:ajax execute = "@form" render="@form"/>
+		                                </p:commandButton>
+		                            </p:column>
+		                        </p:dataTable>
+		                        <h:panelGrid columns="2" rendered="#{alunosCRUDBean.editando}">
+		                            <f:facet name="header"><p:outputLabel value="Editando aluno" /></f:facet>
+		                            <p:outputLabel value="Nome" />
+		                            <p:inputText value="#{alunosCRUDBean.alunoAtual.nome}"/>
+		                            <p:outputLabel value="E-mail" />
+		                            <p:inputText value="#{alunosCRUDBean.alunoAtual.email}"/>
+		                            <p:outputLabel value="Nome de usuário" />
+		                            <p:inputText value="#{alunosCRUDBean.alunoAtual.login}"/>
+		                            <p:outputLabel value="Senha" />
+		                            <p:password value="#{alunosCRUDBean.alunoAtual.senha}" feedback="true"
+		                                        promptLabel="Digite a nova senha"
+		                                        weakLabel="Senha fraca"
+		                                        goodLabel="Senha boa"
+		                                        strongLabel="Senha forte"/>
+		                            <f:facet name="footer">
+		                                <div align="center">
+		                                    <p:commandButton action="#{alunosCRUDBean.cancelar()}" value="Cancelar" immediate="true">
+		                                        <f:ajax execute="@form" render="@form"/>
+		                                    </p:commandButton>
+		                                    <p:commandButton action="#{alunosCRUDBean.salvar()}" value="Salvar">
+		                                        <f:ajax execute="@form" render="@form"/>
+		                                    </p:commandButton>
+		                                </div>
+		                            </f:facet>
+	    	                    </h:panelGrid>
+	                        </h:form>
+	                    </h:panelGroup>
+	
+	                    <h:panelGroup rendered="#{loginBean.administrador != null and pageControlBean.isInGerenciarRepresentantes()}">
+	                        <h1>Gerenciar representantes</h1>
+	                        <h:form>
+		                        <p:dataTable value="#{representantesCRUDBean.lista()}" var="representante" id="listaRepresentantes" rendered="#{!representantesCRUDBean.editando}">
+		                            <f:facet name="header">
+		                                <p:commandButton action="#{representantesCRUDBean.novo()}" value="Novo">			
+		                                    <f:ajax execute="@form" render="@form"/>
+		                                </p:commandButton>
+		                            </f:facet>					
+		                            <p:column>
+		                                <f:facet name="header"><p:outputLabel value="Nome" /></f:facet>
+		                                <p:outputLabel value="#{representante.nome}" />
+		                            </p:column>
+		                            <p:column>
+		                                <f:facet name="header"><p:outputLabel value="E-mail" /></f:facet>
+		                                <p:outputLabel value="#{representante.email}" />
+		                            </p:column>
+		                            <p:column>
+		                                <f:facet name="header"><p:outputLabel value="Nome de usuário" /></f:facet>
+		                                <p:outputLabel value="#{representante.login}" />
+		                            </p:column>
+		                            <p:column>
+		                                <f:facet name="header"><p:outputLabel value="Senha" /></f:facet>
+		                                <p:outputLabel value="•••••" />
+		                            </p:column>
+		                            <p:column>
+		                                <f:facet name="header"><p:outputLabel value="Atualizar" /></f:facet>
+		                                <p:commandButton action="#{representantesCRUDBean.atualizar(representante)}" value="Atualizar">
+		                                    <f:ajax render="@form" execute="@form"/>
+		                                </p:commandButton>
+		                            </p:column>
+		                            <p:column>
+		                                <f:facet name="header"><p:outputLabel value="Excluir" /></f:facet>
+		                                <p:commandButton action="#{representantesCRUDBean.apagar(representante)}" value="Excluir" onclick="if (!confirm('Deseja realmente excluir o representante (e a respectiva escola)?'))
+		                                            return false">
+		                                    <f:ajax execute = "@form" render="@form"/>
+		                                </p:commandButton>
+		                            </p:column>
+		                        </p:dataTable>
+		                        <h:panelGrid columns="2"  rendered="#{representantesCRUDBean.editando}">
+		                            <f:facet name="header"><p:outputLabel value="Editando representante" /></f:facet>
+		                            <p:outputLabel value="Nome" />
+		                            <p:inputText value="#{representantesCRUDBean.representanteAtual.nome}"/>
+		                            <p:outputLabel value="E-mail" />
+		                            <p:inputText value="#{representantesCRUDBean.representanteAtual.email}"/>
+		                            <p:outputLabel value="Nome de usuário" />
+		                            <p:inputText value="#{representantesCRUDBean.representanteAtual.login}"/>
+		                            <p:outputLabel value="Senha" />
+		                            <p:password value="#{representantesCRUDBean.representanteAtual.senha}" feedback="true"
+		                                        promptLabel="Digite a nova senha"
+		                                        weakLabel="Senha fraca"
+		                                        goodLabel="Senha boa"
+		                                        strongLabel="Senha forte"/>
+		                            <f:facet name="footer">
+		                                <div align="center">
+		                                    <p:commandButton action="#{representantesCRUDBean.cancelar()}" value="Cancelar" immediate="true">
+		                                        <f:ajax execute="@form" render="@form"/>
+		                                    </p:commandButton>
+		                                    <p:commandButton action="#{representantesCRUDBean.salvar()}" value="Salvar">
+		                                        <f:ajax execute="@form" render="@form"/>
+		                                    </p:commandButton>
+		                                </div>
+		                            </f:facet>
+		                        </h:panelGrid>
+	                        </h:form>
+	                    </h:panelGroup>
+	
+	                    <h:panelGroup rendered="#{loginBean.administrador != null and pageControlBean.isInGerenciarAdministradores()}">
+	                        <h1>Gerenciar Administradores</h1>
+	                        <h:form>
+		                        <p:dataTable value="#{administradoresCRUDBean.lista()}" var="administrador" id="listaAdministradores" rendered="#{!administradoresCRUDBean.editando}">
+		                            <f:facet name="header">
+		                                <p:commandButton action="#{administradoresCRUDBean.novo()}" value="Novo">			
+		                                    <f:ajax execute="@form" render="@form"/>
+		                                </p:commandButton>
+		                            </f:facet>					
+		                            <p:column>
+		                                <f:facet name="header"><p:outputLabel value="Nome" /></f:facet>
+		                                <p:outputLabel value="#{administrador.nome}" />
+		                            </p:column>
+		                            <p:column>
+		                                <f:facet name="header"><p:outputLabel value="E-mail" /></f:facet>
+		                                <p:outputLabel value="#{administrador.email}" />
+		                            </p:column>
+		                            <p:column>
+		                                <f:facet name="header"><p:outputLabel value="Nome de usuário" /></f:facet>
+		                                <p:outputLabel value="#{administrador.login}" />
+		                            </p:column>
+		                            <p:column>
+		                                <f:facet name="header"><p:outputLabel value="Senha" /></f:facet>
+		                                <p:outputLabel value="•••••" />
+		                            </p:column>
+		                            <p:column>
+		                                <f:facet name="header"><p:outputLabel value="Atualizar" /></f:facet>
+		                                <p:commandButton action="#{administradoresCRUDBean.atualizar(administrador)}" value="Atualizar">
+		                                    <f:ajax render="@form" execute="@form"/>
+		                                </p:commandButton>
+		                            </p:column>
+		                            <p:column>
+		                                <f:facet name="header"><p:outputLabel value="Excluir" /></f:facet>
+		                                <p:commandButton action="#{administradoresCRUDBean.apagar(administrador)}" value="Excluir" onclick="if (!confirm('Deseja realmente excluir o administrador?'))
+		                                            return false">
+		                                    <f:ajax execute = "@form" render="@form"/>
+		                                </p:commandButton>
+		                            </p:column>
+		                        </p:dataTable>
+		                        <h:panelGrid columns="2" rendered="#{administradoresCRUDBean.editando}">
+		                            <f:facet name="header"><p:outputLabel value="Editando administrador" /></f:facet>
+		                            <p:outputLabel value="Nome" />
+		                            <p:inputText value="#{administradoresCRUDBean.administradorAtual.nome}"/>
+		                            <p:outputLabel value="E-mail" />
+		                            <p:inputText value="#{administradoresCRUDBean.administradorAtual.email}"/>
+		                            <p:outputLabel value="Nome de usuário" />
+		                            <p:inputText value="#{administradoresCRUDBean.administradorAtual.login}"/>
+		                            <p:outputLabel value="senha" />
+		                            <p:password value="#{administradoresCRUDBean.administradorAtual.senha}" feedback="true"
+		                                        promptLabel="Digite a nova senha"
+		                                        weakLabel="Senha fraca"
+		                                        goodLabel="Senha boa"
+		                                        strongLabel="Senha forte"/>
+		                            <f:facet name="footer">
+		                                <div align="center">
+		                                    <p:commandButton action="#{administradoresCRUDBean.cancelar()}" value="Cancelar" immediate="true">
+		                                        <f:ajax execute="@form" render="@form"/>
+		                                    </p:commandButton>
+		                                    <p:commandButton action="#{administradoresCRUDBean.salvar()}" value="Salvar">
+		                                        <f:ajax execute="@form" render="@form"/>
+		                                    </p:commandButton>
+		                                </div>
+		                            </f:facet>
+		                        </h:panelGrid>
+	                        </h:form>
+	                    </h:panelGroup>
+	
+	                    <h:panelGroup rendered="#{loginBean.administrador != null and pageControlBean.isInGerenciarSistema()}">
+	                    	<h:form>
+		                        <p:commandButton action="#{distribuidorBean.setCadastrando()}" value="Iniciar fase de cadastros" rendered="#{distribuidorBean.isDistribuindo()}"/>
+		                        <p:commandButton action="#{distribuidorBean.setOrdenando()}" value="Iniciar fase de definição de preferências" rendered="#{distribuidorBean.isCadastrando()}" />
+		                        <p:commandButton action="#{distribuidorBean.setDistribuindo()}" value="Executar distribuição de vagas" rendered="#{distribuidorBean.isOrdenando()}" />
+	                        </h:form>
+	                    </h:panelGroup>
+					</f:view>
                 </p:layoutUnit>
             </ui:define>
         </ui:composition>

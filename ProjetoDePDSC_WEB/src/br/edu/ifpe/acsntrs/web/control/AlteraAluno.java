@@ -44,6 +44,7 @@ public class AlteraAluno implements Serializable
 	
 	public AlteraAluno()
 	{
+		this.editandoNota = false;
 	}
 	
 	public String salvar(Aluno aluno)
@@ -53,7 +54,7 @@ public class AlteraAluno implements Serializable
 			aluno.setSenha(senha);
 			aluno.setNome(this.aluno.getNome());
 			aluno.setEmail(this.aluno.getEmail());
-//			aluno.setNotas(this.aluno.getNotas());
+			aluno.setNotas(this.aluno.getNotas());
 			managerModel.save(aluno);			
 		}
 		return "index?faces-redirect=true";
@@ -61,27 +62,34 @@ public class AlteraAluno implements Serializable
 	
 	public void nova()
 	{
-		// TODO
+		this.nomeDisciplina = "";
+		this.notaDisciplina = 0f;
+		this.editandoNota = true;
 	}
 	
 	public void atualizar(Entry<String, Float> nota)
 	{
-		//TODO
+		this.nomeDisciplina = nota.getKey();
+		this.notaDisciplina = nota.getValue();
+		this.editandoNota = true;
 	}
 	
 	public void excluir(Entry<String, Float> nota)
 	{
-		// TODO
+		notas.remove(nota.getKey());
 	}
 	
 	public void cancelar()
 	{
-		// TODO
+		this.nomeDisciplina = "";
+		this.notaDisciplina = 0f;
+		this.editandoNota = false;
 	}
 	
 	public void adicionar()
 	{
-		// TODO
+		notas.put(nomeDisciplina, notaDisciplina);
+		this.editandoNota = false;
 	}
 
 	public Aluno getAluno()

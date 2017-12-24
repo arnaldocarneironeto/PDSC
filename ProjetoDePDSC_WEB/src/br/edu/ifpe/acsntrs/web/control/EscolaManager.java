@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
 import br.edu.ifpe.acsntrs.entity.Aluno;
@@ -46,18 +45,15 @@ public class EscolaManager implements Serializable
 	
 	@EJB
 	private RepresentanteManagerModel representanteManagerModel;
-	
-	@ManagedProperty("#{loginBean}")
-	private LoginBean loginBean;
 
 	public EscolaManager()
 	{
 		this.editandoCriterio = false;
 	}
 	
-	public void atualizaView()
+	public void atualizaView(Representante rep)
 	{
-		Representante rep = loginBean.getRepresentante();
+		System.out.println("Atualizou view representante");
 		if(rep != null)
 		{
 			Escola escola = rep.getEscola();
@@ -97,36 +93,28 @@ public class EscolaManager implements Serializable
 	
 	public void cancelar()
 	{
+		this.nomeCriterio = "";
+		this.peso = 0f;
 		this.editandoCriterio = false;
 	}
 	
-	public void salvar()
+	public void salvar(Representante rep)
 	{
-		Escola escola = loginBean.getRepresentante().getEscola() != null? loginBean.getRepresentante().getEscola(): new Escola();
+		Escola escola = rep.getEscola() != null? rep.getEscola(): new Escola();
 		escola.setNome(nome);
 		escola.setConceito(conceito);
 		escola.setDescricao(descricao);
 		escola.setVagas(vagas);
 		escola.setCriterios(criterios);
-		escola.setRepresentante(loginBean.getRepresentante());
+		escola.setRepresentante(rep);
 		managerModel.save(escola);
-		loginBean.getRepresentante().setEscola(escola);
-		representanteManagerModel.save(loginBean.getRepresentante());
+		rep.setEscola(escola);
+		representanteManagerModel.save(rep);
 	}
 	
 	public void excluir(Entry<String, Float> criterio)
 	{
 		criterios.remove(criterio.getKey());
-	}
-
-	public LoginBean getLoginBean()
-	{
-		return loginBean;
-	}
-
-	public void setLoginBean(LoginBean loginBean)
-	{
-		this.loginBean = loginBean;
 	}
 
 	public String getNome()
