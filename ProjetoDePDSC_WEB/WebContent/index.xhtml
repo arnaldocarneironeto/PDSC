@@ -165,10 +165,8 @@
 
                     <p:panel id="ordemEscolas" rendered="#{loginBean.aluno != null and pageControlBean.isInPreferenciaEscolas()}" header="Ordene as escolas conforme a sua preferência">
                         <h:form>
-                            <p:growl id="msgs" showDetail="true" />
-                            <p:orderList value="#{orderListView.escolas}" var="escola" itemValue="#{escola}" controlsLocation="right" responsive="true" >
-                                <p:ajax event="select" listener="#{orderListView.onSelect}" update="msgs" />
-                                <p:column styleClass="your-orderlist-row" style="width:33%;">
+                            <p:orderList value="#{orderListView.escolas}" var="escola" itemValue="#{escola}" controlsLocation="right" responsive="true" converter="escolaConverter" >
+                                <p:column styleClass="your-orderlist-row" style="width:30%;">
                                     <h:outputText value="#{escola.nome}" />
                                 </p:column>
                                 <p:column styleClass="your-orderlist-row" style="width:5%;">

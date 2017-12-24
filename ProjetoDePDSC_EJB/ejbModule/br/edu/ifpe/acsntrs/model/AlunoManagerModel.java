@@ -11,7 +11,9 @@ import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+
 import br.edu.ifpe.acsntrs.entity.Aluno;
+import br.edu.ifpe.acsntrs.entity.Escola;
 
 /**
  * Session Bean implementation class AlunoManagerModel
@@ -38,6 +40,10 @@ public class AlunoManagerModel implements AlunoManagerModelLocal
 		if(aluno == null) return null;
 		try
 		{
+			for(Escola escolaNome: aluno.getPreferencia())
+			{
+				System.out.println(escolaNome);
+			}
 			if(aluno.getId() == null || read(aluno) == null)
 			{
 				context.getUserTransaction().begin();
@@ -68,6 +74,31 @@ public class AlunoManagerModel implements AlunoManagerModelLocal
 		{
             return em.find(Aluno.class, aluno.getId());
 		}
+		return result;
+	}
+
+	public Aluno readFull(Aluno aluno)
+	{
+		Aluno result = null;
+		try
+		{
+			context.getUserTransaction().begin();
+			if(aluno != null && aluno.getId() != null)
+			{
+				result = read(aluno);
+				if(result.getPreferencia() != null)
+				{
+					result.getPreferencia().size();
+				}
+				if(result.getNotas() != null)
+				{
+					result.getNotas().size();
+				}
+			}
+			context.getUserTransaction().commit();
+		}
+		catch(Exception e)
+		{}
 		return result;
 	}
 

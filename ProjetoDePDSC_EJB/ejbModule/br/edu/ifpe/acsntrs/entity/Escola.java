@@ -50,9 +50,9 @@ import javax.xml.bind.annotation.XmlRootElement;
         })
 public class Escola implements Serializable
 {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 4183046692422312433L;
 
-    @Id
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_escola", nullable = false)
@@ -284,11 +284,5 @@ public class Escola implements Serializable
             return false;
         }
         return true;
-    }
-
-    @Override
-    public String toString()
-    {
-        return nome;
     }
 }
