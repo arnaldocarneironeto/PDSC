@@ -60,6 +60,16 @@ public class DistribuidorModel implements Serializable
 		{
 			this.escolas = new ArrayList<>();
 		}
+		for(Escola escola: this.escolas)
+		{
+			for(Aluno aluno: this.alunos)
+			{
+				if(aluno.getPreferencia().contains(escola) == false)
+				{
+					aluno.getPreferencia().add(escola);
+				}
+			}
+		}
 	}
 	
 	public void distribuir()
