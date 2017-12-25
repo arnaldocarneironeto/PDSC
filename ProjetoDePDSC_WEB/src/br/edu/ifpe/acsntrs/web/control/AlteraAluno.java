@@ -51,7 +51,10 @@ public class AlteraAluno implements Serializable
 	{
 		if(senha != null && senha.equals(confSenha))
 		{
-			aluno.setSenha(senha);
+			if(senha.isEmpty() == false)
+			{
+				aluno.setSenha(senha);
+			}
 			aluno.setNome(this.aluno.getNome());
 			aluno.setEmail(this.aluno.getEmail());
 			aluno.setNotas(this.aluno.getNotas());

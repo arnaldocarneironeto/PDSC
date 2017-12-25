@@ -14,33 +14,33 @@
                     <h:form rendered="#{loginBean.aluno != null or loginBean.representante != null}">
                         <p:menu>
                             <p:submenu label="Usuário">
-                                <p:menuitem value="Alterar Dados" action="#{pageControlBean.vaParaAlteracaoCadastral()}"  />
+                                <p:menuitem value="Alterar Dados" action="#{pageControlBean.vaParaAlteracaoCadastral()}" icon="fa fa-edit" />
                             </p:submenu>                       
                         </p:menu>
                     </h:form>
                     <h:form rendered="#{loginBean.aluno != null}">
                         <p:menu>
                             <p:submenu label="Aluno">
-                                <p:menuitem value="Preferência de escolas" action="#{pageControlBean.vaParaPreferenciaEscolas()}" icon="" />
-                                <p:menuitem value="Escola para a qual foi aceito(a)" action="#{pageControlBean.vaParaVerEscolaQueFoiAceito()}" icon="" />
+                                <p:menuitem value="Preferência de escolas" action="#{pageControlBean.vaParaPreferenciaEscolas()}" />
+                                <p:menuitem value="Escola para a qual foi aceito(a)" action="#{pageControlBean.vaParaVerEscolaQueFoiAceito()}" />
                             </p:submenu>                       
                         </p:menu>
                     </h:form>
                     <h:form rendered="#{loginBean.representante != null}">
                         <p:menu>
                             <p:submenu label="Gerenciar">
-                                <p:menuitem value="Escola" action="#{pageControlBean.vaParaGerenciarEscola()}" icon="" />
-                                <p:menuitem value="Lista de alunos" action="#{pageControlBean.vaParaVerAlunos()}" icon="" />
+                                <p:menuitem value="Escola" action="#{pageControlBean.vaParaGerenciarEscola()}" />
+                                <p:menuitem value="Lista de alunos" action="#{pageControlBean.vaParaVerAlunos()}" />
                             </p:submenu>                       
                         </p:menu>
                     </h:form>
                     <h:form rendered="#{loginBean.administrador != null}">
                         <p:menu>
                             <p:submenu label="Administrar" >
-                                <p:menuitem value="Alunos" action="#{pageControlBean.vaParaGerenciarAlunos()}" icon="" />
-                                <p:menuitem value="Representantes" action="#{pageControlBean.vaParaGerenciarRepresentantes()}" icon="" />
-                                <p:menuitem value="Administradores" action="#{pageControlBean.vaParaGerenciarAdministradores()}" icon="" />
-                                <p:menuitem value="Sistema" action="#{pageControlBean.vaParaGerenciarSistema()}" icon="" />
+                                <p:menuitem value="Alunos" action="#{pageControlBean.vaParaGerenciarAlunos()}" />
+                                <p:menuitem value="Representantes" action="#{pageControlBean.vaParaGerenciarRepresentantes()}" />
+                                <p:menuitem value="Administradores" action="#{pageControlBean.vaParaGerenciarAdministradores()}" />
+                                <p:menuitem value="Sistema" action="#{pageControlBean.vaParaGerenciarSistema()}" />
                             </p:submenu> 
                         </p:menu>
                     </h:form>
@@ -50,7 +50,7 @@
             
             <ui:define name="conteudo">
                 <p:layoutUnit position="center">
-                   	<f:view>
+                	<f:view>
                     	<f:metadata>
                     		<f:viewAction action="#{viewUpdater.atualizaView(loginBean.usuario)}" />
                     	</f:metadata>
@@ -60,11 +60,11 @@
 	                        <h:form>
 	                            <h:panelGrid id="dadosUsuario" columns="3">
 	                                <p:outputLabel for="nome" value="Usuário:" />
-	                                <p:inputText id="nome" label="Nome" maxlength="50" size="50" value="#{loginBean.login}"/>
+	                                <p:inputText id="nome" label="Nome" maxlength="50" size="50" value="#{loginBean.login}" required="true" requiredMessage="Digite seu nome de usuário" />
 	                                <p:message for="nome"/>
 	
 	                                <p:outputLabel for="senha" value="Senha:" />
-	                                <p:password id="senha" label="Senha" maxlength="50" size="50" value="#{loginBean.senha}"/>
+	                                <p:password id="senha" label="Senha" maxlength="50" size="50" value="#{loginBean.senha}" required="true" requiredMessage="Digite sua senha" />
 	                                <p:message for="senha"/>
 	
 	                                <p:commandButton value="Entrar" action="#{loginBean.logon()}" icon="fa fa-sign-in"/>                             
@@ -74,21 +74,26 @@
 	
 	                    <p:panel id="conteudoaberto" rendered="#{loginBean.usuario == null}" header="Caríssimo aluno, cadastre-se aqui" footer="Representante de escola: entre em contato diretamente conosco (sdvea@sdvea.com.br)">
 	                        <h:form >
-	                            <h:panelGrid columns="2">
+	                            <h:panelGrid columns="3">
 	                                <p:outputLabel value="Nome" for="cadNome" />
-	                                <p:inputText id="cadNome" value="#{cadastroAlunoBean.nome}" label="Nome" />
-	
+	                                <p:inputText id="cadNome" value="#{cadastroAlunoBean.nome}" label="Nome" required="true" requiredMessage="O campo deve ser preenchido" />
+	                                <p:message for="cadNome"/>
+
 	                                <p:outputLabel value="E-mail" for="cadEmail" />
-	                                <p:inputText id="cadEmail" value="#{cadastroAlunoBean.email}" label="Email" />
-	
+	                                <p:inputText id="cadEmail" value="#{cadastroAlunoBean.email}" label="Email" required="true" requiredMessage="O campo deve ser preenchido" />
+	                                <p:message for="cadEmail"/>
+
 	                                <p:outputLabel value="Nome de usuário" for="cadLogin" />
-	                                <p:inputText id="cadLogin" value="#{cadastroAlunoBean.login}" label="Login" />
-	
+	                                <p:inputText id="cadLogin" value="#{cadastroAlunoBean.login}" label="Login" required="true" requiredMessage="O campo deve ser preenchido" />
+	                                <p:message for="cadLogin"/>
+
 	                                <p:outputLabel value="Senha" for="cadSenha" />
-	                                <p:password id="cadSenha" value="#{cadastroAlunoBean.senha}" label="Senha" />
-	
+	                                <p:password id="cadSenha" value="#{cadastroAlunoBean.senha}" label="Senha" required="true" requiredMessage="O campo deve ser preenchido" />
+	                                <p:message for="cadSenha"/>
+
 	                                <p:outputLabel value="Confirmação de senha" for="cadConfSenha" />
-	                                <p:password id="cadConfSenha" value="#{cadastroAlunoBean.confSenha}" label="confSenha" />
+	                                <p:password id="cadConfSenha" value="#{cadastroAlunoBean.confSenha}" label="confSenha" required="true" requiredMessage="O campo deve ser preenchido" />
+	                                <p:message for="cadConfSenha"/>
 	                            </h:panelGrid>
 	                            <p:commandButton action="#{cadastroAlunoBean.cadastrar()}" value="Cadastre-se" />
 	                        </h:form>
@@ -96,21 +101,26 @@
 	
 	                    <p:panel id="dadosAluno" rendered="#{loginBean.aluno != null and pageControlBean.isInAlteracaoCadastral()}" header="Veja e/ou altere seus dados">
 	                        <h:form >
-	                            <h:panelGrid columns="2">
+	                            <h:panelGrid columns="3">
 	                                <p:outputLabel value="Nome" for="nomeAluno" />
-	                                <p:inputText id="nomeAluno" value="#{alteraAluno.aluno.nome}"  />
-	
+	                                <p:inputText id="nomeAluno" value="#{alteraAluno.aluno.nome}" required="true" requiredMessage="O campo não pode ser vazio" />
+	                                <p:message for="nomeAluno"/>
+
 	                                <p:outputLabel value="Email" for="emailAluno" />
-	                                <p:inputText id="emailAluno" value="#{alteraAluno.aluno.email}"  />
-	
+	                                <p:inputText id="emailAluno" value="#{alteraAluno.aluno.email}" required="true" requiredMessage="O campo não pode ser vazio" />
+	                                <p:message for="emailAluno"/>
+
 	                                <p:outputLabel value="Nome de usuário" for="loginAluno" />
 	                                <p:inputText id="loginAluno" value="#{alteraAluno.aluno.login}" disabled="true" />
-	
+	                                <p:message for="loginAluno" />
+
 	                                <p:outputLabel value="Senha" for="senhaAluno" />
-	                                <p:password id="senhaAluno" value="#{alteraAluno.senha}"  />
-	
+	                                <p:password id="senhaAluno" value="#{alteraAluno.senha}" required="true" requiredMessage="O campo não pode ser vazio" />
+	                                <p:message for="senhaAluno"/>
+
 	                                <p:outputLabel value="Confirmação de Senha" for="confSenhaAluno" />
-	                                <p:password id="confSenhaAluno" value="#{alteraAluno.confSenha}"  />
+	                                <p:password id="confSenhaAluno" value="#{alteraAluno.confSenha}" required="true" requiredMessage="O campo não pode ser vazio" />
+	                                <p:message for="confSenhaAluno"/>
 	                            </h:panelGrid>
 	
 		                        <h:panelGroup rendered="#{!alteraAluno.editandoNota}">
@@ -201,17 +211,26 @@
 	
 	                    <p:panel id="dadosRepresentante" rendered="#{loginBean.representante != null and pageControlBean.isInAlteracaoCadastral()}" header="Veja e/ou altere seus dados">
 	                        <h:form>
-	                            <h:panelGrid columns="2">
+	                            <h:panelGrid columns="3">
 	                                <p:outputLabel value="Nome" for="nomeRepresentante" />
-	                                <p:inputText id="nomeRepresentante" value="#{representantesCRUDBean.representanteAtual.nome}"  />
+	                                <p:inputText id="nomeRepresentante" value="#{representantesCRUDBean.representanteAtual.nome}" required="true" requiredMessage="O campo deve ser preenchido" />
+	                                <p:message for="nomeRepresentante"/>
+
 	                                <p:outputLabel value="Email" for="emailRepresentante" />
-	                                <p:inputText id="emailRepresentante" value="#{representantesCRUDBean.representanteAtual.email}"  />
+	                                <p:inputText id="emailRepresentante" value="#{representantesCRUDBean.representanteAtual.email}" required="true" requiredMessage="O campo deve ser preenchido" />
+	                                <p:message for="emailRepresentante"/>
+
 	                                <p:outputLabel value="Nome de usuário" for="loginRepresentante" />
 	                                <p:inputText id="loginRepresentante" value="#{representantesCRUDBean.representanteAtual.login}" disabled="true" />
+	                                <p:message for="loginRepresentante" />
+
 	                                <p:outputLabel value="Senha" for="senhaRepresentante" />
-	                                <p:password id="senhaRepresentante" value="#{representantesCRUDBean.representanteAtual.senha}"  />
+	                                <p:password id="senhaRepresentante" value="#{representantesCRUDBean.representanteAtual.senha}" required="true" requiredMessage="O campo deve ser preenchido" />
+	                                <p:message for="senhaRepresentante"/>
+	                                
 	                                <p:outputLabel value="Confirmação de Senha" for="confSenhaRepresentante" />
-	                                <p:password id="confSenhaRepresentante" value="Confirmação de Senha"  />
+	                                <p:password id="confSenhaRepresentante" value="Confirmação de Senha" required="true" requiredMessage="O campo deve ser preenchido" />
+	                                <p:message for="confSenhaRepresentante"/>
 	                            </h:panelGrid>
 	                            <p:commandButton action="#" value="Salvar alterações" />
 	                        </h:form>
@@ -222,15 +241,22 @@
 	                        <h:form>
 	                            <p:messages />
 	                            <h:panelGroup>
-	                            	<h:panelGrid columns="2">
+	                            	<h:panelGrid columns="3">
 		                                <p:outputLabel value="Nome" for="escolaNome" />
-		                                <p:inputText id="escolaNome" value="#{escolaManager.nome}" />
+		                                <p:inputText id="escolaNome" value="#{escolaManager.nome}" required="true" requiredMessage="O campo não pode ser vazio" />
+		                                <p:message for="escolaNome"/>
+
 		                                <p:outputLabel value="Conceito" for="escolaConceito" />
-		                                <p:inputText id="escolaConceito" value="#{escolaManager.conceito}" />
+		                                <p:inputText id="escolaConceito" value="#{escolaManager.conceito}" required="true" requiredMessage="O campo não pode ser vazio" />
+		                                <p:message for="escolaConceito"/>
+
 		                                <p:outputLabel value="Descrição" for="escolaDescrição" />
-		                                <p:inputTextarea id="escolaDescrição" value="#{escolaManager.descricao}" maxlength="1000" cols="125" rows="8" />
+		                                <p:inputTextarea id="escolaDescrição" value="#{escolaManager.descricao}" maxlength="1000" cols="125" rows="8" required="true" requiredMessage="O campo não pode ser vazio" />
+		                                <p:message for="escolaDescrição"/>
+
 		                                <p:outputLabel value="Número de vagas disponíveis" for="escolaVagas" />
-		                                <p:inputText id="escolaVagas" value="#{escolaManager.vagas}" />
+		                                <p:inputText id="escolaVagas" value="#{escolaManager.vagas}" required="true" requiredMessage="O campo não pode ser vazio" />
+		                                <p:message for="escolaVagas"/>
 	                                </h:panelGrid>
 	                            </h:panelGroup>
 	
@@ -289,25 +315,20 @@
 	                    </h:panelGroup>
 	
 	                    <p:panel rendered="#{loginBean.representante != null and pageControlBean.isInVerAlunos()}" header="Lista de alunos selecionados">
-	                    	<f:view>
-	                    		<f:metadata>
-		                    		<f:viewAction action="#{escolaManager.atualizaView()}" />
-		                    	</f:metadata>
-		                        <p:dataTable value="#{escolaManager.alunosSelecionados}" var="aluno">
-		                            <p:column>
-		                                <f:facet name="header"><p:outputLabel value="Nome" /></f:facet>
-		                                <p:outputLabel value="#{aluno.nome}" />
-		                            </p:column>
-		                            <p:column>
-		                                <f:facet name="header"><p:outputLabel value="E-mail" /></f:facet>
-		                                <p:outputLabel value="#{aluno.email}" />
-		                            </p:column>
-		                            <p:column>
-		                                <f:facet name="header"><p:outputLabel value="Notas" /></f:facet>
-		                                <p:outputLabel value="#{aluno.notas}" />
-		                            </p:column>
-		                        </p:dataTable>
-	                        </f:view>
+	                        <p:dataTable value="#{escolaManager.alunosSelecionados}" var="aluno">
+	                            <p:column>
+	                                <f:facet name="header"><p:outputLabel value="Nome" /></f:facet>
+	                                <p:outputLabel value="#{aluno.nome}" />
+	                            </p:column>
+	                            <p:column>
+	                                <f:facet name="header"><p:outputLabel value="E-mail" /></f:facet>
+	                                <p:outputLabel value="#{aluno.email}" />
+	                            </p:column>
+	                            <p:column>
+	                                <f:facet name="header"><p:outputLabel value="Notas" /></f:facet>
+	                                <p:outputLabel value="#{aluno.notas}" />
+	                            </p:column>
+	                        </p:dataTable>
 	                    </p:panel>
 	
 	                    <h:panelGroup rendered="#{loginBean.administrador != null and pageControlBean.isInGerenciarAlunos()}">
@@ -349,20 +370,28 @@
 		                                </p:commandButton>
 		                            </p:column>
 		                        </p:dataTable>
-		                        <h:panelGrid columns="2" rendered="#{alunosCRUDBean.editando}">
+		                        <h:panelGrid columns="3" rendered="#{alunosCRUDBean.editando}">
 		                            <f:facet name="header"><p:outputLabel value="Editando aluno" /></f:facet>
 		                            <p:outputLabel value="Nome" />
-		                            <p:inputText value="#{alunosCRUDBean.alunoAtual.nome}"/>
+		                            <p:inputText id="nomeAluno" value="#{alunosCRUDBean.alunoAtual.nome}" required="true" requiredMessage="O campo deve ser informado" />
+		                            <p:message for="nomeAluno"/>
+
 		                            <p:outputLabel value="E-mail" />
-		                            <p:inputText value="#{alunosCRUDBean.alunoAtual.email}"/>
+		                            <p:inputText id="emailAluno" value="#{alunosCRUDBean.alunoAtual.email}" required="true" requiredMessage="O campo deve ser informado" />
+		                            <p:message for="emailAluno"/>
+
 		                            <p:outputLabel value="Nome de usuário" />
-		                            <p:inputText value="#{alunosCRUDBean.alunoAtual.login}"/>
+		                            <p:inputText id="usernameAluno" value="#{alunosCRUDBean.alunoAtual.login}" required="true" requiredMessage="O campo deve ser informado" />
+		                            <p:message for="usernameAluno"/>
+
 		                            <p:outputLabel value="Senha" />
-		                            <p:password value="#{alunosCRUDBean.alunoAtual.senha}" feedback="true"
+		                            <p:password id="passwrdAluno" value="#{alunosCRUDBean.alunoAtual.senha}" feedback="true"
 		                                        promptLabel="Digite a nova senha"
 		                                        weakLabel="Senha fraca"
 		                                        goodLabel="Senha boa"
-		                                        strongLabel="Senha forte"/>
+		                                        strongLabel="Senha forte" required="true" requiredMessage="O campo deve ser informado" />
+		                            <p:message for="passwrdAluno"/>
+
 		                            <f:facet name="footer">
 		                                <div align="center">
 		                                    <p:commandButton action="#{alunosCRUDBean.cancelar()}" value="Cancelar" immediate="true">
@@ -416,20 +445,28 @@
 		                                </p:commandButton>
 		                            </p:column>
 		                        </p:dataTable>
-		                        <h:panelGrid columns="2"  rendered="#{representantesCRUDBean.editando}">
+		                        <h:panelGrid columns="3"  rendered="#{representantesCRUDBean.editando}">
 		                            <f:facet name="header"><p:outputLabel value="Editando representante" /></f:facet>
 		                            <p:outputLabel value="Nome" />
-		                            <p:inputText value="#{representantesCRUDBean.representanteAtual.nome}"/>
+		                            <p:inputText id="repCrudNome" value="#{representantesCRUDBean.representanteAtual.nome}" required="true" requiredMessage="O campo deve ser informado" />
+		                            <p:message for="repCrudNome"/>
+
 		                            <p:outputLabel value="E-mail" />
-		                            <p:inputText value="#{representantesCRUDBean.representanteAtual.email}"/>
+		                            <p:inputText id="repCrudEmail" value="#{representantesCRUDBean.representanteAtual.email}" required="true" requiredMessage="O campo deve ser informado" />
+		                            <p:message for="repCrudEmail"/>
+
 		                            <p:outputLabel value="Nome de usuário" />
-		                            <p:inputText value="#{representantesCRUDBean.representanteAtual.login}"/>
+		                            <p:inputText id="repCrudUserName" value="#{representantesCRUDBean.representanteAtual.login}" required="true" requiredMessage="O campo deve ser informado" />
+		                            <p:message for="repCrudUserName"/>
+
 		                            <p:outputLabel value="Senha" />
-		                            <p:password value="#{representantesCRUDBean.representanteAtual.senha}" feedback="true"
+		                            <p:password id="repCrudSenha" value="#{representantesCRUDBean.representanteAtual.senha}" feedback="true"
 		                                        promptLabel="Digite a nova senha"
 		                                        weakLabel="Senha fraca"
 		                                        goodLabel="Senha boa"
-		                                        strongLabel="Senha forte"/>
+		                                        strongLabel="Senha forte" required="true" requiredMessage="O campo deve ser informado" />
+		                            <p:message for="repCrudSenha"/>
+
 		                            <f:facet name="footer">
 		                                <div align="center">
 		                                    <p:commandButton action="#{representantesCRUDBean.cancelar()}" value="Cancelar" immediate="true">
@@ -483,20 +520,28 @@
 		                                </p:commandButton>
 		                            </p:column>
 		                        </p:dataTable>
-		                        <h:panelGrid columns="2" rendered="#{administradoresCRUDBean.editando}">
+		                        <h:panelGrid columns="3" rendered="#{administradoresCRUDBean.editando}">
 		                            <f:facet name="header"><p:outputLabel value="Editando administrador" /></f:facet>
 		                            <p:outputLabel value="Nome" />
-		                            <p:inputText value="#{administradoresCRUDBean.administradorAtual.nome}"/>
+		                            <p:inputText id="admCrudNome" value="#{administradoresCRUDBean.administradorAtual.nome}" required="true" requiredMessage="O campo deve ser informado" />
+		                            <p:message for="admCrudNome"/>
+
 		                            <p:outputLabel value="E-mail" />
-		                            <p:inputText value="#{administradoresCRUDBean.administradorAtual.email}"/>
+		                            <p:inputText id="admCrudEmail" value="#{administradoresCRUDBean.administradorAtual.email}" required="true" requiredMessage="O campo deve ser informado" />
+		                            <p:message for="admCrudEmail"/>
+
 		                            <p:outputLabel value="Nome de usuário" />
-		                            <p:inputText value="#{administradoresCRUDBean.administradorAtual.login}"/>
+		                            <p:inputText id="admCrudUserName"  value="#{administradoresCRUDBean.administradorAtual.login}" required="true" requiredMessage="O campo deve ser informado" />
+		                            <p:message for="admCrudUserName"/>
+
 		                            <p:outputLabel value="senha" />
-		                            <p:password value="#{administradoresCRUDBean.administradorAtual.senha}" feedback="true"
+		                            <p:password id="admCrudPass" value="#{administradoresCRUDBean.administradorAtual.senha}" feedback="true"
 		                                        promptLabel="Digite a nova senha"
 		                                        weakLabel="Senha fraca"
 		                                        goodLabel="Senha boa"
-		                                        strongLabel="Senha forte"/>
+		                                        strongLabel="Senha forte" required="true" requiredMessage="O campo deve ser informado"/>
+		                            <p:message for="admCrudPass"/>
+
 		                            <f:facet name="footer">
 		                                <div align="center">
 		                                    <p:commandButton action="#{administradoresCRUDBean.cancelar()}" value="Cancelar" immediate="true">

@@ -40,15 +40,11 @@ public class ViewUpdater
 			if(usuario instanceof Aluno)
 			{
 				Aluno aluno = (Aluno) usuario;
-				System.out.println("Atualizou view do aluno");
-
 				alteraAluno.setNotas(aluno.getNotas() != null? aluno.getNotas(): new HashMap<>());
 			}
 			if(usuario instanceof Representante)
 			{
 				Representante representante = (Representante) usuario;
-				System.out.println("Atualizou view representante");
-
 				Escola escola = representante.getEscola();
 				if(escola == null)
 				{
