@@ -130,7 +130,7 @@ public class UsuarioLoginModel implements Serializable
 			escola.setAlunos_que_preferem_esta_escola(new ArrayList<>());
 			escola.setAlunos_selecionados(new ArrayList<>());
 			Map<String, Float> criterios = new HashMap<>();
-			for(int j = 0; j < rnd.nextInt(disciplinas.length); ++j)
+			for(int j = 0; j < rnd.nextInt(disciplinas.length) + 1; ++j)
 			{
 				criterios.put(disciplinas[rnd.nextInt(disciplinas.length)], (1 + rnd.nextInt(10)) / 10f);
 			}

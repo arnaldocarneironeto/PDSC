@@ -115,11 +115,11 @@
 	                                <p:message for="loginAluno" />
 
 	                                <p:outputLabel value="Senha" for="senhaAluno" />
-	                                <p:password id="senhaAluno" value="#{alteraAluno.senha}" required="true" requiredMessage="O campo não pode ser vazio" />
+	                                <p:password id="senhaAluno" value="#{alteraAluno.senha}" />
 	                                <p:message for="senhaAluno"/>
 
 	                                <p:outputLabel value="Confirmação de Senha" for="confSenhaAluno" />
-	                                <p:password id="confSenhaAluno" value="#{alteraAluno.confSenha}" required="true" requiredMessage="O campo não pode ser vazio" />
+	                                <p:password id="confSenhaAluno" value="#{alteraAluno.confSenha}" />
 	                                <p:message for="confSenhaAluno"/>
 	                            </h:panelGrid>
 	
@@ -225,11 +225,11 @@
 	                                <p:message for="loginRepresentante" />
 
 	                                <p:outputLabel value="Senha" for="senhaRepresentante" />
-	                                <p:password id="senhaRepresentante" value="#{representantesCRUDBean.representanteAtual.senha}" required="true" requiredMessage="O campo deve ser preenchido" />
+	                                <p:password id="senhaRepresentante" value="#{representantesCRUDBean.representanteAtual.senha}" />
 	                                <p:message for="senhaRepresentante"/>
 	                                
 	                                <p:outputLabel value="Confirmação de Senha" for="confSenhaRepresentante" />
-	                                <p:password id="confSenhaRepresentante" value="Confirmação de Senha" required="true" requiredMessage="O campo deve ser preenchido" />
+	                                <p:password id="confSenhaRepresentante" value="Confirmação de Senha" />
 	                                <p:message for="confSenhaRepresentante"/>
 	                            </h:panelGrid>
 	                            <p:commandButton action="#" value="Salvar alterações" />
